@@ -29,9 +29,9 @@
 	"default": {
 
 		// address
-		"host": "192.168.1.127",
+		"host": "gormed.no-ip.biz",
 
-		//"port": 21,
+		"port": 21,
 
 		// credentials
 		"username": "nobody",  // or null for anonymous login
@@ -39,7 +39,7 @@
 
 		// server path to your project (example: /www/)
 		// start with "/" and then append all the folders you'd need to open to get to your project from topmost folder
-		"path": "/scribbit"
+		"path": "/scribbit/",
 
 		// encoding used for filenames and filepaths ("auto" or other charset name)
 		//
@@ -57,13 +57,13 @@
 		// whether to use temporary files for more stable transfer
 		// has only a very small performance impact when transfering large amounts of files
 		// 'true' is highly recommended
-		//"use_tempfile": true,
+		"use_tempfile": true,
 
 		// true = upload on save, false = upload only manually
-		// "upload_on_save": true,
+		"upload_on_save": true,
 
 		// how long until connection closes [seconds], unless closed immediately
-		//"timeout": 30,
+		"timeout": 30
 
 		// regular expression, when matches the file path of the file-to-be-uploaded, it cancels its upload
 		// recommending using \b in general and /.../ for folders to avoid matching substrings

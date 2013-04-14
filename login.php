@@ -1,5 +1,7 @@
 <?php 
 $errorstring = "";
+$email = "your@email.com";
+
 include("process_login.php"); 
 ?>
 
@@ -40,11 +42,6 @@ include("process_login.php");
 	}
 
 </style>
-<?php
-$error = isset($_GET['error']);
-$email = isset($_GET['email']);
-$register = isset($_GET['register']);
-?>
 
 </head>
 <body>
@@ -55,36 +52,23 @@ $register = isset($_GET['register']);
 		</div>
 
 		<div align="center">
-			<form action="login.php" method="post" name="login_form">
+			<form action="login" method="post" name="login_form">
 				<?php
 
-				if($email) {
-					$mailstring = $_POST['email'];
-					echo '<input type="text" value="', $mailstring, '" name="email" style="margin:10px"/><br>';
-
-				} else {
-					echo '<input type="text" value="your@email.com" name="email" style="margin:10px"/><br>';
-				}
+				echo '<input type="text" value="', $email, '" name="email" style="margin:10px"/><br>';
 
 				?>
 				<input type="password" name="password" id="password" style="margin:10px"/><br><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<br>
-
+			<?php echo $errorstring; ?>
+			<br>
+			<br>
+			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
 			<?php
-
-			 	echo $errorstring;
-				// if($error) { 
-				// 	echo '<center style="color: #f66">Error Logging In!</center><br>';
-				// }				
-				// else if($register) { 
-				// 	echo '<center style="color: #6f6">Registration complete, please log in!</center><br>';
-				// }
+			echo '<a href="'.path.'/register">Create one here</a>!';
 			?>
-
-			<div style="font-family: 'Tahoma', sans-serif;">
-			Don't have an account? <br><a href="./register.php">Create one here</a>!
 			</div>
 			<br>
 		</div>

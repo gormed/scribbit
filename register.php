@@ -1,5 +1,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
+	<?php
+		if (isset($_POST['username'])) {
+			require_once 'process_register.php';
+		}
+		$error = '';
+		$taken = "<td>What's your name?</td>";
+		$email = '';
+		//'<center style="color: #f66">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
+		// $taken = isset($_GET['taken']);
+		// $error = isset($_GET['error']);
+		// $email = isset($_GET['email']);
+
+	?>
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
@@ -55,49 +68,35 @@
 			}
 		</style>
 	</head>
-	<?php
 
-		$taken = isset($_GET['taken']);
-		$error = isset($_GET['error']);
-		$email = isset($_GET['email']);
-
-	?>
 	<body>
 		<div id="site">
 			<div align="center" id="heading">
 			Register an account for<br>
 			<div id="logo">Scribb'it</div><br> 
 			<?php
-				if($error) {
-					echo '<center style="color: #f66">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
-				}
+				echo $error;
 			?>
-				<form action="process_register.php" method="post" name="register_form">
+				<form action="register.php" method="post" name="register_form">
 					<table>
 					<tr>
 						<td id="text">Artistname </td>
 						<td><input type="text" name="username" id="username" size="16"/></td>
 						<?php
-						if($taken) { 
-						   echo '<td style="color: #f66">Username already taken!</td>';
-						} else {
-							echo "<td>What's your name?</td>";
-						}
+
+						echo $taken;
+						// if($taken) { 
+						//    echo '<td style="color: #f66">Username already taken!</td>';
+						// } else {
+						// 	echo "<td>What's your name?</td>";
+						// }
 						?>
 					</tr>
 					<tr>
 						<td id="text">Email </td>
 						<td>
 							<?php
-
-							if($email) {
-								$mailstring = $_GET['email'];
-								echo '<input type="text" value="', $mailstring, '" name="email" id="email" size="16" onblur="checkEmail(this.form)"/><br>';
-
-							} else {
-								echo '<input type="text" value="your@email.com" name="email" id="email" size="16" onblur="checkEmail(this.form)"/><br>';
-							}
-
+								echo '<input type="text" value="', $email, '" name="email" id="email" size="16" onblur="checkEmail(this.form)"/><br>';
 							?>
 						</td>
 						<td id="validEmail" size="20em"><td>
