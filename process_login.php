@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
 <?php
+require_once 'header.php';
 
 if(isset($_POST['email'], $_POST['p'])) {
 	$email = $_POST['email'];
@@ -15,7 +16,7 @@ if(isset($_POST['email'], $_POST['p'])) {
 	} else {
 		// Login failed
 		//header(sprintf("location:./login.php?error=1&email=%s", $email));
-		$errorstring="Error logging in!";
+		$errorstring='<span style="color: #f66">Error logging in!</span>';
 	}
 } else { 
 	// The correct POST variables were not sent to this page.
