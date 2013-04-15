@@ -1,0 +1,1 @@
+define("path", "/scribbit/hans");

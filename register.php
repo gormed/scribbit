@@ -77,7 +77,7 @@
 			<?php
 				echo $error;
 			?>
-				<form action="register.php" method="post" name="register_form">
+				<form action="register" method="post" name="register_form">
 					<table>
 					<tr>
 						<td id="text">Artistname </td>

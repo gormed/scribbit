@@ -62,7 +62,11 @@ include("process_login.php");
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<br>
-			<?php echo $errorstring; ?>
+			<?php 
+			echo $errorstring; 
+			echo $register;
+			?>
+
 			<br>
 			<br>
 			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
