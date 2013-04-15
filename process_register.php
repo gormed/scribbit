@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once 'db_login.php';
 // The hashed password from the form
 $password = $_POST['p']; 
 // Create a random salt
@@ -25,9 +25,10 @@ if (isset($username) && isset($password)) {
 			$insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt); 
 			// Execute the prepared query.
 			$insert_stmt->execute();
-			echo "Registration successful!";
 			$register = 1;
-			header('location:'.path.'/login');
+			include 'login.php';
+			exit();
+			//header('location:'.path.'/login');
 		} else {
 			$error = '<center style="color: #f66">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
 

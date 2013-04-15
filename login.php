@@ -1,5 +1,5 @@
 <?php 
-$errorstring = "";
+$message = "";
 $email = "your@email.com";
 
 include("process_login.php"); 
@@ -63,10 +63,8 @@ include("process_login.php");
 			</form>
 			<br>
 			<?php 
-			echo $errorstring; 
-			echo $register;
+			echo $message;
 			?>
-
 			<br>
 			<br>
 			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
