@@ -6,7 +6,11 @@ include 'header.php';
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
+		<meta name="keywords" content="scribbit, share, collaborate, paint, scribble">
 		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="cach-control" content="private">
+		<meta name="robots" content="all">
+		<meta name="description" content="Scribb'it is a collaborative tool for creating drawings and sketches in creative collaboration with friends, acquaintances and even strangers.">
 		<title>Scribb'it</title>
 		<style type="text/css">
 
@@ -104,8 +108,8 @@ include 'header.php';
 				font-size: 1em;
 				margin: 1em 0;
 			}
-		</style>
-	</head>
+		</style
+>	</head>
 
 <body>
 	<div id="site">			
@@ -171,4 +175,4 @@ include 'header.php';
 		</div>
 	</div>
 </body>
-</html>P
+</html>
