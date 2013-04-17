@@ -7,11 +7,6 @@
 		$error = '';
 		$taken = "<td>What's your name?</td>";
 		$email = '';
-		//'<center style="color: #f66">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
-		// $taken = isset($_GET['taken']);
-		// $error = isset($_GET['error']);
-		// $email = isset($_GET['email']);
-
 	?>
 <html>
 	<head>
@@ -83,13 +78,7 @@
 						<td id="text">Artistname </td>
 						<td><input type="text" name="username" id="username" size="16"/></td>
 						<?php
-
 						echo $taken;
-						// if($taken) { 
-						//    echo '<td style="color: #f66">Username already taken!</td>';
-						// } else {
-						// 	echo "<td>What's your name?</td>";
-						// }
 						?>
 					</tr>
 					<tr>
