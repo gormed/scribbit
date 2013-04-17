@@ -9,24 +9,28 @@
 	</head>
 
 	<body>
-		<div id="back">
-			<?php
-			echo '<a href="'.path.'/"><</a>';
-			?>
+		<div id="header">
+			<div id="back">
+				<?php
+				echo '<a href="'.path.'/"><</a>';
+				?>
+			</div>
+
+
+
+			<div id="navigation">
+				<?php
+				echo '<li><a href="'.path.'/wall">WALL</a></li>';
+				echo '<li><a href="'.path.'/gallery">GALLERY</a></li>';
+				echo '<li><a href="'.path.'/profile">PROFILE</a></li>';
+				echo '<li><a href="'.path.'/logout">LOGOUT</a></li>';
+				?>
+			</div>
 		</div>
 
-		<div id="logo">
-			Dashboard
-		</div>
-
-		<div id="navigation">
-			<?php
-			echo '<li><a href="'.path.'/wall">WALL</a></li>';
-			echo '<li><a href="'.path.'/gallery">GALLERY</a></li>';
-			echo '<li><a href="'.path.'/profile">PROFILE</a></li>';
-			echo '<li><a href="'.path.'/logout">LOGOUT</a></li>';
-			?>
-		</div>
+					<div id="logo">
+				Dashboard
+			</div>
 
 		<div id="content">
 			<br>

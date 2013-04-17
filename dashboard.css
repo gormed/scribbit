@@ -53,6 +53,8 @@ div#back a:active {
 }
 div#header {
 	display: block;
+	float:left;
+	width:100%;
 }
 div#logo {
 	display:inline;
@@ -75,11 +77,10 @@ div#logo {
 
 div#navigation {
 	display:inline;
-	width:60%;
 	height:100%;
-	font-size: 0.91em;
+	font-size: 100%;
 	float: right;
-	margin: 0; padding: 0;
+	padding: 0;
 	vertical-align: middle;
 	background-color: blue;
 }
