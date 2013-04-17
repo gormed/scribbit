@@ -7,7 +7,7 @@ include 'header.php';
 <html>
 	<head>
 		<meta name="keywords" content="scribbit, share, collaborate, paint, scribble">
-		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta http-equiv="cach-control" content="private">
 		<meta name="robots" content="all">
 		<meta name="description" content="Scribb'it is a collaborative tool 
@@ -140,7 +140,7 @@ include 'header.php';
 					<li>Kreative Unterhaltung</li>
 					</ul>
 
-					<li>Primaere Aktion</li>
+					<li>Primäre Aktion</li>
 					<ul> 
 					<li>Kollaboratives Zeichnen</li>
 					</ul>
