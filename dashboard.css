@@ -15,13 +15,15 @@ div#site {
 }
 
 div#back {
+	display:inline;
+	float:left;
 	vertical-align: middle;
 	color: black;
 	font-family: 'Tahoma', sans-serif;
 	font-size: 2em; 
 	float: left;
-	width: 1em;
-	height: 1.2em;
+	width: 20%;
+	height: 100%;
 	letter-spacing:0.4em; 
 	word-spacing:0.4em;
 	padding-top: 1em;
@@ -32,10 +34,9 @@ div#back {
 	background-color: #333;
 	border: 1px;
 	border-color: black;
-}
 
+}
 div#back a:link {
-	text-decoration: none;
 	color: white; background-color: #333;
 }
 
@@ -50,14 +51,18 @@ div#back a:hover {
 div#back a:active {
 	color: white; background-color: gray;
 }
-
+div#header {
+	display: block;
+}
 div#logo {
+	display:inline;
+	float:left;
 	color: black;
-	background-color: #777;
-	margin-left: 3em;
+	background-color: red;
 	font-family: 'Tahoma', sans-serif;
 	font-size: 2em; 
-	width: 40%;
+	width: 20%;
+	height:100%;
 	letter-spacing:0.4em; 
 	word-spacing:0.4em;
 	padding-top: 1em;
@@ -69,11 +74,14 @@ div#logo {
 /* NAVIGATION */
 
 div#navigation {
+	display:inline;
+	width:60%;
+	height:100%;
 	font-size: 0.91em;
-	float: left; width: 25em;
+	float: right;
 	margin: 0; padding: 0;
 	vertical-align: middle;
-	background-color: #888;
+	background-color: blue;
 }
 
 div#navigation li {
