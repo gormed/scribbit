@@ -39,7 +39,7 @@
 
 		// server path to your project (example: /www/)
 		// start with "/" and then append all the folders you'd need to open to get to your project from topmost folder
-		"path": "/scribbit/hans/",
+		"path": "/scribbit/hady/",
 
 		// encoding used for filenames and filepaths ("auto" or other charset name)
 		//
@@ -63,7 +63,7 @@
 		"upload_on_save": true,
 
 		// how long until connection closes [seconds], unless closed immediately
-		"timeout": 30,
+		"timeout": 30
 
 		// regular expression, when matches the file path of the file-to-be-uploaded, it cancels its upload
 		// recommending using \b in general and /.../ for folders to avoid matching substrings
