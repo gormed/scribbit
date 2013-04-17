@@ -1,8 +1,9 @@
 <?php 
 $message = "";
-$email = "your@email.com";
-
-include("process_login.php"); 
+if (!isset($register)) {
+	$email = "your@email.com";
+}
+include("process_login.php");
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
