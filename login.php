@@ -12,8 +12,8 @@ include("process_login.php");
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 <title>Login Please</title>
-<script type="text/javascript" src="sha512.js"></script>
-<script type="text/javascript" src="forms.js"></script>
+<script type="text/javascript" src="ressources/js/sha512.js"></script>
+<script type="text/javascript" src="ressources/js/forms.js"></script>
 <style type="text/css">
 
 	body {
