@@ -11,7 +11,6 @@
 	<body>
 			<div id="site">
 			<div id="header">
-
 				<div id="navigation">
 					<?php
 					echo '<span><a href="'.path.'/wall">WALL</a></span>
