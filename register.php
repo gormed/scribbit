@@ -12,8 +12,8 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 		<title>Register Page</title>
-		<script type="text/javascript" src="sha512.js"></script>
-		<script type="text/javascript" src="forms.js"></script>
+		<script type="text/javascript" src="ressources/js/sha512.js"></script>
+		<script type="text/javascript" src="ressources/js/forms.js"></script>
 		<style type="text/css">
 
 			body {
@@ -88,7 +88,9 @@
 								echo '<input type="text" value="', $email, '" name="email" id="email" size="16" onblur="checkEmail(this.form)"/><br>';
 							?>
 						</td>
-						<td id="validEmail" size="20em"><td>
+						<td id="validEmail" size="20em">
+							<?php if (isset($mailTaken)) { echo $mailTaken; } ?>
+						<td>
 					</tr>
 					<tr>
 						<td id="text">Password </td>
