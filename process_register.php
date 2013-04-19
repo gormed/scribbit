@@ -20,10 +20,8 @@ $emails = $mysqli->query($query);
 if (isset($username) && isset($password) && isset($email) && isset($randomSalt)) {
 	if($usernames->num_rows > 0) {
 		$nameTaken = '<td style="color: #f66">Username already taken!</td>';
-		// header(sprintf('location:./register.php?taken=1&email=%s', $email));
 	} else if($emails->num_rows > 0) {
-		$mailTaken = '<td style="color: #f66">Email already registered!</td>';
-		// header(sprintf('location:./register.php?taken=1&email=%s', $email));
+		$mailTaken = '<span style="color: #f66">Email already registered!</span>';
 	} else {
 		// Add your insert to database script here. 
 		// Make sure you use prepared statements!

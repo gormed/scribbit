@@ -3,16 +3,14 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-
-		<link rel="stylesheet" type="text/css" href="dashboard.css">
-		<script type="text/javascript" src="gallery.js"></script>
+		<link rel="stylesheet" type="text/css" href="ressources/css/dashboard.css">
+		<script type="text/javascript" src="ressources/js/gallery.js"></script>
 		<title>Scribbit - Profil</title>
 	</head>
 
 	<body>
 			<div id="site">
 			<div id="header">
-
 				<div id="navigation">
 					<?php
 					echo '<span><a href="'.path.'/wall">WALL</a></span>

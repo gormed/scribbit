@@ -12,8 +12,8 @@ include("process_login.php");
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 <title>Login Please</title>
-<script type="text/javascript" src="sha512.js"></script>
-<script type="text/javascript" src="forms.js"></script>
+<script type="text/javascript" src="ressources/js/sha512.js"></script>
+<script type="text/javascript" src="ressources/js/forms.js"></script>
 <style type="text/css">
 
 	body {
@@ -55,18 +55,15 @@ include("process_login.php");
 		<div align="center">
 			<form action="login" method="post" name="login_form">
 				<?php
-
-				echo '<input type="text" value="', $email, '" name="email" style="margin:10px; border-radius: 18px"/><br>';
-
+				echo '<input type="text" value="', $email, '" name="email" style="margin:10px; border-radius: 18px;"/><br>';
 				?>
-				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px"/><br><br>
+				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<br>
 			<?php 
 			echo $message;
 			?>
-			<br>
 			<br>
 			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
 			<?php
