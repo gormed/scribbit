@@ -55,9 +55,7 @@ include("process_login.php");
 		<div align="center">
 			<form action="login" method="post" name="login_form">
 				<?php
-
 				echo '<input type="text" value="', $email, '" name="email" style="margin:10px; border-radius: 18px;"/><br>';
-
 				?>
 				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
