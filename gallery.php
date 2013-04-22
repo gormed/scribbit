@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/header.css">
+		<link rel="stylesheet" type="text/css" href="ressources/css/main.css">
 		<link rel="stylesheet" type="text/css" href="ressources/css/gallery.css">
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
@@ -37,17 +37,26 @@
 
 				<div id="content">
 					<br>
-					<table border="0">
-						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
-						</tr>
-					</table>
-				
-		<img src="ressources/img/sprite_test.png">
+					
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+						<div class="item">bild</div>
+					
 					
 					<br>
+
 				</div>
 			</div>
 	</body>
