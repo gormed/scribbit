@@ -122,7 +122,7 @@ include 'header.php';
 				echo '	<ul><li><a href="'.path.'/login">Login</a></li>
 						<li><a href="'.path.'/register">Register</a></li></ul>';
 			} else {
-				echo '	<ul><li><a href="'.path.'/dashboard">Dashboard</a></li>
+				echo '	<ul><li><a href="'.path.'/wall">Explore</a></li>
 						<li><a href="'.path.'/logout">Logout</a></li></ul>';
 			}
 			?>
