@@ -3,7 +3,8 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/main.css">
+		<link rel="stylesheet" type="text/css" href="ressources/css/header.css">
+		<link rel="stylesheet" type="text/css" href="ressources/css/gallery.css">
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
 		<title>Scribbit - Galery</title>
