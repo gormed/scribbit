@@ -1,0 +1,34 @@
+
+
+/*CONTENT*/
+
+div#content {
+	display: block;
+	float:right;
+	width: 100%;
+	overflow : auto;
+	padding: 20 20 20 20;
+	background-color: #ffffff;
+	
+}
+
+.table {
+    display: table;
+
+    width: 100%;
+}
+
+.row {
+    display: table-row;
+
+}
+
+.cell {
+    display: table-cell;
+    /*border: 1px solid black;*/
+    width: 204px;
+    height: 154px;
+}
+
+
+

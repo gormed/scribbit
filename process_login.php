@@ -12,7 +12,7 @@ if(isset($_POST['email'], $_POST['p'])) {
 		if(login($email, $password, $mysqli) == true) {
 			// Login success
 			//echo 'Success: You have been logged in!';
-			header('location:'.path.'/dashboard');
+			header('location:'.path.'/wall');
 
 			//include("dashboard.php");
 			//exit(1);

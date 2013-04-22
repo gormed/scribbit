@@ -13,6 +13,19 @@ div#site {
 	top:50%;
 	left:50%;
 }
+
+
+/*HEADER inculdes navigation*/
+
+div#header {
+	display:block;
+	position:fixed;
+	float:left;
+	width:100%;
+	height:100px;
+	background-color: #385a8f;
+}
+
 div#logo {
 	display:inline;
 	float:left;
@@ -42,101 +55,19 @@ div#logo a:active {
 	color: white; background-color: gray;
 }
 
-/*HEADER inculdes navigation*/
-
-div#header {
-	display:block;
-	float:left;
-	width:100%;
-	height:100px;
-	background-color: #385a8f;
-}
-
-/* NAVIGATION */
-
-div#navigation {
-	display:inline;
-	float: right;
-	width:80%;
-	height:80px;
-	font-size: 100%;
-	padding-top: 20px;
-
-}
-
-/*div#navigation span {
-	display:inline;
-	margin-top: 100px;
-	margin-right:1%;
-
-	width: 10%;
-	min-width: 8%;
-}
-
-div#navigation a {
-	padding: 1em;
-	font-weight: bold;
-	text-align: right;
-}
-
-div#navigation a:link {
-	color: black; background-color: #eee;
-}
-
-div#navigation a:visited {
-	color: #222; background-color: #eee;
-}
-
-div#navigation a:hover {
-	color: black; background-color: white;
-}
-
-div#navigation a:active {
-	color: white; background-color: gray;
-}*/
-
-/*CONTENT*/
-
-div#content {
-	display: block;
-	float:right;
-	width: 70%;
-	padding: 10 10 10 10;
-	background-color: #888;
-
-	
-}
-
-div#content h1 {
-	font-size: 1.5em;
-	margin: 0 0 1em;
-}
-
-div#content h2 {
-	font-size: 1.2em;
-	margin: 0 0 1em;
-}
-
-div#content p {
-	font-size: 1em;
-	margin: 1em 0;
-}
-
-
 
 /*Searchbar*/
 div.searchbar {
-	display: block;
+	display: inline;
 	float:left;
-	font-size: 80%;
-	width:100%;
-	height: 60px;
-		color: #fff;
-	background: #4e80cc;
+	font-size: 100%;
+	width:40%;
+	height: 100%;
+	color: #fff;
+	/*background: #4e80cc;*/
 }
 div.searchbar ul {
 	list-style:none;
-	margin-left: 25%;
 }
 div.searchbar ul li{
  position: relative;
@@ -144,8 +75,19 @@ div.searchbar ul li{
 	height: 100%;
 }
 div.searchbar ul li input.searchtext {
-	width: 30%;
+	width: 300px;
 	height:80%;
+}
+
+/* NAVIGATION */
+
+div#navigation {
+	display:inline;
+	float: right;
+	width:40%;
+	height:80px;
+	font-size: 100%;
+
 }
 
 /*DROPDOWN MENU*/
@@ -153,18 +95,19 @@ div.searchbar ul li input.searchtext {
 ul.topnav {
 	list-style: none;
 	padding: 0 0;	
-	margin-left: 40%;
+	/*margin-left: 40%;*/
 	float: right;
-	width: 80%;
+	width: 100%;
 	/*background: #222;*/
 	font-size: 120%;
+
 	/*background: url(topnav_bg.gif) repeat-x;*/
 }
 ul.topnav li {
 	width: 20%;
-	float: left;
+	float: right;
 	padding: 0 15px 0 0;
-	position: relative; /*--Declare X and Y axis base for sub navigation--*/
+	position: relative; --Declare X and Y axis base for sub navigation--*/
 }
 ul.topnav li a{
 	padding: 10px 5px;
@@ -190,12 +133,13 @@ ul.topnav li span.subhover {
 ul.topnav li ul.subnav {
 	list-style: none;
 	position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
-	left: 0; top: 35px;
+	right: 0; top: 35px;
 	background: #333;
 	margin: 0; padding: 0;
+	font-size: 80%;
 	display: none;
-	float: left;
-	width: 170px;
+	float: right;
+	width: 120px;
 	border: 1px solid #111;
 }
 ul.topnav li ul.subnav li{
@@ -203,17 +147,15 @@ ul.topnav li ul.subnav li{
 	border-top: 1px solid #252525; /*--Create bevel effect--*/
 	border-bottom: 1px solid #444; /*--Create bevel effect--*/
 	clear: both;
-	width: 170px;
+	width: 120px;
 }
 
 html ul.topnav li ul.subnav li a {
 	float: left;
-	width: 145px;
+	width: 95px;
 	/*background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;*/
 	padding-left: 20px;
 }
 html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
 	background: #222;
 }
-
-
