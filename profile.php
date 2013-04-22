@@ -33,14 +33,6 @@
 							</ul>
 					</div>
 
-
-
-				<div id="logo">
-					<?php
-					echo '<a href="'.path.'/"><</a>';
-					?>
-				</div>
-
 			</div>
 
 				<div id="content">
