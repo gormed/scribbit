@@ -57,14 +57,14 @@ include("process_login.php");
 				<?php
 				echo '<input type="text" value="', $email, '" name="email" style="margin:10px; border-radius: 18px;"/><br>';
 				?>
-				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br><br>
+				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
-			<br>
 			<?php 
 			echo $message;
 			?>
 			<br>
+			<br>			
 			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
 			<?php
 			echo '<a href="'.path.'/register">Create one here</a>!';

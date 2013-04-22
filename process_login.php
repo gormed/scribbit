@@ -3,8 +3,6 @@ require_once 'db_login.php';
 require_once 'functions.php';
 require_once 'path.php';
 
-echo 'mail '.isset($_POST['email']).'pw '.isset($_POST['p']);
-
 if(isset($_POST['email'], $_POST['p'])) {
 	$email = $_POST['email'];
 	$password = $_POST['p']; // The hashed password.
