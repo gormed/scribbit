@@ -38,29 +38,71 @@
 
 				<div id="content">
 					
-					<div>
+					
 						<br>
 						<br>
-						Meine eigenen Scribbles kronologisch sortiert
-						<br>
-						<br>
-					</div>
+						
+							
+							<div class="horizontalbar">
+								<div class="holder">
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+								<div class="profitem">Meine eigenen Scribbles</div>
+							</div>
+							</div>
+							
+							
 
-					<div>
-						<br>
-						<br>
-						Scribbles meiner Freunde kronologisch sortiert
-						<br>
-						<br>
-					</div>
+							<div class="horizontalbar">
+								<div class="holder">
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+								<div class="profitem">Scribbles meiner Freunde</div>
+						 	</div>
+						 	</div>
+						
+							<div class="horizontalbar">	
+							<div class="holder">					
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+								<div class="profitem">Scribbles meiner Favoriten</div>
+							</div>
+							</div>
 
-					<div>
 						<br>
 						<br>
-						Scribbles meiner Favoriten kronologisch sortiert
-						<br>
-						<br>
-					</div>
+					
 				</div>
 			</div>
 	</body>

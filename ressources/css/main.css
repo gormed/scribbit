@@ -100,9 +100,10 @@ div#navigation a:active {
 div#content {
 	display: block;
 	float:right;
-	width: 80%;
+	width: 70%;
 	padding: 10 10 10 10;
 	background-color: #888;
+
 	
 }
 
@@ -213,4 +214,40 @@ html ul.topnav li ul.subnav li a {
 }
 html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
 	background: #222;
+}
+
+
+.item{
+	float:left;
+	margin-left:10px;
+	margin-top:10px;
+	background:white;
+	width: 250px;
+	height:200px;
+}
+
+.profitem{
+	
+	margin-left:10px;
+	margin-top:10px;
+	background:white;
+	width: 180px;
+	height:150px;
+	overflow: auto;
+	float: left;
+	
+}
+
+.horizontalbar{
+
+	width: 100%;
+	height: 150px;
+	overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.holder{
+
+	width: 300%;
+	height: 400px;
 }
