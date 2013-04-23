@@ -3,38 +3,65 @@
 /*CONTENT*/
 
 div#content {
-	margin-top: 100px;
 	display: block;
 	float:right;
 	width: 100%;
+	margin-top: 100px;
 	background-color: #ffffff;
 	
 }
-div.top {
+/*#top {
 	display:block;
 	height: 10%;
 	text-align: center;
 }
-div.leftcolumn {
+#leftcolumn {
 	width:10%;
 	float:left;
 	display: inline-block;
 }
 
-div.picture {
+#picture {
 	text-align: center;
 	display: inline;
 }
 
-div.rightcolumn {
+#rightcolumn {
 			width:10%;
 	float:right;
 	display: inline-block;
 }
-div.bottom {
+#bottom {
 	display:block;
 	height: 10%;
 	text-align: center;
+}
+*/
+.table {
+    display: table;
+
+    width: 100%;
+}
+
+.row {
+	width:100%;
+	height:100px;
+    display: table-row;
+    text-align: center;
+
+}
+#picture {
+	background: url("ressources/img/view_template.gif");
+	width:800px;
+	height:533px;
+}
+
+.cell {
+	width:2%;
+    display: table-cell;
+    /*border: 1px solid black;*/
+    text-align: center;
+    vertical-align: middle;
 }
 
 

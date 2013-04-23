@@ -19,44 +19,50 @@
 						echo '<a href="'.path.'/"><</a>';
 						?>
 					</div>
-					<div id="navigation">
+					<div>
 							<ul class="topnav">
 								<li>
 									<span><a href="#">Profile</a></span>
 									<ul class="subnav">
 										<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
 										<li><a href="#">Freunde</a></li>
+										<li><a href="#">Favoriten</a></li>
 										<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
 									</ul>
 								</li>
 								<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
 								<li><?php echo '<span><a href="'.path.'/wall">Wall</a></span>' ?></li>
 							</ul>
-					</div>
+						</div>	
+					
+				</div>
 
-					<div id="content">
-						
-						<div class="top">
-							up
+					<div class="table" id="content">
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell" id="top"><?php echo '<a href="'.path.'/view">upper picture <br>(show this)</a>' ?></div>
+							<div class="cell"></div>
 						</div>
-						<div class="wrapper">
+						<div class="row" id="wrapper">
 
-
-							<div class="leftcolumn">
-								left
+							<div class="cell" id="leftcolumn">
+								<?php echo '<a href="'.path.'/view">left picture <br>(show this)</a>' ?>
+							
 							</div>
-
-							<div class="picture">
+							<div class="cell" id="picture">
 								<img src="ressources/img/view_template.gif">
 							</div>
 
-							<div class="rightcolumn">
-								right
+							<div class="cell" id="rightcolumn">
+														<?php echo '<a href="'.path.'/scribble">right space <br>(paint here)</a>' ?>
+								
 							</div>
 
 						</div>
-						<div class="bottom">
-							bottom
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell" id="bottom"><?php echo '<a href="'.path.'/scribble">bottom space <br>(paint here)</a>' ?></div>
+							<div class="cell"></div>
 						</div>
 					</div>
 

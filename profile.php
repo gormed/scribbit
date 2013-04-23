@@ -18,22 +18,23 @@
 						echo '<a href="'.path.'/"><</a>';
 						?>
 					</div>
-					<div id="navigation">
+					<div>
 							<ul class="topnav">
 								<li>
 									<span><a href="#">Profile</a></span>
 									<ul class="subnav">
 										<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
 										<li><a href="#">Freunde</a></li>
+										<li><a href="#">Favoriten</a></li>
 										<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
 									</ul>
 								</li>
 								<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
 								<li><?php echo '<span><a href="'.path.'/wall">Wall</a></span>' ?></li>
 							</ul>
-					</div>
-
-			</div>
+						</div>	
+				
+				</div>
 
 				<div id="content">
 					
