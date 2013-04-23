@@ -16,14 +16,16 @@
 		border-color: #666;
 	}
 </style>
-<!-- **************************************************************************
+<!-- 
+**************************************************************************
 *    Scribble app using javascript Canvas object with WebTabletPlugin.
 *
 *    Copyright (c) Wacom Technology, Inc., 2012
 *
 * Notes:
 *    For use on Internet Explorer, Firefox, Chrome.
-*************************************************************************** -->
+*************************************************************************** 
+-->
 <script type="text/javascript">
 
 	var canvasPos = {x:0.0, y:0.0};
@@ -31,8 +33,6 @@
 	var lastX = 0.0;
 	var lastY = 0.0;
 	var capturing = false;	// tracks in/out of canvas context
-
-
 
 	//************************************************************************
 	function plugin()
@@ -85,7 +85,7 @@
 	  
 	function clearCanvas() {
 		var context = document.getElementById('canvas').getContext("2d");
-		var imageData = context.clearRect(0,0,640,480);
+		var imageData = context.clearRect(0,0,960,640);
 	}
 
 	function saveImage () {
@@ -225,15 +225,30 @@
 	}
 	//************************************************************************
 	</script>
+<script type="text/javascript">
+	function show () {
+		var tools = document.getElementById('tools');
+		var content = document.getElementById('content');
+		if(tools.className == "hidden") {
+			tools.className = "visible";
+			content.className = "contentspace";
+		} else {
+			tools.className = "hidden";
+			content.className = "contentnospace";
+		}
+	}
+</script>
 </head>
 
 <body onload="onLoad();">
 
-	<!-- ********************************************************************* 
+	<!-- 
+	***************************************************************** 
 	 Embed the WacomTabletPlugin object.
 	 To avoid plugin selection on page, size and position are adjusted 
 	 so as to "tuck it under" canvas. 
-	 ***************************************************************** -->
+	***************************************************************** 
+	-->
 
 	<!--[if IE]>
 
@@ -246,37 +261,42 @@
 		<!-- <param name="onload" value="pluginLoaded" /> -->
 	</object>
 
+	
 	<!--> <![endif]-->
 	<div id="site">
-		<div id="tools">
-			<ul>
-				<a href=""><li>Brush</li></a>
-				<a href=""><li>Fill</li></a>
-				<a href=""><li>Marquee</li></a>
-				<a href=""><li>Symbol</li></a>
-				<a href=""><li>...</li></a>
-				<a href=""><li>Get new tools!</li></a>
-			</ul>
+		
+		<div id="tools" class="hidden">
+			<div>
+				<ul>
+					<a href=""><li>Brush</li></a>
+					<a href=""><li>Fill</li></a>
+					<a href=""><li>Marquee</li></a>
+					<a href=""><li>Symbol</li></a>
+					<a href=""><li>...</li></a>
+					<a href=""><li>Get new tools!</li></a>
+				</ul>
 
-			<div id="cut1" title="Back"></div>
-			<div id="cut1" title="Forward"></div>
-			<div id="cut1" title="Clear"></div>
-			<div id="cut1" title="Save"></div>
-			<div id="cut1" title="Back"></div>
-			<div id="cut1" title="Forward"></div>
-			<div id="cut1" title="Clear"></div>
-			<div id="cut1" title="Save"></div>
-			<div id="cut1" title="Back"></div>
-			<div id="cut1" title="Forward"></div>
-			<div id="cut1" title="Clear"></div>
-			<div id="cut1" title="Save"></div>
-			<a href="">
-			<div id="publish">
-				Publish
+				<div id="cut1" title="Back"></div>
+				<div id="cut1" title="Forward"></div>
+				<div id="cut1" title="Clear"></div>
+				<div id="cut1" title="Save"></div>
+				<div id="cut1" title="Back"></div>
+				<div id="cut1" title="Forward"></div>
+				<div id="cut1" title="Clear"></div>
+				<div id="cut1" title="Save"></div>
+				<div id="cut1" title="Back"></div>
+				<div id="cut1" title="Forward"></div>
+				<div id="cut1" title="Clear" onclick="clearCanvas()"></div>
+				<div id="cut1" title="Save"></div>
+				<a href="">
+				<div id="publish" onclick="saveImage()">
+					Publish
+				</div>
+				</a>
 			</div>
-			</a>
 		</div>
-		<div id="content">
+		<div id="content" class="contentnospace">
+			<div id="show" onclick="show()">Show/Hide</div>
 			<div id="share">
 				Share: <input type="text" size="30" value="http://scribbit.com/7ezebU6">
 			</div>

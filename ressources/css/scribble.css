@@ -4,14 +4,49 @@ body {
 	font-family: 'Tahoma', sans-serif;
 }
 
+.visible, .hidden {
+  overflow: hidden;
+  /* This container should not have padding, borders, etc. */
+}
+.visible {
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	-o-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+.hidden {
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	-moz-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	-o-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
+.visible > div, .hidden > div {
+  /* Put any padding, border, min-height, etc. here. */
+
+}
+.hidden > div {
+	margin-top: -10000px;
+	-webkit-transition: margin-top 0s 0.2s;
+	-moz-transition: margin-top 0s 0.2s;
+	-o-transition: margin-top 0s 0.2s;
+	transition: margin-top 0s 0.2s;
+}
+
 div#tools {
 	float: left;
 	width: 8em;
+	padding: 0.5em;
 	padding-top: 2em;
+	background-color: #777;
 }
 
 div#tools li {
 	padding: 5px;
+	margin-bottom: 3px;
 	height: 1.5em;
 	list-style-type: none;
 	background-color: #bbb;
@@ -30,31 +65,40 @@ div#tools ul {
 }
 
 div#tools a:link {
-	color: white; background-color: #444; text-decoration: none;
+	color: black; background-color: #444; text-decoration: none;
 }
 
 div#tools a:visited {
-	color: white; background-color: #444; text-decoration: none;
+	color: black; background-color: #444; text-decoration: none;
 }
 
 div#tools a:hover {
-	color: black; background-color: #eee; text-decoration: none;
+	color: white; background-color: #222; text-decoration: none;
 }
 
 div#tools a:active {
-	color: white; background-color: #fff; text-decoration: none;
+	color: green; background-color: #fff; text-decoration: none;
 }
 
 div#content {
-	margin-left: 8.5em;
+	/*margin-left: 9em;*/
+}
+
+.contentspace {
+	margin-left: 9em;
+}
+
+.contentnospace {
+	margin-left: 0em;
 }
 
 div#share {
 	margin-left: 0.5em;
+	float: left;
 }
 
 div#publish {
-	margin-top: 23em;
+	margin-top: 22em;
 	width: 7em;
 	padding: 5px;
 	text-align: center;
@@ -63,10 +107,21 @@ div#publish {
 	background-color: #6f6;
 }
 
+div#show {
+	width: 7em;
+	padding: 1px;
+	text-align: center;
+	border: 1px solid;
+	border-color: #666;
+	background-color: #6f6;
+	float: left;
+}
+
 canvas#canvas {
 	width: 960;
 	height: 640;
 	border: 1px solid;
 	border-color: #333;
 	background-color: #fff;
+	float: left;
 }
