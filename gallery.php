@@ -52,21 +52,51 @@
 				<div id="content">
 					<br>
 					
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
-						<div class="item">bild</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
+						<div class="item">bild
+							<div class="initem"><?php echo '<span><a href="'.path.'/profile">artist</a></span>' ?> Comment Like</div>
+						</div>
 					
 					
 					<br>

@@ -7,6 +7,37 @@
 	height:200px;
 }
 
+.initem{
+	background: transparent;
+	color:transparent;
+	margin-top:132px;
+	width: 250px;
+	height: 50px;
+	word-spacing: 30px;
+	font-size: 20px;
+}
+
+.initem a:link{
+	text-decoration: none;
+	color:white;
+}
+
+
+.initem a:visited{
+
+	color:white;
+}
+
+.initem:hover{
+	width: 250px;
+	height:50px;
+	background-color: #385a8f;
+	color: white;
+	word-spacing: 30px;
+	font-size: 20px;
+
+}
+
 div#content {
 	margin-top: 100px;
 	display: block;
@@ -14,6 +45,8 @@ div#content {
 	width: 70%;
 	padding: 10 10 10 10;
 	background-color: #888;
-
-	
 }
+
+
+
+
