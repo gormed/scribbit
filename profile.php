@@ -38,11 +38,15 @@
 
 				<div id="content">
 					
+					<div class="profilinfo">
+						Avatar<br>
+						Name<br>
+						last Login<br>
+
+
+					</div>
 					
-						<br>
-						<br>
-						
-							
+						<div class="wrapper">
 							<div class="horizontalbar">
 								<div class="holder">
 								<div class="profitem">Meine eigenen Scribbles</div>
@@ -99,9 +103,8 @@
 								<div class="profitem">Scribbles meiner Favoriten</div>
 							</div>
 							</div>
-
-						<br>
-						<br>
+						</div>
+				
 					
 				</div>
 			</div>

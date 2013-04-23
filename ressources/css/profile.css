@@ -3,12 +3,13 @@ div#content {
 	display: block;
 	margin-top: 100px;
 	float:right;
-	width: 70%;
+	width: 100%;
 	padding: 10 10 10 10;
 	background-color: #888;
 
 	
 }
+
 
 .profitem{
 	
@@ -35,4 +36,18 @@ div#content {
 	width: 300%;
 	height: 400px;
 }
+.profilinfo {
+			display: inline-block;
+	float:left;
+	width: auto;
+	padding: 20px 20px 20px 20px;
+	background-color: #888;
+}
+.wrapper {
+		display: inline;
+	float:right;
+	width: 70%;
+	padding: 10 10 10 10;
+	background-color: #888;
 
+}

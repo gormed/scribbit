@@ -50,7 +50,7 @@
 							
 							</div>
 							<div class="cell" id="picture">
-								<img src="ressources/img/view_template.gif">
+								
 							</div>
 
 							<div class="cell" id="rightcolumn">
