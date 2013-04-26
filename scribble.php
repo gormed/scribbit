@@ -83,16 +83,19 @@
 	alert("PluginLoaded");
 	}
 	  
+	//************************************************************************
 	function clearCanvas() {
 		var context = document.getElementById('canvas').getContext("2d");
 		var imageData = context.clearRect(0,0,960,640);
 	}
 
+	//************************************************************************
 	function saveImage () {
-
+		
 		var xmlhttp;
 		var canvas = document.getElementById('canvas');
 		var img = canvas.toDataURL("image/png");
+		document.getElementById("upload").innerHTML="Sending...";
 
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp=new XMLHttpRequest();
@@ -101,7 +104,7 @@
 		}
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+				document.getElementById("upload").innerHTML=xmlhttp.response;
 			}
 		}
 		xmlhttp.open("POST","upload_image.php",true);
@@ -200,7 +203,7 @@
 
 		//console.log("ctx.lineWidth: " + ctx.lineWidth);
 				ctx.stroke();
-				var tempImg =ctx.getImageData(0,0,640,480);
+				var tempImg =ctx.getImageData(0,0,960,640);
 		}
 	}
 		
@@ -257,7 +260,7 @@
 
 	<![endif]--><!--[if !IE]> <-->
 
-	<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:100px; top:100px">
+	<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:0px; top:0px">
 		<!-- <param name="onload" value="pluginLoaded" /> -->
 	</object>
 
@@ -286,21 +289,20 @@
 				<div id="cut1" title="Save"></div>
 				<div id="cut1" title="Back"></div>
 				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear" onclick="clearCanvas()"></div>
+				<div id="cut1" title="Clear" onclick="clearCanvas();"></div>
 				<div id="cut1" title="Save"></div>
-				<a href="">
-				<div id="publish" onclick="saveImage()">
-					Publish
-				</div>
-				</a>
+
+				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();">
+				</input>
 			</div>
 		</div>
 		<div id="content" class="contentnospace">
-			<div id="show" onclick="show()">Show/Hide</div>
+			<div id="show" onclick="show();">Show/Hide</div>
 			<div id="share">
 				Share: <input type="text" size="30" value="http://scribbit.com/7ezebU6">
 			</div>
-			<canvas id="canvas" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
+			<div id="upload"></div>
+			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		</div>
 	</div>
 </body>
