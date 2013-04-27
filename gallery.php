@@ -49,7 +49,7 @@ require_once 'header.php';
 
 					element = document.createElement('div');
 					element.setAttribute('class','item');
-					element.setAttribute('style', 'background-image: url("' + path+'/'+scribbles[k] + '"); background-size: 250px 200px;');
+					element.setAttribute('style', 'background-image: url("' + path+'/'+scribbles[k] + '"); background-size: 100% 100%;');
 					gallery.appendChild(element);
 
 					temp = document.createElement('div');
