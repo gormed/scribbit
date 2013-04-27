@@ -19,14 +19,14 @@
 
 	$userid = $_SESSION['user_id'];
 	$data=$_POST["data"];
-	$scribbleid = mt_rand(0,mt_getrandmax());
+	$scribbleid = time();//mt_rand(0,mt_getrandmax());
 	$now = time();
 	$mysqldate = date( 'Y-m-d H:i:s', $now );
 	//$phpdate = strtotime( $mysqldate );
 
 	// TODO: check if scribble id is already taken! 
 
-	$file = 'scribbles/'.$userid.'_'.$scribbleid.'.png';//$_SERVER['DOCUMENT_ROOT'].path.'/scribbles/img_'.mt_rand(0,mt_getrandmax()).'.png';
+	$file = 'scribbles/'.$userid.$scribbleid.'.png';//$_SERVER['DOCUMENT_ROOT'].path.'/scribbles/img_'.mt_rand(0,mt_getrandmax()).'.png';
 	$handle = fopen($file, 'wb'); 
 	$split = preg_split('[,]', $data);
 	$image = base64url_decode($split[1]);

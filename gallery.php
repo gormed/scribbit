@@ -24,7 +24,7 @@ require_once 'header.php';
 					exit();
 				}
 				echo "var path = '".path."';";
-				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `creation` DESC LIMIT 0, 40 ";
+				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` DESC LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
 					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
