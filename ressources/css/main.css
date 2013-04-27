@@ -2,7 +2,7 @@
 
 body {
 	color: black; 
-	background-color: #E0E0E0;
+	background-color: #ddf;
 	font-size: 100.01%;
 	font-family: 'Tahoma', sans-serif; 
 	left:0%;
@@ -16,7 +16,7 @@ div#site {
 div#logo {
 	display:inline;
 	float:left;
-	font-size: 100%; 
+	font-size: 80px; 
 	width: 100px;
 	height: 100px;
 	font-weight: bold;
@@ -27,19 +27,19 @@ div#logo {
 
 }
 div#logo a:link {
-	color: white; background-color: #333;
+	color: white; text-decoration: none;
 }
 
 div#logo a:visited {
-	color: white; background-color: #333;
+	color: white; text-decoration: none;
 }
 
 div#logo a:hover {
-	color: black; background-color: white;
+	color: black; font-weight: bold; text-decoration: none;
 }
 
 div#logo a:active {
-	color: white; background-color: gray;
+	color: white; font-weight: bold; text-decoration: none;
 }
 
 /*HEADER inculdes navigation*/
@@ -102,7 +102,7 @@ div#content {
 	float:right;
 	width: 70%;
 	padding: 10 10 10 10;
-	background-color: #888;
+	background-color: #88f;
 
 	
 }

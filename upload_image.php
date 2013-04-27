@@ -16,9 +16,15 @@
 		$plainText = base64_decode($base64);
 		return ($plainText);
 	}
+
 	$userid = $_SESSION['user_id'];
 	$data=$_POST["data"];
 	$scribbleid = mt_rand(0,mt_getrandmax());
+	$now = time();
+	$mysqldate = date( 'Y-m-d H:i:s', $now );
+	//$phpdate = strtotime( $mysqldate );
+
+	// TODO: check if scribble id is already taken! 
 
 	$file = 'scribbles/'.$userid.'_'.$scribbleid.'.png';//$_SERVER['DOCUMENT_ROOT'].path.'/scribbles/img_'.mt_rand(0,mt_getrandmax()).'.png';
 	$handle = fopen($file, 'wb'); 
@@ -28,7 +34,7 @@
 	fwrite($handle, $image);
 	fclose($handle);
 
-	$sql = sprintf("INSERT INTO `scribbles`(`scribbleid`, `path`, `userid`) VALUES (%d, '%s',%d)", $scribbleid, $file, $userid);
+	$sql = sprintf("INSERT INTO `scribbles`(`scribbleid`, `path`, `userid`, `creation`) VALUES (%d, '%s',%d, '%s')", $scribbleid, $file, $userid, $mysqldate);
 	$mysqli->query($sql);
 
 	$response = "Done";

@@ -10,31 +10,41 @@
 .initem{
 	background: transparent;
 	color:transparent;
-	margin-top:132px;
-	width: 250px;
-	height: 50px;
-	word-spacing: 30px;
-	font-size: 20px;
+	margin-top:145px;
+	width: 240px;
+	height: 50px;/*
+	word-spacing: 30px;*/
+	font-size: 1.2em;
+	padding: 5px;
 }
 
 .initem a:link{
 	text-decoration: none;
-	color:white;
+	color:#385a8f;
 }
-
 
 .initem a:visited{
 
+	color:#385a8f;
+}
+
+.initem:hover a:visited {
+	font-weight: bold; 
+	color:white;
+}
+
+.initem a:hover{
+	font-weight: bold; 
 	color:white;
 }
 
 .initem:hover{
-	width: 250px;
+	width: 240px;
 	height:50px;
 	background-color: #385a8f;
 	color: white;
 	word-spacing: 30px;
-	font-size: 20px;
+	font-size: 1.2em;
 
 }
 
@@ -42,11 +52,10 @@ div#content {
 	margin-top: 100px;
 	display: block;
 	float:right;
-	width: 70%;
+	width: 80%;
 	padding: 10 10 10 10;
-	background-color: #888;
+	background-color: #91B2DB;
 }
-
 
 
 

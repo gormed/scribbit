@@ -31,7 +31,7 @@
 			div#logo {
 				display:inline;
 				float:left;
-				font-size: 100%; 
+				font-size: 70px; 
 				width: 100px;
 				height: 100px;
 				font-weight: bold;
@@ -42,19 +42,19 @@
 
 			}
 			div#logo a:link {
-				color: white; background-color: #333;
+				color: white; text-decoration: none;
 			}
 
 			div#logo a:visited {
-				color: white; background-color: #333;
+				color: white; text-decoration: none;
 			}
 
 			div#logo a:hover {
-				color: black; background-color: white;
+				color: black; font-weight: bolder; text-decoration: none;
 			}
 
 			div#logo a:active {
-				color: white; background-color: gray;
+				color: white; font-weight: bolder; text-decoration: none;
 			}
 
 
@@ -201,7 +201,7 @@
 			div#logo {
 				display:inline;
 				float:left;
-				font-size: 100%; 
+				font-size: 70px; 
 				width: 100px;
 				height: 100px;
 				font-weight: bold;
@@ -212,21 +212,20 @@
 
 			}
 			div#logo a:link {
-				color: white; background-color: #333;
+				color: white; text-decoration: none;
 			}
 
 			div#logo a:visited {
-				color: white; background-color: #333;
+				color: white; text-decoration: none;
 			}
 
 			div#logo a:hover {
-				color: black; background-color: white;
+				color: black; font-weight: bolder; text-decoration: none;
 			}
 
 			div#logo a:active {
-				color: white; background-color: gray;
+				color: white; font-weight: bolder; text-decoration: none;
 			}
-
 
 			/*Searchbar*/
 			div.searchbar {

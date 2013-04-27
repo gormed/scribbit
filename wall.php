@@ -34,10 +34,6 @@ require_once 'header.php';
 		}
 
 		function loadScribbles () {
-			// body...
-			// var table = document.getElementById('wall');
-			// table.
-			
 		<?php 
 
 			if (!$loggedIn) {
@@ -61,7 +57,7 @@ require_once 'header.php';
 				if (scribbles.hasOwnProperty(k)) {
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'cell');
-					temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a>';
+					temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
 					row.appendChild(temp);
 					//<?php echo '<div class="cell"><a href="'.path.'/view"><img src="ressources/img/template.gif"></a></div>' ?>
 					//alert('key is: ' + k + ', value is: ' + scribbles[k]);
