@@ -160,7 +160,7 @@ include 'header.php';
 					<li>Soziale Funktionen</li>
 				<ul>
 					<li>Zeichnen mit Freunden und/ oder Fremden</li>
-					<li>kreativer Austausch</li>
+					<li>kreativer Austausch!!!</li>
 				</ul>
 				</ul>
 			</div>
