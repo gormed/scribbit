@@ -27,9 +27,18 @@ if (isset($username) && isset($password) && isset($email) && isset($randomSalt))
 		// Make sure you use prepared statements!
 		if ($insertStmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
 			$insertStmt->bind_param('ssss', $username, $email, $password, $randomSalt); 
+
 			// Execute the prepared query.
 			$insertStmt->execute();
 			$register = 1;
+
+			// $sql = sprintf("SELECT `id` FROM `members` WHERE `username` = '%s' LIMIT 0, 30 ", $username);
+			// $user_id = $mysqli->query($sql)->fetch_array()[0];
+			$file = $_SERVER['DOCUMENT_ROOT'].root.'/users/'.$username.'/';
+			if (!file_exists($file)) {
+				mkdir($file) or die("Cannot create new user!");
+			}
+
 			include 'login.php';
 			exit();
 		} 

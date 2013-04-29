@@ -40,6 +40,7 @@ require_once 'header.php';
 				exit();
 			}
 			echo "var path = '".path."';";
+			echo "var root = '".root."';"; 
 			$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
 			$result = $mysqli->query($sql);
 			while ($row = $result->fetch_array(MYSQLI_NUM)) {
@@ -57,7 +58,7 @@ require_once 'header.php';
 				if (scribbles.hasOwnProperty(k)) {
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'cell');
-					temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
+					temp.innerHTML = '<a href="'+path+'/view"><img src="'+root+'/'+scribbles[k]+'"></a><br>';
 					row.appendChild(temp);
 					//<?php echo '<div class="cell"><a href="'.path.'/view"><img src="ressources/img/template.gif"></a></div>' ?>
 					//alert('key is: ' + k + ', value is: ' + scribbles[k]);
