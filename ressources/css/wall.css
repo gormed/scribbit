@@ -1,4 +1,34 @@
+body {
+			overflow : hidden;
+}
 
+
+@media screen and (max-width: 700px) {
+
+div#content {
+	display: block;
+	float:right;
+	width: 100%;
+	overflow : hidden;
+	padding:20 20 20 20;
+	margin-top: 200px;
+	background-color: #ffffff;
+	
+}
+#map {
+	margin-top: 200px;
+	width: 100%;
+}
+.smallmap {
+
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+}
+
+
+@media screen and (min-width: 701px) {
 
 /*CONTENT*/
 
@@ -6,7 +36,7 @@ div#content {
 	display: block;
 	float:right;
 	width: 100%;
-	overflow : hidden;
+		overflow : hidden;
 	padding:20 20 20 20;
 	margin-top: 100px;
 	background-color: #ffffff;
@@ -32,13 +62,11 @@ div#content {
 }
 
 #map {
-	margin-top: 100px;
 	width: 100%;
 }
 .smallmap {
-
     width: 100%;
     height: 500px;
     border: 1px solid #ccc;
-
-
+}
+}
