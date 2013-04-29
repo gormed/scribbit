@@ -10,10 +10,8 @@ require_once 'header.php';
 		<link rel="stylesheet" type="text/css" href="ressources/css/profile.css">
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
-		<title>Scribbit - Profil</title>
+		<title>Scribbit - Profile</title>
 		<script type="text/javascript">
-
-		
 
 		var friends = {};
 		var favorites = {};
@@ -24,6 +22,7 @@ require_once 'header.php';
 		<?php 
 		echo "var userid = ".$_SESSION['user_id'].";"; 
 		echo "var path = '".path."';"; 
+		echo "var root = '".root."';"; 
 		?>
 
 		function loadScribbles () {
@@ -80,7 +79,7 @@ require_once 'header.php';
 
 					profitem = document.createElement('div');
 					profitem.setAttribute('class','profitem');
-					profitem.setAttribute('style', 'background-image: url("' + path+'/'+ownPath[k] + '"); background-size: 100% 100%;');
+					profitem.setAttribute('style', 'background-image: url("' + root+'/'+ownPath[k] + '"); background-size: 100% 100%;');
 					holder.appendChild(profitem);
 
 					// temp = document.createElement('div');

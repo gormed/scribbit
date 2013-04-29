@@ -25,9 +25,8 @@
 	//$phpdate = strtotime( $mysqldate );
 
 	// TODO: check if scribble id is already taken! 
-
-	$file = 'scribbles/'.$userid.$scribbleid.'.png';//$_SERVER['DOCUMENT_ROOT'].path.'/scribbles/img_'.mt_rand(0,mt_getrandmax()).'.png';
-	$handle = fopen($file, 'wb'); 
+	$file = '/scribbles/'.$userid.$scribbleid.'.png';//$_SERVER['DOCUMENT_ROOT'].path.'/scribbles/img_'.mt_rand(0,mt_getrandmax()).'.png';
+	$handle = fopen($_SERVER['DOCUMENT_ROOT'].root.$file, 'wb') or die("Cannot create new scribble!"); 
 	$split = preg_split('[,]', $data);
 	$image = base64url_decode($split[1]);
 

@@ -16,6 +16,7 @@ require_once 'header.php';
 		var scribbles = {};
 		var dates = {};
 		var users = {};
+		//var userids = {};
 
 		function loadScribbles () {
 			<?php 
@@ -24,7 +25,8 @@ require_once 'header.php';
 					exit();
 				}
 				echo "var path = '".path."';";
-				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` DESC LIMIT 0, 40 ";
+				echo "var root = '".root."';"; 
+				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` ASC LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
 					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
@@ -34,6 +36,7 @@ require_once 'header.php';
 					$answer = $mysqli->query($sql);
 					$user = $answer->fetch_array();
 					echo 'users['.$row[0]."] = '".$user[1]."';";
+					// echo 'userids['.$row[0]."] = '".$user[0]."';"; 
 				}
 			?>
 
@@ -49,12 +52,12 @@ require_once 'header.php';
 
 					element = document.createElement('div');
 					element.setAttribute('class','item');
-					element.setAttribute('style', 'background-image: url("' + path+'/'+scribbles[k] + '"); background-size: 100% 100%;');
+					element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
 					gallery.appendChild(element);
 
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'initem');
-					temp.innerHTML = '<span><a href="'+path+'/profile">'+ users[k] +'</a> '+'</span>'+
+					temp.innerHTML = '<span><a href="'+root+'/users/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
 					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
 					'<span style="float:right"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+
 					'<img src="'+path+'/ressources/img/ico/star.png" width="16" height="16"></span>';

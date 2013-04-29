@@ -47,6 +47,9 @@ require_once 'header.php';
 		// function loadScribbles () {
 		// <?php 
 
+		// 		function loadScribbles () {
+		// <?php 
+
 		// 	if (!$loggedIn) {
 		// 		exit();
 		// 	}
@@ -75,6 +78,7 @@ require_once 'header.php';
 		// 		}
 		// 	}
 		// }
+
 
 		function loadMap() {
 			var points = new OpenLayers.Layer.PointGrid({
