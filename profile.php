@@ -122,6 +122,15 @@ require_once 'header.php';
 					</ul>
 				</div>	
 			</div>
+			<div style="float: left; margin-top: 100px;" id="profile">
+				<br>
+				<?php 
+				$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 1 ", $_SESSION['user_id']);
+				$row = $mysqli->query($sql);
+				echo $_SESSION['username']."<br>";
+				echo "Last Login: ".$row->fetch_array()[1]."<br>";
+				?>
+			</div>
 			<div id="content">
 				<div class="horizontalbar">
 						<div class="holder">
