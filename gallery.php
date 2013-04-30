@@ -12,11 +12,58 @@ require_once 'header.php';
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
 		<title>Scribbit - Gallery</title>
 		<script type="text/javascript">
-
+		<?php 
+		echo "var path = '".path."';";
+		echo "var root = '".root."';"; 
+		?>
 		var scribbles = {};
 		var dates = {};
 		var users = {};
+		var favorites = {};
+		var favCount = {};
 		//var userids = {};
+
+		function favToggle(scribbleid) {
+			favorites[scribbleid] = !favorites[scribbleid];
+			if (favorites[scribbleid])
+				favCount[scribbleid]++;
+			else 
+				favCount[scribbleid]--;
+
+			if (favorites[scribbleid])
+				document.getElementById("fav_"+scribbleid).innerHTML = 
+				'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+			else
+				document.getElementById("fav_"+scribbleid).innerHTML = 
+				'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+
+		}
+
+		function favImage(scribbleid) {
+			var xmlhttp;
+
+			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			} else {// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function() {
+				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					favToggle(scribbleid);
+					//src="'+path+'/ressources/img/ico/star.png"
+					// if (favorites[scribbleid])
+					// 	document.getElementById("fav_"+scribbleid).innerHTML = 
+					// 	'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">'+favCount[k];
+					// else
+					// 	document.getElementById("fav_"+scribbleid).setAttribute('src', "'+path+'/ressources/img/ico/unstar.png");
+					//document.getElementById("upload").innerHTML=xmlhttp.response;
+				}
+			}
+			xmlhttp.open("POST","fav_image.php",true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("scribbleid="+scribbleid);
+
+		}
 
 		function loadScribbles () {
 			<?php 
@@ -24,8 +71,6 @@ require_once 'header.php';
 				if (!$loggedIn) {
 					exit();
 				}
-				echo "var path = '".path."';";
-				echo "var root = '".root."';"; 
 				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` ASC LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
@@ -36,6 +81,17 @@ require_once 'header.php';
 					$answer = $mysqli->query($sql);
 					$user = $answer->fetch_array();
 					echo 'users['.$row[0]."] = '".$user[1]."';";
+					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
+					$isFav = 'false';
+					$fav = $mysqli->query($sql);
+					if ($fav->num_rows > 0) {
+						$isFav = 'true';
+					}
+					echo 'favorites['.$row[0]."] = ".$isFav.";";
+
+					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
+					$favcount = $mysqli->query($sql);
+					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";";
 					// echo 'userids['.$row[0]."] = '".$user[0]."';"; 
 				}
 			?>
@@ -57,10 +113,16 @@ require_once 'header.php';
 
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'initem');
-					temp.innerHTML = '<span><a href="'+root+'/users/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
+					var fav; 
+					if (favorites[k]) {
+						fav = '<img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
+					} else {
+						fav = '<img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
+					}
+					temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
 					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					'<span style="float:right"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+
-					'<img src="'+path+'/ressources/img/ico/star.png" width="16" height="16"></span>';
+					'<span style="float:right"><a href="'+path+'/'+k+'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
+					+fav+favCount[k]+'</span>';
 
 					element.appendChild(temp);
 				}

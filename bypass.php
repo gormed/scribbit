@@ -13,6 +13,7 @@ $pages['profile']='profile.php';
 $pages['scribble']='scribble.php';
 $pages['view']='view.php';
 
+
 $loginRequired['login']=false;
 $loginRequired['register']=false;
 $loginRequired['dashboard']=true;
@@ -23,15 +24,28 @@ $loginRequired['profile']=true;
 $loginRequired['scribble']=true;
 $loginRequired['view']=true;
 
-if (array_key_exists($_GET['start'],$pages) 
-	&& array_key_exists($_GET['start'],$loginRequired)) {
+$folder = $_GET['start'];
 
-	if ($loginRequired[$_GET['start']] == $loggedIn) {
-		include($pages[$_GET['start']]);
+$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
+$rqst = $mysqli->query($sql);
+$name = $rqst->fetch_array()[1];
+
+if (array_key_exists($folder,$pages) 
+	&& array_key_exists($folder,$loginRequired)) {
+
+	if ($loginRequired[$folder] == $loggedIn) {
+		include($pages[$folder]);
 		exit();
 	} else {
 		header('location: '.path.'/login');
 	}
+} else if ($rqst->num_rows > 0 && $loggedIn) {
+	//$isFriend = false;
+	$viewProfile = true;
+	//$ownProfile = false;
+	$profile = $name;
+	include ('profile.php');
+	exit();
 }
 
 ?>

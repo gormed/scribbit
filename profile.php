@@ -2,7 +2,25 @@
 	"http://www.w3.org/TR/html4/strict.dtd">
 <?php 
 require_once 'header.php';
- ?>
+
+function findLoginTime($userid, $mysqli) {
+	$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 1 ", $userid);
+	return $mysqli->query($sql);
+}
+
+function findUserId($username, $mysqli) {
+	$sql = sprintf("SELECT `id` FROM `members` WHERE `username` = '%s' LIMIT 0, 30 ", $username);
+	return $mysqli->query($sql)->fetch_array()[0];
+}
+
+function getRow($userid, $mysqli)
+{
+	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` ASC LIMIT 0, 10 ", $userid);
+	$result = $mysqli->query($sql);
+	return $result;
+}
+
+?>
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -32,9 +50,12 @@ require_once 'header.php';
 				if (!$loggedIn) {
 					exit();
 				}
-				
-				$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` ASC LIMIT 0, 10 ", $_SESSION['user_id']);
-				$result = $mysqli->query($sql);
+				if (isset($viewProfile) && isset($profile)) {
+					$user_id = findUserId($profile, $mysqli);
+					$result = getRow($user_id, $mysqli);
+				} else {
+					$result = getRow($_SESSION['user_id'], $mysqli);
+				}
 				while ($row = $result->fetch_array()) {
 					echo 'ownPath['.$row[0]."] = '".$row[1]."';";
 					echo 'ownDates['.$row[0]."] = '".($row[3])."';";
@@ -124,10 +145,19 @@ require_once 'header.php';
 			<div style="float: left; margin-top: 100px;" id="profile">
 				<br>
 				<?php 
-				$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 1 ", $_SESSION['user_id']);
-				$row = $mysqli->query($sql);
-				echo $_SESSION['username']."<br>";
-				echo "Last Login: ".$row->fetch_array()[1]."<br>";
+
+
+
+				if (isset($viewProfile) && isset($profile)) {
+					$row = findLoginTime($user_id, $mysqli);
+					echo $profile."<br>";
+					echo "Last Login: ".$row->fetch_array()[1]."<br>";
+				} else { 
+					$row = findLoginTime($_SESSION['user_id'], $mysqli);
+					echo $_SESSION['username']."<br>";
+					echo "Last Login: ".$row->fetch_array()[1]."<br>";
+				}
+
 				?>
 			</div>
 			<div id="content">
