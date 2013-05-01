@@ -6,6 +6,7 @@ div#content {
 	width: 80%;
 	padding: 10 10 10 10;
 	background-color: #91B2DB;
+	box-shadow: 0px 1px 10px #333;
 
 	
 }
@@ -20,6 +21,7 @@ div#content {
 	height:200px;
 	overflow: auto;
 	float: left;
+	box-shadow: 0px 1px 5px #444;
 	
 }
 
@@ -31,6 +33,7 @@ div#content {
 	height: 250px;
 	overflow-x: scroll;
     overflow-y: hidden;
+	box-shadow: 0px 1px 10px #333;
 }
 
 .holder{

@@ -21,7 +21,6 @@ require_once 'header.php';
 		var users = {};
 		var favorites = {};
 		var favCount = {};
-		//var userids = {};
 
 		function favToggle(scribbleid) {
 			favorites[scribbleid] = !favorites[scribbleid];
@@ -30,13 +29,14 @@ require_once 'header.php';
 			else 
 				favCount[scribbleid]--;
 
+			var temp = document.getElementById('fav_'+scribbleid);
 			if (favorites[scribbleid])
-				document.getElementById("fav_"+scribbleid).innerHTML = 
-				'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+				temp.setAttribute('src', path+'/ressources/img/ico/star.png');
 			else
-				document.getElementById("fav_"+scribbleid).innerHTML = 
-				'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+				temp.setAttribute('src', path+'/ressources/img/ico/unstar.png');
 
+			var temp = document.getElementById('count_'+scribbleid);
+			temp.innerHTML = favCount[scribbleid];
 		}
 
 		function favImage(scribbleid) {
@@ -49,14 +49,7 @@ require_once 'header.php';
 			}
 			xmlhttp.onreadystatechange=function() {
 				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-					favToggle(scribbleid);
-					//src="'+path+'/ressources/img/ico/star.png"
-					// if (favorites[scribbleid])
-					// 	document.getElementById("fav_"+scribbleid).innerHTML = 
-					// 	'<img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">'+favCount[k];
-					// else
-					// 	document.getElementById("fav_"+scribbleid).setAttribute('src', "'+path+'/ressources/img/ico/unstar.png");
-					//document.getElementById("upload").innerHTML=xmlhttp.response;
+					favToggle(scribbleid); //on success
 				}
 			}
 			xmlhttp.open("POST","fav_image.php",true);
@@ -113,6 +106,7 @@ require_once 'header.php';
 
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'initem');
+					temp.setAttribute('id', 'div_'+k);
 					var fav; 
 					if (favorites[k]) {
 						fav = '<img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
@@ -121,8 +115,8 @@ require_once 'header.php';
 					}
 					temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
 					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					'<span style="float:right"><a href="'+path+'/'+k+'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
-					+fav+favCount[k]+'</span>';
+					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
+					+fav+'<span id="count_'+k+'">'+favCount[k]+'</span></span>';
 
 					element.appendChild(temp);
 				}

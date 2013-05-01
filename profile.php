@@ -3,19 +3,30 @@
 <?php 
 require_once 'header.php';
 
+// SELECT `userid`, `datetime` FROM `login_time`
 function findLoginTime($userid, $mysqli) {
 	$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 1 ", $userid);
 	return $mysqli->query($sql);
 }
 
+// SELECT `id` FROM `members`
 function findUserId($username, $mysqli) {
 	$sql = sprintf("SELECT `id` FROM `members` WHERE `username` = '%s' LIMIT 0, 30 ", $username);
 	return $mysqli->query($sql)->fetch_array()[0];
 }
 
-function getRow($userid, $mysqli)
+// SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles`
+function getOwnScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` ASC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` DESC LIMIT 0, 10 ", $userid);
+	$result = $mysqli->query($sql);
+	return $result;
+}
+
+// SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`
+function getFavScribbles($userid, $mysqli)
+{
+	$sql = sprintf("SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`, `scribbles` WHERE `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -36,6 +47,10 @@ function getRow($userid, $mysqli)
 
 		var ownPath = {};
 		var ownDates = {};
+		var favPath = {};
+		var favDates = {};
+		var friendPath = {};
+		var friendDates = {};
 
 		<?php 
 		echo "var userid = ".$_SESSION['user_id'].";"; 
@@ -43,45 +58,31 @@ function getRow($userid, $mysqli)
 		echo "var root = '".root."';"; 
 		?>
 
-		function loadScribbles () {
+		function loadFavs (content) {
+			content.appendChild(document.createElement('br'));
+			var profitem;
 
-			<?php 
+			var horizontalbar = document.createElement('div');
+			horizontalbar.setAttribute('class', 'horizontalbar');
+			content.appendChild(horizontalbar);
 
-				if (!$loggedIn) {
-					exit();
+			var holder = document.createElement('div');
+			holder.setAttribute('class', 'holder');
+			horizontalbar.appendChild(holder);
+			
+			for (var k in favPath) {
+				// use hasOwnProperty to filter out keys from the Object.prototype
+				if (favPath.hasOwnProperty(k)) {
+					profitem = document.createElement('div');
+					profitem.setAttribute('class','profitem');
+					profitem.setAttribute('style', 'background-image: url(' + root+favPath[k] + '); background-size: 100% 100%;');
+					holder.appendChild(profitem);
 				}
-				if (isset($viewProfile) && isset($profile)) {
-					$user_id = findUserId($profile, $mysqli);
-					$result = getRow($user_id, $mysqli);
-				} else {
-					$result = getRow($_SESSION['user_id'], $mysqli);
-				}
-				while ($row = $result->fetch_array()) {
-					echo 'ownPath['.$row[0]."] = '".$row[1]."';";
-					echo 'ownDates['.$row[0]."] = '".($row[3])."';";
-				}
-			?>
+			}
+		}
 
-			// <?php 
+		function loadOwn (content) {
 
-			// 	if (!$loggedIn) {
-			// 		exit();
-			// 	}
-			// 	echo "var path = '".path."';";
-			// 	$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` DESC LIMIT 0, 40 ";
-			// 	$result = $mysqli->query($sql);
-			// 	while ($row = $result->fetch_array()) {
-			// 		echo 'scribbles['.$row[0]."] = '".$row[1]."';";
-			// 		echo 'dates['.$row[0]."] = '".($row[3])."';";
-
-			// 		$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE (id = %d) LIMIT 1", $row[2]);
-			// 		$answer = $mysqli->query($sql);
-			// 		$user = $answer->fetch_array();
-			// 		echo 'users['.$row[0]."] = '".$user[1]."';";
-			// 	}
-			// ?>
-
-			var content = document.getElementById('content');
 			content.appendChild(document.createElement('br'));
 
 			var horizontalbar = document.createElement('div');
@@ -93,26 +94,87 @@ function getRow($userid, $mysqli)
 			horizontalbar.appendChild(holder);
 
 			var profitem;
-
+			
 			for (var k in ownPath) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (ownPath.hasOwnProperty(k)) {
-
 					profitem = document.createElement('div');
 					profitem.setAttribute('class','profitem');
-					profitem.setAttribute('style', 'background-image: url("' + root+'/'+ownPath[k] + '"); background-size: 100% 100%;');
+					profitem.setAttribute('style', 'background-image: url(' + root+ownPath[k] + '); background-size: 100% 100%;');
 					holder.appendChild(profitem);
-
-					// temp = document.createElement('div');
-					// temp.setAttribute('class', 'initem');
-					// temp.innerHTML = '<span><a href="'+path+'/profile">'+ users[k] +'</a> '+'</span>'+
-					// '<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					// '<span style="float:right"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+
-					// '<img src="'+path+'/ressources/img/ico/star.png" width="16" height="16"></span>';
-
-					// element.appendChild(temp);
 				}
 			}
+		}
+
+		function loadFriends (content) {
+			content.appendChild(document.createElement('br'));
+
+			var horizontalbar = document.createElement('div');
+			horizontalbar.setAttribute('class', 'horizontalbar');
+			content.appendChild(horizontalbar);
+
+			var holder = document.createElement('div');
+			holder.setAttribute('class', 'holder');
+			horizontalbar.appendChild(holder);
+
+			var profitem;
+			
+			for (var k in friendPath) {
+				// use hasOwnProperty to filter out keys from the Object.prototype
+				if (friendPath.hasOwnProperty(k)) {
+					profitem = document.createElement('div');
+					profitem.setAttribute('class','profitem');
+					profitem.setAttribute('style', 'background-image: url(' + root+friendPath[k] + '); background-size: 100% 100%;');
+					holder.appendChild(profitem);
+				}
+			}
+		}
+
+		function loadScribbles () {
+
+			<?php 
+
+				if (!$loggedIn) {
+					exit();
+				}
+				echo 'var hasFavs = false;';
+				if (isset($viewProfile) && isset($profile)) {
+					//$user_id = findUserId($profile, $mysqli);
+					$result = getOwnScribbles($userid, $mysqli);
+				} else {
+					$result = getOwnScribbles($_SESSION['user_id'], $mysqli);
+				}
+				while ($row = $result->fetch_array()) {
+					echo 'ownPath['.$row[0]."] = '".$row[1]."';";
+					echo 'ownDates['.$row[0]."] = '".($row[3])."';";
+				}
+				if (isset($viewProfile) && $viewProfile) {
+					// friend or stranger are looking
+					if ($isFriend) {
+
+					}
+				} else {
+					$userid = $_SESSION['user_id'];
+					// the user itself is looking
+					$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`creation`, `scribbles`.`path`, `members`.`username` FROM `favorites`, `scribbles`, `members` WHERE `members`.`id` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` AND `members`.`id` = `favorites`.`userid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10", $userid);
+					$result = $mysqli->query($sql);
+					while ($row = $result->fetch_array()) {
+						echo 'favPath['.$row[0]."] = '".$row[2]."';";
+						echo 'favDates['.$row[0]."] = '".($row[1])."';";
+
+					}
+					echo 'hasFavs = true;';
+				}
+				
+
+			?>
+
+			var content = document.getElementById('content');
+					if (hasFavs) {
+				loadFavs(content);
+			}	
+			loadOwn(content);
+
 			content.appendChild(document.createElement('br'));
 		}
 		</script>
@@ -149,7 +211,7 @@ function getRow($userid, $mysqli)
 
 
 				if (isset($viewProfile) && isset($profile)) {
-					$row = findLoginTime($user_id, $mysqli);
+					$row = findLoginTime($userid, $mysqli);
 					echo $profile."<br>";
 					echo "Last Login: ".$row->fetch_array()[1]."<br>";
 				} else { 
@@ -161,35 +223,7 @@ function getRow($userid, $mysqli)
 				?>
 			</div>
 			<div id="content">
-				<div class="horizontalbar">
-						<div class="holder">
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-						<div class="profitem">Scribbles meiner Freunde</div>
-				 	</div>
-				</div>
-				<br>
-				<div class="horizontalbar">	
-					<div class="holder">					
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-						<div class="profitem">Scribbles meiner Favoriten</div>
-					</div>
-				</div>
+
 			</div>
 		</div>
 	</body>

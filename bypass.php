@@ -27,8 +27,9 @@ $loginRequired['view']=true;
 $folder = $_GET['start'];
 
 $sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
-$rqst = $mysqli->query($sql);
-$name = $rqst->fetch_array()[1];
+$rqst = $mysqli->query($sql)->fetch_array();
+$name = $rqst[1];
+$userid = $rqst[0];
 
 if (array_key_exists($folder,$pages) 
 	&& array_key_exists($folder,$loginRequired)) {
@@ -39,10 +40,15 @@ if (array_key_exists($folder,$pages)
 	} else {
 		header('location: '.path.'/login');
 	}
-} else if ($rqst->num_rows > 0 && $loggedIn) {
-	//$isFriend = false;
-	$viewProfile = true;
-	//$ownProfile = false;
+} else if (isset($rqst) && $loggedIn) {
+	$isFriend = true;
+
+	if ($userid == $_SESSION['user_id']) {
+		header('location:'.path.'/profile');
+		exit();
+	} else {
+		$viewProfile = true;
+	}
 	$profile = $name;
 	include ('profile.php');
 	exit();

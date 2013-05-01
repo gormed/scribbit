@@ -51,6 +51,8 @@
 				width:100%;
 				height:200px;
 				background-color: #385a8f;
+				box-shadow: 0px 1px 15px #111;
+
 			}
 
 			div#logo {
@@ -244,16 +246,17 @@
 				position:fixed;
 				float:left;
 				width:100%;
-				height:100px;
+				height:80px;
 				background-color: #385a8f;
+				box-shadow: 0px 1px 15px #111;
 			}
 
 			div#logo {
 				display:inline;
 				float:left;
 				font-size: 70px; 
-				width: 100px;
-				height: 100px;
+				width: 80px;
+				height: 80px;
 				font-weight: bold;
 				text-align: center;
 				background-color: #444;
@@ -282,7 +285,7 @@
 				display: inline-block;
 				float:left;
 				font-size: 100%;
-				width:360px;
+				width:340px;
 				height: 100%;
 				color: #fff;
 				/*background: #4e80cc;*/
@@ -293,13 +296,12 @@
 			div.searchbar ul li{
 			 position: relative;
 				display:inline;
-				height: 100%;
+				height: auto;
 			}
 			div.searchbar ul li input.searchtext {
-				width: 300px;
-				height:80%;
+				width: 330px;
+				height:60%;
 			}
-
 			/* NAVIGATION */
 
 			div#navigation {
@@ -321,7 +323,7 @@
 				float: right;
 				width: 35%;
 				/*background: #222;*/
-				font-size: 120%;
+				font-size: 1.5em;
 
 				/*background: url(topnav_bg.gif) repeat-x;*/
 			}
@@ -356,32 +358,34 @@
 			ul.topnav li ul.subnav {
 				list-style: none;
 				position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
-				right: 0; top: 45px;
+				right: 0; top: 55px;
 					font-size: 100%;
-				background: #333;
+				background: #385a8f;
 				margin: 0; padding: 0;
-				font-size: 80%;
+				font-size: 0.8em;
 				display: none;
 				float: right;
-				width: 120px;
-				border: 1px solid #111;
+				width: 150px;
+				/*border: 1px solid #111;*/
+				box-shadow: 0px 1px 15px #111;
 			}
 			ul.topnav li ul.subnav li{
 				margin: 0; padding: 0;
 				border-top: 1px solid #252525; /*--Create bevel effect--*/
 				border-bottom: 1px solid #444; /*--Create bevel effect--*/
 				clear: both;
-				width: 120px;
+				width: 150px;
 			}
 
 			html ul.topnav li ul.subnav li a {
 				float: left;
-				width: 95px;
+				width: 195px;
 				/*background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;*/
 				padding-left: 20px;
 			}
 			html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
-				background: #222;
+				background: #6A80A2;
+				color: #eee;
 			}
 }
 
