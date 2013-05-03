@@ -31,6 +31,24 @@ function getFavScribbles($userid, $mysqli)
 	return $result;
 }
 
+function getFriendScribbles($userid, $mysqli)
+{
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `members`.`username`, `scribbles`.`creation` FROM `friends`, `members`, `scribbles` WHERE `friends`.`userid` = %d AND `scribbles`.`userid` = `friends`.`friendid` AND `members`.`id` = `friends`.`friendid` ORDER BY `scribbles`.`creation` DESC LIMIT 0,10 ", $userid );
+	$result = $mysqli->query($sql);
+	return $result;
+}
+
+function areFriends($userid, $friendid, $mysqli)
+{
+	$sql = sprintf("SELECT `relationid`, `userid`, `friendid`, `datetime` FROM `friends` WHERE `userid` = %d AND `friendid` = %d LIMIT 0, 1 ", $userid, $friendid);
+	$result = $mysqli->query($sql);
+	if ($result->num_rows > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 ?>
 <html>
 	<head>
@@ -177,6 +195,65 @@ function getFavScribbles($userid, $mysqli)
 
 			content.appendChild(document.createElement('br'));
 		}
+
+		// Add/Remove Friend
+		function addFriend(friendid) {
+			var xmlhttp;
+
+			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			} else {// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function() {
+				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					//favToggle(scribbleid); 
+					//on success
+					var friends = document.getElementById('addFriend');
+					var parent = document.getElementById('friends');
+					parent.removeChild(friends);
+					var remove = document.createElement('div');
+					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					remove.setAttribute('id', 'removeFriend');
+					remove.setAttribute('onclick', 'removeFriend('+friendid+')');
+					remove.innerHTML = "Remove Friend";
+					parent.appendChild(remove);
+					
+				}
+			}
+			xmlhttp.open("POST",path+"/add_remove_friend.php",true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("friendid="+friendid+"&add=1");
+		}
+
+		function removeFriend(friendid) {
+			var xmlhttp;
+
+			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			} else {// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function() {
+				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					//favToggle(scribbleid);
+					//on success
+					// document.reload();
+					var friends = document.getElementById('removeFriend');
+					var parent = document.getElementById('friends');
+					parent.removeChild(friends);
+					var remove = document.createElement('div');
+					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					remove.setAttribute('id', 'addFriend');
+					remove.setAttribute('onclick', 'addFriend('+friendid+')');
+					remove.innerHTML = "Add Friend";
+					parent.appendChild(remove);
+				}
+			}
+			xmlhttp.open("POST",path+"/add_remove_friend.php",true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("friendid="+friendid+"&remove=1");
+		}
 		</script>
 	</head>
 
@@ -213,7 +290,15 @@ function getFavScribbles($userid, $mysqli)
 				if (isset($viewProfile) && isset($profile)) {
 					$row = findLoginTime($userid, $mysqli);
 					echo $profile."<br>";
-					echo "Last Login: ".$row->fetch_array()[1]."<br>";
+					echo "Last Login: ".$row->fetch_array()[1].'<br><div id="friends">';
+					if (areFriends($_SESSION['user_id'], $userid, $mysqli)) {
+						echo '<br>friends since XXXX<br>';
+						echo '<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					} else {
+						echo '<br>not friends yet<br>';
+						echo '<div id="addFriend" onclick="addFriend('.$userid.');">Add Friend</div>';
+					}
+					echo "</div>";
 				} else { 
 					$row = findLoginTime($_SESSION['user_id'], $mysqli);
 					echo $_SESSION['username']."<br>";
