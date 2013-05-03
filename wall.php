@@ -23,7 +23,8 @@ require_once 'header.php';
 		<script type="text/javascript">
 
 
-		// var scribbles = {};
+		var scribbles = {};
+		var scribbleLayers = {};
 
 		// function addElement(ni) {
 		// 	var numi = document.getElementById('theValue');
@@ -44,10 +45,8 @@ require_once 'header.php';
 		// 	d.removeChild(olddiv);
 		// }
 
-		// function loadScribbles () {
-		// <?php 
+		function loadScribbles () {
 
-		// 		function loadScribbles () {
 		// <?php 
 
 		// 	if (!$loggedIn) {
@@ -60,27 +59,46 @@ require_once 'header.php';
 		// 		echo 'scribbles['.$row[0]."] = '".$row[1]."';";
 		// 	}
 		// ?>
-		// 	var wall = document.getElementById('wall');
-		// 	var row = document.createElement('div');
-		// 	row.setAttribute('class','row');
-		// 	wall.appendChild(row);
-		// 	var temp;
+		// 	// var wall = document.getElementById('wall');
+		// 	// var row = document.createElement('div');
+		// 	// row.setAttribute('class','row');
+		// 	// wall.appendChild(row);
+		// 	// var temp;
 
 		// 	for (var k in scribbles) {
 		// 		// use hasOwnProperty to filter out keys from the Object.prototype
 		// 		if (scribbles.hasOwnProperty(k)) {
-		// 			temp = document.createElement('div');
-		// 			temp.setAttribute('class', 'cell');
-		// 			temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
-		// 			row.appendChild(temp);
+		// 			// temp = document.createElement('div');
+		// 			// temp.setAttribute('class', 'cell');
+		// 			// temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
+		// 			// row.appendChild(temp);
 		// 			//<?php echo '<div class="cell"><a href="'.path.'/view"><img src="ressources/img/template.gif"></a></div>' ?>
 		// 			//alert('key is: ' + k + ', value is: ' + scribbles[k]);
+
+		// 			var graphic = new OpenLayers.Layer.Image(
+		// 			'scribble_'+k+'',
+		// 			''+path+'/'+scribbles[k]+'',
+		// 			new OpenLayers.Bounds(-200, -150, 200, 150),
+		// 			new OpenLayers.Size(400, 300),
+		// 			{numZoomLevels: 3}
+		// 			);
+		// 			var scribbleLayers[k] = graphic;
 		// 		}
 		// 	}
-		// }
 
 
-		function loadMap() {
+
+		// 	graphic.events.on({
+		// 		loadstart: function() {
+		// 			OpenLayers.Console.log("loadstart");
+		// 		},
+		// 		loadend: function() {
+		// 			OpenLayers.Console.log("loadend");
+		// 		}
+		// 	});
+
+
+
 			var points = new OpenLayers.Layer.PointGrid({
 				isBaseLayer: true, dx: 15, dy: 15
 			});
@@ -114,14 +132,15 @@ require_once 'header.php';
 			max.onchange = function() {
 				points.setMaxFeatures(Number(max.value));
 			};
-		}
+
+
+	}
 		</script>
 
 		<title>Scribbit - Wall</title>
 	</head>
 
-	<!-- <body onload="loadScribbles();"> -->
-	<body onload="loadMap();">
+<body onload="loadScribbles();"> 
 			<div id="site">
 				<div id="header">
 					<div id="logo">
