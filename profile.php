@@ -26,7 +26,7 @@ function getOwnScribbles($userid, $mysqli)
 // SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`
 function getFavScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`, `scribbles` WHERE `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `favorites`.`favid`, `favorites`.`userid`, `scribbles`.`creation`, `scribbles`.`path` FROM `favorites`, `scribbles` WHERE `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -155,7 +155,7 @@ function areFriends($userid, $friendid, $mysqli)
 				if (!$loggedIn) {
 					exit();
 				}
-				echo 'var hasFavs = false;';
+				echo 'var hasFavs = false; var hasFriends = false;';
 				if (isset($viewProfile) && isset($profile)) {
 					//$user_id = findUserId($profile, $mysqli);
 					$result = getOwnScribbles($userid, $mysqli);
@@ -168,29 +168,48 @@ function areFriends($userid, $friendid, $mysqli)
 				}
 				if (isset($viewProfile) && $viewProfile) {
 					// friend or stranger are looking
-					if ($isFriend) {
+					if (areFriends($profile, $_SESSION['user_id'], $mysqli)) {
 
 					}
 				} else {
 					$userid = $_SESSION['user_id'];
 					// the user itself is looking
-					$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`creation`, `scribbles`.`path`, `members`.`username` FROM `favorites`, `scribbles`, `members` WHERE `members`.`id` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` AND `members`.`id` = `favorites`.`userid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10", $userid);
-					$result = $mysqli->query($sql);
+					$result = getFavScribbles($userid, $mysqli);
 					while ($row = $result->fetch_array()) {
-						echo 'favPath['.$row[0]."] = '".$row[2]."';";
-						echo 'favDates['.$row[0]."] = '".($row[1])."';";
+						echo 'favPath['.$row[0]."] = '".$row[4]."';";
+						echo 'favDates['.$row[0]."] = '".($row[3])."';";
 
 					}
 					echo 'hasFavs = true;';
+				}
+				if (isset($viewProfile) && $viewProfile) {
+					// friend or stranger are looking
+					if (areFriends($profile, $_SESSION['user_id'], $mysqli)) {
+
+					}
+				} else {
+					$userid = $_SESSION['user_id'];
+					// the user itself is looking
+					//$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`creation`, `scribbles`.`path`, `members`.`username` FROM `favorites`, `scribbles`, `members` WHERE `members`.`id` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` AND `members`.`id` = `favorites`.`userid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10", $userid);
+					$result = getFriendScribbles($userid, $mysqli);
+					while ($row = $result->fetch_array()) {
+						echo 'friendPath['.$row[0]."] = '".$row[1]."';";
+						echo 'friendDates['.$row[0]."] = '".($row[2])."';";
+
+					}
+					echo 'hasFriends = true;';
 				}
 				
 
 			?>
 
 			var content = document.getElementById('content');
-					if (hasFavs) {
-				loadFavs(content);
+			if (hasFriends) {
+				loadFriends(content);
 			}	
+			if (hasFavs) {
+				loadFavs(content);
+			}
 			loadOwn(content);
 
 			content.appendChild(document.createElement('br'));
@@ -284,8 +303,6 @@ function areFriends($userid, $friendid, $mysqli)
 			<div style="float: left; margin-top: 100px;" id="profile">
 				<br>
 				<?php 
-
-
 
 				if (isset($viewProfile) && isset($profile)) {
 					$row = findLoginTime($userid, $mysqli);
