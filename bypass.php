@@ -55,7 +55,6 @@ if (isset($rqst) && $loggedIn) {
 	include ('profile.php');
 	exit();
 } else {
-	header('location: '.path.'/login');
 }
 
 ?>
