@@ -26,11 +26,6 @@ $loginRequired['view']=true;
 
 $folder = $_GET['start'];
 
-$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
-$rqst = $mysqli->query($sql)->fetch_array();
-$name = $rqst[1];
-$userid = $rqst[0];
-
 if (array_key_exists($folder,$pages) 
 	&& array_key_exists($folder,$loginRequired)) {
 
@@ -40,7 +35,14 @@ if (array_key_exists($folder,$pages)
 	} else {
 		header('location: '.path.'/login');
 	}
-} else if (isset($rqst) && $loggedIn) {
+}
+
+$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
+$rqst = $mysqli->query($sql)->fetch_array();
+$name = $rqst[1];
+$userid = $rqst[0];
+
+if (isset($rqst) && $loggedIn) {
 	$isFriend = true;
 
 	if ($userid == $_SESSION['user_id']) {
@@ -52,6 +54,8 @@ if (array_key_exists($folder,$pages)
 	$profile = $name;
 	include ('profile.php');
 	exit();
+} else {
+	header('location: '.path.'/login');
 }
 
 ?>
