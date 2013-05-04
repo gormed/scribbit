@@ -8,7 +8,7 @@ require_once 'header.php';
 // All informations come from the $_SESSION variables, like username and id
 //
 // If a profile of another user is accessed, the username, the userid come also from $_SESSION vars
-// but additionally there come the $userid from the accessed profile page plus the users name in $profile
+// but additionally there come the $friendid from the accessed profile page plus the users name in $profile
 
 // SELECT `userid`, `datetime` FROM `login_time`
 function findLoginTime($userid, $mysqli) {
@@ -186,6 +186,10 @@ function friendsSince($userid, $friendid, $mysqli)
 		function loadScribbles () {
 
 			<?php 
+				$userid = $_SESSION['user_id'];
+				if (!$loggedIn) {
+					exit();
+				}
 
 				function fillFavs ($result) {
 					while ($row = $result->fetch_array()) {
@@ -205,12 +209,9 @@ function friendsSince($userid, $friendid, $mysqli)
 					echo 'hasFriends = true;'.PHP_EOL;
 				}
 
-				if (!$loggedIn) {
-					exit();
-				}
 				echo 'var hasFavs = false; var hasFriends = false;'.PHP_EOL;
 				if (isset($viewProfile) && isset($profile)) {
-					$result = getOwnScribbles($userid, $mysqli);
+					$result = getOwnScribbles($friendid, $mysqli);
 				} else {
 					$result = getOwnScribbles($_SESSION['user_id'], $mysqli);
 				}
@@ -219,22 +220,21 @@ function friendsSince($userid, $friendid, $mysqli)
 					echo 'ownDates['.$row[0]."] = '".($row[3])."';".PHP_EOL;
 				}
 				if (isset($viewProfile) && $viewProfile && 
-					areFriends($_SESSION['user_id'], $userid, $mysqli)) {
+					areFriends($userid, $friendid, $mysqli)) {
 					// friends are looking
-					$result = getFavScribbles($userid, $mysqli);
+					$result = getFavScribbles($friendid, $mysqli);
 					fillFavs($result);
 				} else {
-					$userid = $_SESSION['user_id'];
 					// the user itself is looking
 					$result = getFavScribbles($userid, $mysqli);
 					fillFavs($result);
 				}
-				if (isset($viewProfile) && $viewProfile && areFriends($_SESSION['user_id'], $userid, $mysqli)) {
+				if (isset($viewProfile) && $viewProfile && 
+					areFriends($userid, $friendid, $mysqli)) {
 					// friends are looking
-					$result = getFriendScribbles($userid, $mysqli);
+					$result = getFriendScribbles($friendid, $mysqli);
 					fillFriends($result);
 				} else {
-					$userid = $_SESSION['user_id'];
 					// the user itself is looking
 					$result = getFriendScribbles($userid, $mysqli);
 					fillFriends($result);
@@ -272,7 +272,7 @@ function friendsSince($userid, $friendid, $mysqli)
 					var parent = document.getElementById('friends');
 					parent.removeChild(friends);
 					var remove = document.createElement('div');
-					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					//'<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					remove.setAttribute('id', 'removeFriend');
 					remove.setAttribute('onclick', 'removeFriend('+friendid+')');
 					remove.innerHTML = "Remove Friend";
@@ -302,7 +302,7 @@ function friendsSince($userid, $friendid, $mysqli)
 					var parent = document.getElementById('friends');
 					parent.removeChild(friends);
 					var remove = document.createElement('div');
-					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					//'<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					remove.setAttribute('id', 'addFriend');
 					remove.setAttribute('onclick', 'addFriend('+friendid+')');
 					remove.innerHTML = "Add Friend";
@@ -324,40 +324,26 @@ function friendsSince($userid, $friendid, $mysqli)
 						echo '<a href="'.path.'/"><</a>';
 						?>
 				</div>
-				<div>
-					<ul class="topnav">
-						<li>
-							<span><a href="#">Profile</a></span>
-							<ul class="subnav">
-								<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
-								<li><a href="#">Freunde</a></li>
-								<li><a href="#">Favoriten</a></li>
-								<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
-							</ul>
-						</li>
-						<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
-						<li><?php echo '<span><a href="'.path.'/wall">Wall</a></span>' ?></li>
-					</ul>
-				</div>	
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
 			<div style="float: left; margin-top: 100px;" id="profile">
 				<br>
 				<?php 
 
 				if (isset($viewProfile) && isset($profile)) {
-					$row = findLoginTime($userid, $mysqli);
+					$row = findLoginTime($friendid, $mysqli);
 					echo $profile."<br>";
 					echo "Last Login: ".$row->fetch_array()[1].'<br><div id="friends">';
-					if (areFriends($_SESSION['user_id'], $userid, $mysqli)) {
-						echo '<br>friends since '.friendsSince($_SESSION['user_id'], $userid, $mysqli).'<br><br>';
-						echo '<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					if (areFriends($_SESSION['user_id'], $friendid, $mysqli)) {
+						echo '<br>friends since '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
+						echo '<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					} else {
 						echo '<br>not friends yet<br><br>';
-						echo '<div id="addFriend" onclick="addFriend('.$userid.');">Add Friend</div>';
+						echo '<div id="addFriend" onclick="addFriend('.$friendid.');">Add Friend</div>';
 					}
 					echo "</div>";
 				} else { 
-					$row = findLoginTime($_SESSION['user_id'], $mysqli);
+					$row = findLoginTime($userid, $mysqli);
 					echo $_SESSION['username']."<br>";
 					echo "Last Login: ".$row->fetch_array()[1]."<br>";
 				}

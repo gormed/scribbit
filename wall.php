@@ -129,36 +129,8 @@ require_once 'header.php';
 						echo '<a href="'.path.'/"><</a>';
 						?>
 					</div>
-					<div>
-							<ul class="topnav">
-								<li>
-									<span><a href="#">Profile</a></span>
-									<ul class="subnav">
-										<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
-										<li><a href="#">Freunde</a></li>
-										<li><a href="#">Favoriten</a></li>
-										<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
-									</ul>
-								</li>
-								<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
-								<li><?php echo '<span><a href="'.path.'/wall">Wall</a></span>' ?></li>
-							</ul>
-						</div>	
-					<div class="searchbar" >
-						<ul>
-							<li><input class="searchtext" type="text" name="searchtext"/></li>
-							<br>
-							<br>
-							<li><input name="filter" type="checkbox" value="favorits"/>Favorits&nbsp;</li>
-							<li><input name="filter" type="checkbox" value="friends">Friends&nbsp;</li>		
-							<li><input name="filter" type="checkbox" value="my"/>Own&nbsp;</li>	
-							<li><select name="timefilter">
-								<option value="all">all Time</option> 
-								<option value="h24">last 24 h</option> 
-								<option value="d7">last 7 days</option>
-							</select></li>
-						</ul>
-					</div>
+					<?php include docroot.'/'.path.'/topnav.php'; ?>
+					<?php include docroot.'/'.path.'/searchbar.php'; ?>
 				</div>
 				<div id="content">
 					<div id="map" class="smallmap"></div>
