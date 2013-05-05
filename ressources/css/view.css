@@ -77,4 +77,128 @@ div#from{
 	/*box-shadow: 5px;*/
 }
 
+canvas#canvas {
+	width: 500px;
+	height: 300px;
+	border: 1px solid;
+	border-color: #333;
+	background-color: #fff;
+}
 
+div#showcomments {
+	height: 40px;
+	width: 100%;
+	text-align: center;
+	background-color: #FFFAA0;
+}
+
+div#comments {
+	float: left;
+	margin-top: 2em;
+	text-align: center;
+	margin-left: 31%;
+}
+
+div#submitcomment {
+	width: 30%;
+	padding: 6px;
+	background-color: #5BFF85;
+	text-align: center;
+	float: left;
+	margin-left: 35%;
+	margin-right: 35%;
+	margin-bottom: 1em;
+}
+
+div#makecomment {
+
+}
+
+div#commentlist {
+
+}
+
+div#usercomment {
+
+}
+
+.item{
+	float:left;
+	margin-left:10px;
+	margin-top:10px;
+	background:white;
+	width: 500px;
+	height:300px;
+}
+
+.initem{
+	background: transparent;
+	color:transparent;
+	margin-top: 245px;
+	width: 500px;
+	height: 50px;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+.initem a:link{
+	text-decoration: none;
+	color:#385a8f;
+}
+
+.initem a:visited{
+
+	color:#385a8f;
+}
+
+.initem:hover a:visited {
+	font-weight: bold; 
+	color:white;
+}
+
+.initem a:hover{
+	font-weight: bold; 
+	color:white;
+}
+
+.initem:hover{
+	width: 500px;
+	height:50px;
+	background-color: #385a8f;
+	color: white;
+	word-spacing: 30px;
+	font-size: 1.2em;
+
+}
+
+.visible, .hidden {
+  overflow: hidden;
+  /* This container should not have padding, borders, etc. */
+}
+.visible {
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	-o-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+.hidden {
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	-moz-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	-o-transition: visibility 0s 0.2s, opacity 0.2s linear;
+	transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
+.visible > div, .hidden > div {
+  /* Put any padding, border, min-height, etc. here. */
+
+}
+.hidden > div {
+	margin-top: -10000px;
+	-webkit-transition: margin-top 0s 0.2s;
+	-moz-transition: margin-top 0s 0.2s;
+	-o-transition: margin-top 0s 0.2s;
+	transition: margin-top 0s 0.2s;
+}
