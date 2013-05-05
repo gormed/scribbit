@@ -25,7 +25,7 @@ function findUserId($username, $mysqli) {
 // SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles`
 function getOwnScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` ASC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` DESC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -33,14 +33,14 @@ function getOwnScribbles($userid, $mysqli)
 // SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`
 function getFavScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `favorites`.`favid`, `members`.`username`, `scribbles`.`creation`, `scribbles`.`path` FROM `favorites`, `scribbles`, `members` WHERE `scribbles`.`userid` = `members`.`id` AND `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` ASC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `favorites`.`favid`, `members`.`username`, `scribbles`.`creation`, `scribbles`.`path` FROM `favorites`, `scribbles`, `members` WHERE `scribbles`.`userid` = `members`.`id` AND `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
 
 function getFriendScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `members`.`username`, `scribbles`.`creation` FROM `friends`, `members`, `scribbles` WHERE `friends`.`userid` = %d AND `scribbles`.`userid` = `friends`.`friendid` AND `members`.`id` = `friends`.`friendid` ORDER BY `scribbles`.`creation` ASC LIMIT 0,10 ", $userid );
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `members`.`username`, `scribbles`.`creation` FROM `friends`, `members`, `scribbles` WHERE `friends`.`userid` = %d AND `scribbles`.`userid` = `friends`.`friendid` AND `members`.`id` = `friends`.`friendid` ORDER BY `scribbles`.`creation` DESC LIMIT 0,10 ", $userid );
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -210,7 +210,7 @@ function friendsSince($userid, $friendid, $mysqli)
 				}
 
 				echo 'var hasFavs = false; var hasFriends = false;'.PHP_EOL;
-				if (isset($viewProfile) && isset($profile)) {
+				if (isset($viewProfile)) {
 					$result = getOwnScribbles($friendid, $mysqli);
 				} else {
 					$result = getOwnScribbles($_SESSION['user_id'], $mysqli);
@@ -224,7 +224,7 @@ function friendsSince($userid, $friendid, $mysqli)
 					// friends are looking
 					$result = getFavScribbles($friendid, $mysqli);
 					fillFavs($result);
-				} else {
+				} else if (!isset($viewProfile)) {
 					// the user itself is looking
 					$result = getFavScribbles($userid, $mysqli);
 					fillFavs($result);
@@ -234,7 +234,7 @@ function friendsSince($userid, $friendid, $mysqli)
 					// friends are looking
 					$result = getFriendScribbles($friendid, $mysqli);
 					fillFriends($result);
-				} else {
+				} else if (!isset($viewProfile)) {
 					// the user itself is looking
 					$result = getFriendScribbles($userid, $mysqli);
 					fillFriends($result);

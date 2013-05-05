@@ -16,6 +16,11 @@
 		border-color: #666;
 	}
 </style>
+
+
+<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
+<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
+<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
 <!-- 
 **************************************************************************
 *    Scribble app using javascript Canvas object with WebTabletPlugin.
@@ -148,6 +153,8 @@
 	//************************************************************************
 	function mousemove(evt)
 	{
+		if (!capturing)
+			return;
 	//console.log("MOUSE:MOVE");
 
 		// Non-IE browsers will use evt
@@ -166,7 +173,7 @@
 		}
 		else
 		{
-			pressure = 1.0;
+			pressure = 0.25;
 			isEraser = false;
 		}
 

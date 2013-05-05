@@ -64,7 +64,7 @@ require_once 'header.php';
 				if (!$loggedIn) {
 					exit();
 				}
-				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` ASC LIMIT 0, 40 ";
+				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` DESC LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
 					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
@@ -85,7 +85,6 @@ require_once 'header.php';
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
 					$favcount = $mysqli->query($sql);
 					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";";
-					// echo 'userids['.$row[0]."] = '".$user[0]."';"; 
 				}
 			?>
 
@@ -94,34 +93,38 @@ require_once 'header.php';
 			var element;
 			var temp;
 			var img;
+			var link;
 
 			for (var k in scribbles) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (scribbles.hasOwnProperty(k)) {
+					link = document.createElement('a');
+					link.setAttribute('href', path+'/scribbles/'+k);
 
 					element = document.createElement('div');
 					element.setAttribute('class','item');
 					element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
-					gallery.appendChild(element);
+					link.appendChild(element);
+
 
 					temp = document.createElement('div');
 					temp.setAttribute('class', 'initem');
 					temp.setAttribute('id', 'div_'+k);
 					var fav; 
 					if (favorites[k]) {
-						fav = '<img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
+						fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');"></a>';
 					} else {
-						fav = '<img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
+						fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');"></a>';
 					}
 					temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
 					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
+					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
 					+fav+'<span id="count_'+k+'">'+favCount[k]+'</span></span>';
 
 					element.appendChild(temp);
+					gallery.appendChild(link);
 				}
 			}
-
 			gallery.appendChild(document.createElement('br'));
 			gallery.appendChild(document.createElement('br'));
 		}
