@@ -3,6 +3,13 @@
 <?php 
 require_once 'header.php';
 
+// INPUT
+// If accessing directly the profile page there is no input to the page.
+// All informations come from the $_SESSION variables, like username and id
+//
+// If a profile of another user is accessed, the username, the userid come also from $_SESSION vars
+// but additionally there come the $friendid from the accessed profile page plus the users name in $profile
+
 // SELECT `userid`, `datetime` FROM `login_time`
 function findLoginTime($userid, $mysqli) {
 	$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 1 ", $userid);
@@ -18,7 +25,7 @@ function findUserId($username, $mysqli) {
 // SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles`
 function getOwnScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` DESC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` WHERE (`userid` = %d) ORDER BY `scribbles`.`creation` ASC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -26,14 +33,14 @@ function getOwnScribbles($userid, $mysqli)
 // SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`
 function getFavScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `favid`, `userid`, `scribbleid`, `scribbles`.`datetime`, `path` FROM `favorites`, `scribbles` WHERE `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10 ", $userid);
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `favorites`.`favid`, `members`.`username`, `scribbles`.`creation`, `scribbles`.`path` FROM `favorites`, `scribbles`, `members` WHERE `scribbles`.`userid` = `members`.`id` AND `favorites`.`userid` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` ORDER BY `favorites`.`datetime` ASC LIMIT 0, 10 ", $userid);
 	$result = $mysqli->query($sql);
 	return $result;
 }
 
 function getFriendScribbles($userid, $mysqli)
 {
-	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `members`.`username`, `scribbles`.`creation` FROM `friends`, `members`, `scribbles` WHERE `friends`.`userid` = %d AND `scribbles`.`userid` = `friends`.`friendid` AND `members`.`id` = `friends`.`friendid` ORDER BY `scribbles`.`creation` DESC LIMIT 0,10 ", $userid );
+	$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `members`.`username`, `scribbles`.`creation` FROM `friends`, `members`, `scribbles` WHERE `friends`.`userid` = %d AND `scribbles`.`userid` = `friends`.`friendid` AND `members`.`id` = `friends`.`friendid` ORDER BY `scribbles`.`creation` ASC LIMIT 0,10 ", $userid );
 	$result = $mysqli->query($sql);
 	return $result;
 }
@@ -47,6 +54,16 @@ function areFriends($userid, $friendid, $mysqli)
 	} else {
 		return false;
 	}
+}
+
+function friendsSince($userid, $friendid, $mysqli)
+{
+	$sql = sprintf("SELECT `friends`.`datetime` FROM `friends` WHERE `friends`.`userid` = %d AND `friends`.`friendid` = %d LIMIT 0, 1", $userid, $friendid);
+	$result = $mysqli->query($sql);
+	if ($result->num_rows > 0) {
+		return $result->fetch_array()[0];
+	}
+	return "ERROR";
 }
 
 ?>
@@ -67,14 +84,36 @@ function areFriends($userid, $friendid, $mysqli)
 		var ownDates = {};
 		var favPath = {};
 		var favDates = {};
+		var favNames = {};
 		var friendPath = {};
 		var friendDates = {};
+		var friendNames = {};
 
 		<?php 
-		echo "var userid = ".$_SESSION['user_id'].";"; 
-		echo "var path = '".path."';"; 
-		echo "var root = '".root."';"; 
+		echo "var userid = ".$_SESSION['user_id'].";".PHP_EOL; 
+		echo "var path = '".path."';".PHP_EOL; 
+		echo "var root = '".root."';".PHP_EOL; 
 		?>
+
+		function loadSingleItem (id, username, date, imgpath) {
+		
+			var profitem = document.createElement('div');
+			profitem.setAttribute('class','profitem');
+			profitem.setAttribute('style', 'background-image: url(' + root+imgpath + '); background-size: 100% 100%;');
+
+
+			var temp = document.createElement('div');
+			temp.setAttribute('class', 'initem');
+			temp.setAttribute('id', 'div_'+id);
+			temp.innerHTML = '<span><a href="'+path+'/'+username+'">'+ username +'</a> '+'</span>'+
+			'<br><span style="font-size: 0.6em">'+date+'</span>'+
+			'<span style="float:right"><a href="'+path+'/scribbles/'+id+
+			'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
+			+'</span>';
+
+			profitem.appendChild(temp);
+			return profitem;
+		}
 
 		function loadFavs (content) {
 			content.appendChild(document.createElement('br'));
@@ -91,9 +130,9 @@ function areFriends($userid, $friendid, $mysqli)
 			for (var k in favPath) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (favPath.hasOwnProperty(k)) {
-					profitem = document.createElement('div');
-					profitem.setAttribute('class','profitem');
-					profitem.setAttribute('style', 'background-image: url(' + root+favPath[k] + '); background-size: 100% 100%;');
+
+					profitem = loadSingleItem(k, favNames[k], favDates[k], favPath[k]);
+
 					holder.appendChild(profitem);
 				}
 			}
@@ -116,9 +155,7 @@ function areFriends($userid, $friendid, $mysqli)
 			for (var k in ownPath) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (ownPath.hasOwnProperty(k)) {
-					profitem = document.createElement('div');
-					profitem.setAttribute('class','profitem');
-					profitem.setAttribute('style', 'background-image: url(' + root+ownPath[k] + '); background-size: 100% 100%;');
+					profitem = loadSingleItem(k, '', ownDates[k], ownPath[k]);
 					holder.appendChild(profitem);
 				}
 			}
@@ -140,9 +177,7 @@ function areFriends($userid, $friendid, $mysqli)
 			for (var k in friendPath) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (friendPath.hasOwnProperty(k)) {
-					profitem = document.createElement('div');
-					profitem.setAttribute('class','profitem');
-					profitem.setAttribute('style', 'background-image: url(' + root+friendPath[k] + '); background-size: 100% 100%;');
+					profitem = loadSingleItem(k, friendNames[k], friendDates[k], friendPath[k]);
 					holder.appendChild(profitem);
 				}
 			}
@@ -151,46 +186,70 @@ function areFriends($userid, $friendid, $mysqli)
 		function loadScribbles () {
 
 			<?php 
-
+				$userid = $_SESSION['user_id'];
 				if (!$loggedIn) {
 					exit();
 				}
-				echo 'var hasFavs = false;';
+
+				function fillFavs ($result) {
+					while ($row = $result->fetch_array()) {
+						echo 'favPath['.$row[0]."] = '".$row[4]."';";
+						echo 'favDates['.$row[0]."] = '".($row[3])."';";
+						echo 'favNames['.$row[0]."] = '".$row[2]."';".PHP_EOL;
+					}
+					echo 'hasFavs = true;'.PHP_EOL;
+				}
+
+				function fillFriends ($result) {
+					while ($row = $result->fetch_array()) {
+						echo 'friendPath['.$row[0]."] = '".$row[1]."';";
+						echo 'friendDates['.$row[0]."] = '".($row[3])."';";
+						echo 'friendNames['.$row[0]."] = '".($row[2])."';".PHP_EOL;
+					}
+					echo 'hasFriends = true;'.PHP_EOL;
+				}
+
+				echo 'var hasFavs = false; var hasFriends = false;'.PHP_EOL;
 				if (isset($viewProfile) && isset($profile)) {
-					//$user_id = findUserId($profile, $mysqli);
-					$result = getOwnScribbles($userid, $mysqli);
+					$result = getOwnScribbles($friendid, $mysqli);
 				} else {
 					$result = getOwnScribbles($_SESSION['user_id'], $mysqli);
 				}
 				while ($row = $result->fetch_array()) {
 					echo 'ownPath['.$row[0]."] = '".$row[1]."';";
-					echo 'ownDates['.$row[0]."] = '".($row[3])."';";
+					echo 'ownDates['.$row[0]."] = '".($row[3])."';".PHP_EOL;
 				}
-				if (isset($viewProfile) && $viewProfile) {
-					// friend or stranger are looking
-					if ($isFriend) {
-
-					}
+				if (isset($viewProfile) && $viewProfile && 
+					areFriends($userid, $friendid, $mysqli)) {
+					// friends are looking
+					$result = getFavScribbles($friendid, $mysqli);
+					fillFavs($result);
 				} else {
-					$userid = $_SESSION['user_id'];
 					// the user itself is looking
-					$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`creation`, `scribbles`.`path`, `members`.`username` FROM `favorites`, `scribbles`, `members` WHERE `members`.`id` = %d AND `scribbles`.`scribbleid` = `favorites`.`scribbleid` AND `members`.`id` = `favorites`.`userid` ORDER BY `favorites`.`datetime` DESC LIMIT 0, 10", $userid);
-					$result = $mysqli->query($sql);
-					while ($row = $result->fetch_array()) {
-						echo 'favPath['.$row[0]."] = '".$row[2]."';";
-						echo 'favDates['.$row[0]."] = '".($row[1])."';";
-
-					}
-					echo 'hasFavs = true;';
+					$result = getFavScribbles($userid, $mysqli);
+					fillFavs($result);
+				}
+				if (isset($viewProfile) && $viewProfile && 
+					areFriends($userid, $friendid, $mysqli)) {
+					// friends are looking
+					$result = getFriendScribbles($friendid, $mysqli);
+					fillFriends($result);
+				} else {
+					// the user itself is looking
+					$result = getFriendScribbles($userid, $mysqli);
+					fillFriends($result);
 				}
 				
 
 			?>
 
 			var content = document.getElementById('content');
-					if (hasFavs) {
-				loadFavs(content);
+			if (hasFriends) {
+				loadFriends(content);
 			}	
+			if (hasFavs) {
+				loadFavs(content);
+			}
 			loadOwn(content);
 
 			content.appendChild(document.createElement('br'));
@@ -213,7 +272,7 @@ function areFriends($userid, $friendid, $mysqli)
 					var parent = document.getElementById('friends');
 					parent.removeChild(friends);
 					var remove = document.createElement('div');
-					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					//'<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					remove.setAttribute('id', 'removeFriend');
 					remove.setAttribute('onclick', 'removeFriend('+friendid+')');
 					remove.innerHTML = "Remove Friend";
@@ -243,7 +302,7 @@ function areFriends($userid, $friendid, $mysqli)
 					var parent = document.getElementById('friends');
 					parent.removeChild(friends);
 					var remove = document.createElement('div');
-					//'<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					//'<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					remove.setAttribute('id', 'addFriend');
 					remove.setAttribute('onclick', 'addFriend('+friendid+')');
 					remove.innerHTML = "Add Friend";
@@ -265,42 +324,26 @@ function areFriends($userid, $friendid, $mysqli)
 						echo '<a href="'.path.'/"><</a>';
 						?>
 				</div>
-				<div>
-					<ul class="topnav">
-						<li>
-							<span><a href="#">Profile</a></span>
-							<ul class="subnav">
-								<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
-								<li><a href="#">Freunde</a></li>
-								<li><a href="#">Favoriten</a></li>
-								<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
-							</ul>
-						</li>
-						<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
-						<li><?php echo '<span><a href="'.path.'/wall">Wall</a></span>' ?></li>
-					</ul>
-				</div>	
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
 			<div style="float: left; margin-top: 100px;" id="profile">
 				<br>
 				<?php 
 
-
-
 				if (isset($viewProfile) && isset($profile)) {
-					$row = findLoginTime($userid, $mysqli);
+					$row = findLoginTime($friendid, $mysqli);
 					echo $profile."<br>";
 					echo "Last Login: ".$row->fetch_array()[1].'<br><div id="friends">';
-					if (areFriends($_SESSION['user_id'], $userid, $mysqli)) {
-						echo '<br>friends since XXXX<br>';
-						echo '<div id="removeFriend" onclick="removeFriend('.$userid.');">Remove Friend</div>';
+					if (areFriends($_SESSION['user_id'], $friendid, $mysqli)) {
+						echo '<br>friends since '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
+						echo '<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					} else {
-						echo '<br>not friends yet<br>';
-						echo '<div id="addFriend" onclick="addFriend('.$userid.');">Add Friend</div>';
+						echo '<br>not friends yet<br><br>';
+						echo '<div id="addFriend" onclick="addFriend('.$friendid.');">Add Friend</div>';
 					}
 					echo "</div>";
 				} else { 
-					$row = findLoginTime($_SESSION['user_id'], $mysqli);
+					$row = findLoginTime($userid, $mysqli);
 					echo $_SESSION['username']."<br>";
 					echo "Last Login: ".$row->fetch_array()[1]."<br>";
 				}

@@ -12,7 +12,8 @@ $pages['gallery']='gallery.php';
 $pages['profile']='profile.php';
 $pages['scribble']='scribble.php';
 $pages['view']='view.php';
-
+$pages['favorites']='favorites.php';
+$pages['friends']='friends.php';
 
 $loginRequired['login']=false;
 $loginRequired['register']=false;
@@ -23,13 +24,10 @@ $loginRequired['gallery']=true;
 $loginRequired['profile']=true;
 $loginRequired['scribble']=true;
 $loginRequired['view']=true;
+$loginRequired['favorites']=true;
+$loginRequired['friends']=true;
 
 $folder = $_GET['start'];
-
-$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
-$rqst = $mysqli->query($sql)->fetch_array();
-$name = $rqst[1];
-$userid = $rqst[0];
 
 if (array_key_exists($folder,$pages) 
 	&& array_key_exists($folder,$loginRequired)) {
@@ -40,10 +38,17 @@ if (array_key_exists($folder,$pages)
 	} else {
 		header('location: '.path.'/login');
 	}
-} else if (isset($rqst) && $loggedIn) {
+}
+
+$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `username` = '%s' LIMIT 0, 1", $folder);
+$rqst = $mysqli->query($sql)->fetch_array();
+$name = $rqst[1];
+$friendid = $rqst[0];
+
+if (isset($rqst) && $loggedIn) {
 	$isFriend = true;
 
-	if ($userid == $_SESSION['user_id']) {
+	if ($friendid == $_SESSION['user_id']) {
 		header('location:'.path.'/profile');
 		exit();
 	} else {
@@ -52,6 +57,7 @@ if (array_key_exists($folder,$pages)
 	$profile = $name;
 	include ('profile.php');
 	exit();
+} else {
 }
 
 ?>
