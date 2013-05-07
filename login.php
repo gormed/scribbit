@@ -43,7 +43,18 @@ include("process_login.php");
 	}
 
 </style>
-
+<script type="text/javascript">
+	function onEnter(event) {
+		if (event.keyCode == 13) {
+			var email = document.getElementById('email');
+			var pw = document.getElementById('password');
+			if (email.value != "" && pw.value != "") {
+				formhash(document.getElementById('login_form'));
+			}
+		}
+	}
+	document.onkeypress = onEnter;
+</script>
 </head>
 <body>
 	<div id="site">
@@ -53,15 +64,15 @@ include("process_login.php");
 		</div>
 
 		<div align="center">
-			<form action="login" method="post" name="login_form">
+			<form action="login" method="post" name="login_form" id="login_form">
 				<?php
-				echo '<input type="text" value="', $email, '" name="email" style="margin:10px; border-radius: 18px;"/><br>';
+				echo '<input type="text" value="', $email, '" name="email" id="email" style="margin:10px; border-radius: 18px;"/><br>';
 				?>
 				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<?php 
-			echo $message;
+			echo '<br>'.$message;
 			?>
 			<br>
 			<br>			
