@@ -19,220 +19,271 @@ require_once 'header.php';
 		</style>
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
-		<script type="text/javascript" src="ressources/js/OpenLayers.js"></script>
+		<script type="text/javascript" src="ressources/js/jcanvas.min.js"></script>
 		<script type="text/javascript">
 
 
 		var scribbles = {};
-		var scribbleLayers = {};
+		var points={};
+		var canvasCount = 10;
+		var rowCount = 4;
+		// var lastX, curX, lastY, curY;
+
+		<?php 
+
+			if (!$loggedIn) {
+			exit();
+			}
+			else {
+				echo "var path = '".path."';";
+				echo "var root = '".root."';"; 
+
+				$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
+				$result = $mysqli->query($sql);
+				while ($row = $result->fetch_array(MYSQLI_NUM)) {
+					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
+				}
+				// $sql = "SELECT `scribbleid`, `AsText(position)` FROM `map`LIMIT 0, 40  ";
+				// $result = $mysqli->query($sql);
+				// while ($row = $result->fetch_array(MYSQLI_NUM)) {
+				// 	echo 'points['.$row[0]."] = '".$row[1]."';";
+				// }
+			}
+		?>
+
+		function storeCoordinate(scribbleid, xVal, yVal, array) {
+			array[scribbleid]={x: xVal, y: yVal};
+		}
+
+
+this.$OuterDiv = $('<div></div>')
+    .hide()
+    .append($('<table></table>')
+        .attr({ cellSpacing : 0 })
+        .addClass("text")
+    )
+;
 
 
 
 
-	
-			function addElement(ni) {
-				var numi = document.getElementById('theValue');
-				var num = (document.getElementById('theValue').value -1)+ 2;
+		function add(){
+   
+			var row = document.createElement("div");
+			row.setAttribute('class', 'row');
+			row.setAttribute('id', 'row'+rowCount+'');
+			for(var i=0;i<3;i++){
+				var cell = document.createElement("div");
+				cell.setAttribute('class', 'cell');
+				cell.setAttribute('id', 'cell'+canvasCount+'');
 
-				numi.value = num;
-				var newdiv = document.createElement('div');
-				var divIdName = 'wall'+num+'Div';
+				var canvas =document.createElement("canvas");
+				canvas.setAttribute('width','1890');
+				canvas.setAttribute('height','840');
+				canvas.setAttribute('id', 'canvas'+canvasCount+'');
+				cell.appendChild(canvas);
+				row.appendChild(cell);
+				canvasCount++;
+			}
+			document.getElementById("table").appendChild(row);
+		 	$("div.row").insertBefore("#loadPlaceSouth");
+		 	rowCount++;
+		}
 
-				newdiv.setAttribute('id',divIdName);
-				newdiv.innerHTML = 'Element Number '+num+' has been added! <a href=\'#\' onclick=\'removeElement('+divIdName+')\'>Remove the div "'+divIdName+'"</a>';
-				ni.appendChild(newdiv);
-				return newdiv;
+
+		function loadScribbles () {
+			
+			for (var i =0 ; i <= 5; i++){
+							var counter=0;
+				for (var k in scribbles) {
+					counter++;
+					storeCoordinate(k,counter,counter,points);
+					var px = points[k].x;
+					var py = points[k].y;
+					// use hasOwnProperty to filter out keys from the Object.prototype
+					if (scribbles.hasOwnProperty(k)) {
+						$("#canvas5").addLayer({
+							type: "image",
+							source: "" + root+"/"+scribbles[k] + "",
+							x: 210*px-105, y: 140*i+70,
+							width: 210, height: 140
+						})
+						.drawLayers();
+					}
+				}	
 			}
 
-			function removeElement(divNum, d) {
-				var olddiv = document.getElementById(divNum);
-				d.removeChild(olddiv);
-			}
+			
 
-		// function loadScribbles () {
-
-
-
-
-			// for (var k in scribbles) {
-			// 	// use hasOwnProperty to filter out keys from the Object.prototype
-			// 	if (scribbles.hasOwnProperty(k)) {
-			// 		// temp = document.createElement('div');
-			// 		// temp.setAttribute('class', 'cell');
-			// 		// temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
-			// 		// row.appendChild(temp);
-			// 		//<?php echo '<div class="cell"><a href="'.path.'/view"><img src="ressources/img/template.gif"></a></div>' ?>
-			// 		//alert('key is: ' + k + ', value is: ' + scribbles[k]);
-
-			// 		var graphic = new OpenLayers.Layer.Image(
-			// 		'scribble_'+k+'',
-			// 		''+path+'/'+scribbles[k]+'',
-			// 		new OpenLayers.Bounds(-200, -150, 200, 150),
-			// 		new OpenLayers.Size(40, 30),
-			// 		{   numZoomLevels: 3,      
-			// 			isBaseLayer: false,
-			// 			opacity: 0.3,
-			// 			displayOutsideMaxExtent: true
-			// 		 });
-			// 		var scribbleLayers[k] = graphic;
-			// 	}
-			// }
-
-
-
-		//  graphic.events.on({
-		//      loadstart: function() {
-		//          OpenLayers.Console.log("loadstart");
-		//      },
-		//      loadend: function() {
-		//          OpenLayers.Console.log("loadend");
-		//      }
-		//  });
-
-
-			// var points = new OpenLayers.Layer.PointGrid({
-			// 	isBaseLayer: false, dx: 15, dy: 15
-			// });
-
-
-			// var graphic = new OpenLayers.Layer.Image( 
-			// 'City Lights', 
-			// ''+path+'/'+scribbles[1367270694]+'', 
-			// new OpenLayers.Bounds(-200, -150, 200, 150), 
-			// new OpenLayers.Size(40, 30), isBaseLayer: false
-			// ); 
-
-			// var graphic2 = new OpenLayers.Layer.Image( 
-			// 'City Lights2', 
-			// ''+path+'/'+scribbles[1367270694]+'', 
-			// new OpenLayers.Bounds(-100, -150, 200, 150), 
-			// new OpenLayers.Size(400, 300), isBaseLayer: false
-			// ); 
-
-			// for (var k in scribbles) {
-			// 	// use hasOwnProperty to filter out keys from the Object.prototype
-			// 	if (scribbles.hasOwnProperty(k)) {
 					
-					// var graphic = new OpenLayers.Layer.Image(
-					// 'scribble_',
-					// ''+path+'/'+scribbles[1367270694]+'',
-					// new OpenLayers.Bounds(-200, -150, 200, 150),
-					// new OpenLayers.Size(40, 30),
-					// {isBaseLayer: false}
-					// );
-					// scribbleLayers[k] = graphic;
-			// 	}
-			// }		
-			// var layer = new OpenLayers.Layer.TMS("Name", "http://example.com/", { 'type':'png', 'getURL':get_my_url });
-			
-			// var map = new OpenLayers.Map({
-			// 	div: "map",
-			// 	layers: [graphic],
-			// 	center: new OpenLayers.LonLat(0, 0),
-			// 	zoom: 1
-			// });
 
-			// extent = new OpenLayers.Bounds(1197980.141, 8101143.032, 1244615.311, 8198123.317); 
-			// map.zoomToExtent(extent); 
-
-			
+			// // init scroll position
+			// $(window).scrollTop($(window).height()/2);
+			// $(window).scrollLeft($(window).width()/2);
 
 
-			// maxExtent: new OpenLayers.Bounds(-20037508.3427892,-20037508.3427892,20037508.3427892,20037508.3427892), 
-			// numZoomLevels:18, 
-			// maxResolution:156543.0339, 
-			// units:'m', 
-			// projection: "EPSG:900913",
-			// displayProjection: new OpenLayers.Projection("EPSG:4326")
+		}
 
-			// var lonLat = new OpenLayers.LonLat(-100, 40) ;
-			// lonLat.transform(map.displayProjection,map.getProjectionObject());
-			// map.setCenter(lonLat, 5);
- 
+		$(window).scroll(function()
+			{
+				// Scrollbar on Bottom
+				if($(window).scrollTop() == $(document).height() - $(window).height())
+				{
+					// $('div#processbar').show();
+					// $.ajax({
+					// 	type: "POST",
+					// 	url: "ajaxMapTop.php",
+					// 	data: {scribbleid: "BOTTOM"},
+					// 	success: function(html)
+					// 	{
+					// 		if(html)
+					// 		{
+								add();
+
+
+								// $('div#processbar').hide();
+							// }else
+							// {
+							// 	$('div#processbar').html('<center>OUT OF SPACE</center>');
+							// }
+					// 	}
+					// });
+				}
+			});	
+
+
+		function getWindowHeight(){
+			return $(window).height();
+		}
+
+		function getWindowWidth(){
+			return $(window).width();
+		}
+
+
+
+
+			// //************************************************************************
+			// function mousedown(evt)
+			// {
+			// //console.log("MOUSE:DOWN");
+
+			//	// Non-IE browsers will use evt
+			//	var ev = evt || window.event;
+
+			//	var canvas = document.getElementById('canvas');
+			//	canvas.onmousemove=mousemove;
+
+			//	lastX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
+			//	lastY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
+
+			//	capturing = inCanvasBounds(lastX, lastY);
+
+			//	// Register click immediately
+			//	mousemove(evt);
 			// }
-			
-
-	// function get_my_url (bounds) {
-	// 	var res = this.map.getResolution();
-	// 	var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-	// 	var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-	// 	var z = this.map.getZoom();
-
-	// 	<?php
-	// 			$sql = "SELECT `tileid`, `AsText(position)` FROM `map`LIMIT 0, 40  ";
-	// 			$result = $mysqli->query($sql);
-	// 			while ($row = $result->fetch_array(MYSQLI_NUM)) {
-	// 			echo 'points['.$row[0]."] = '".$row[1]."';";
-	// 		}
-	// 	?>
-
-	// 	var path = z + "/" + x + "/" + y + "." + this.type; 
-	// 	var url = this.url;
-	// 	if (url instanceof Array) {
-	// 		url = this.selectUrl(path, url);
-	// 	}
-	// 	return url + path;
-
-	// }
 
 
-function map_init() {
+			// //************************************************************************
+			// // posX and posY are assumed relative to canvas boundaries.
+			// // Returns true if posX and posY are contained within canvas boundaries.
+			// function inCanvasBounds( posX, posY )
+			// {
+			//	var left = 0;
+			// var top = 0;
+			//	var right = canvasSize.width;
+			// var bottom = canvasSize.height;
 
-	<?php 
+			// return ( posX >= left && posX <= right && 
+			//	posY >= top && posY <= bottom);
+			// }
 
-	if (!$loggedIn) {
-	exit();
-	}
-		echo "var path = '".root."';";
-		$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
-		$result = $mysqli->query($sql);
-		while ($row = $result->fetch_array(MYSQLI_NUM)) {
-		echo 'scribbles['.$row[0]."] = '".$row[1]."';";
-	}
-	?>
-	var points = new OpenLayers.Layer.PointGrid({
-		isBaseLayer: true, dx: 15, dy: 15
-	});
-	var graphic = new OpenLayers.Layer.Image(
-									'scribble_',
-									''+path+'/'+scribbles[1367270694]+'',
-									new OpenLayers.Bounds(-20, -15, 20, 15),
-									new OpenLayers.Size(40, 30),
-									{isBaseLayer: false}
-									);
+			// function mousemove(evt) {
 
-	var map = new OpenLayers.Map({
-		div: "map",
-		layers:[points, graphic],
-		center: new OpenLayers.LonLat(0, 0),
-		zoom: 1
-	});
-}
-	
+			//		// Non-IE browsers will use evt
+			//		var ev = evt || window.event;
 
+			//		var penAPI = plugin().penAPI;	
+			//		var canvas = document.getElementById('canvas');
+			//		var pressure = 0.0;
+
+			//		if (penAPI){
+			//			pressure = penAPI.pressure;
+			//		}
+			//		else {
+			//			pressure = 1.0;
+			//		}
+
+			//		//console.log("pressure: " + pressure);
+						
+			//		curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
+			//		curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
+
+			//		capturing = inCanvasBounds(curX, curY);
+
+			//		if (capturing && pressure > 0.0)
+			//		{
+			//			if (canvas.getContext)
+			//			{
+			//				var ctx = canvas.getContext("2d");
+			//				ctx.beginPath();
+			//				ctx.moveTo(lastX, lastY);
+			//				ctx.lineTo(curX, curY);
+			//				ctx.lineWidth = 25.0 * pressure;
+			//				ctx.strokeStyle = "rgba(128, 0, 0, 1.0)";
+			//				$("canvas").translateCanvas({
+			//					translateX: curX, translateY: curY
+			//				})
+			//				// MOVE ON CANVAS !!!
+			//			}
+
+			//			ctx.stroke();
+			//		}
+			//		lastX = curX;
+			//		lastY = curY;
+			// }
 
 		</script>
-
 		<title>Scribbit - Wall</title>
 	</head>
 
-<body onload="map_init()"> 
+<body> 
 			<div id="site">
 				<div id="header">
 					<div id="logo">
 						<?php
 						echo '<a href="'.path.'/"><</a>';
 						?>
+						<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
 					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 					<?php include docroot.'/'.path.'/searchbar.php'; ?>
+				</div>	
+				<div id="clippingMask"  overflow="scroll">		
+
+					<div class="table" id="table">
+						<div id="loadPlaceNorth"></div>
+						<div class="row" id="row1">
+							<div class="cell" id="cell1"><canvas id="canvas1" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell2"><canvas id="canvas2" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell3"><canvas id="canvas3" width="1890" height="840"></canvas></div>
+						</div>
+						<div class="row" id="row2">
+							<div class="cell" id="cell4"><canvas id="canvas4" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell5"><canvas id="canvas5" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell6"><canvas id="canvas6" width="1890" height="840"></canvas></div>
+						</div>
+						<div class="row" id="row3">
+							<div class="cell" id="cell7"><canvas id="canvas7" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell8"><canvas id="canvas8" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell9"><canvas id="canvas9" width="1890" height="840"></canvas></div>
+						</div>
+						<div id="loadPlaceSouth"></div>
+					</div>
+
 				</div>
-				<div id="content">
-					<div id="map" class="smallmap"></div>
-				</div>
-				
 
 			</div>
-				
+
 	</body>
 </html>
