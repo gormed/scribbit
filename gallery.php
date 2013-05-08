@@ -22,6 +22,12 @@ require_once 'header.php';
 		var favorites = {};
 		var favCount = {};
 
+		var canvasPos = {x:0.0, y:0.0};
+		var canvasSize = {width:960, height:640};
+		var lastX = 0.0;
+		var lastY = 0.0;
+		var capturing = false;
+
 		function favToggle(scribbleid) {
 			favorites[scribbleid] = !favorites[scribbleid];
 			if (favorites[scribbleid])

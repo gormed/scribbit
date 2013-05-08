@@ -8,7 +8,7 @@ require_once 'header.php';
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">		
+		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">      
 		<link rel="stylesheet" type="text/css" href="ressources/css/wall.css">
 		<link rel="stylesheet" type="text/css" href="ressources/css/openLayersTheme.css">
 		<style type="text/css">
@@ -19,144 +19,271 @@ require_once 'header.php';
 		</style>
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
-		<script type="text/javascript" src="ressources/js/OpenLayers.js"></script>
+		<script type="text/javascript" src="ressources/js/jcanvas.min.js"></script>
 		<script type="text/javascript">
 
 
 		var scribbles = {};
-		var scribbleLayers = {};
+		var points={};
+		var canvasCount = 10;
+		var rowCount = 4;
+		// var lastX, curX, lastY, curY;
 
-		// function addElement(ni) {
-		// 	var numi = document.getElementById('theValue');
-		// 	var num = (document.getElementById('theValue').value -1)+ 2;
+		<?php 
 
-		// 	numi.value = num;
-		// 	var newdiv = document.createElement('div');
-		// 	var divIdName = 'wall'+num+'Div';
+			if (!$loggedIn) {
+			exit();
+			}
+			else {
+				echo "var path = '".path."';";
+				echo "var root = '".root."';"; 
 
-		// 	newdiv.setAttribute('id',divIdName);
-		// 	newdiv.innerHTML = 'Element Number '+num+' has been added! <a href=\'#\' onclick=\'removeElement('+divIdName+')\'>Remove the div "'+divIdName+'"</a>';
-		// 	ni.appendChild(newdiv);
-		// 	return newdiv;
-		// }
+				$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
+				$result = $mysqli->query($sql);
+				while ($row = $result->fetch_array(MYSQLI_NUM)) {
+					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
+				}
+				// $sql = "SELECT `scribbleid`, `AsText(position)` FROM `map`LIMIT 0, 40  ";
+				// $result = $mysqli->query($sql);
+				// while ($row = $result->fetch_array(MYSQLI_NUM)) {
+				// 	echo 'points['.$row[0]."] = '".$row[1]."';";
+				// }
+			}
+		?>
 
-		// function removeElement(divNum, d) {
-		// 	var olddiv = document.getElementById(divNum);
-		// 	d.removeChild(olddiv);
-		// }
+		function storeCoordinate(scribbleid, xVal, yVal, array) {
+			array[scribbleid]={x: xVal, y: yVal};
+		}
+
+
+this.$OuterDiv = $('<div></div>')
+    .hide()
+    .append($('<table></table>')
+        .attr({ cellSpacing : 0 })
+        .addClass("text")
+    )
+;
+
+
+
+
+		function add(){
+   
+			var row = document.createElement("div");
+			row.setAttribute('class', 'row');
+			row.setAttribute('id', 'row'+rowCount+'');
+			for(var i=0;i<3;i++){
+				var cell = document.createElement("div");
+				cell.setAttribute('class', 'cell');
+				cell.setAttribute('id', 'cell'+canvasCount+'');
+
+				var canvas =document.createElement("canvas");
+				canvas.setAttribute('width','1890');
+				canvas.setAttribute('height','840');
+				canvas.setAttribute('id', 'canvas'+canvasCount+'');
+				cell.appendChild(canvas);
+				row.appendChild(cell);
+				canvasCount++;
+			}
+			document.getElementById("table").appendChild(row);
+		 	$("div.row").insertBefore("#loadPlaceSouth");
+		 	rowCount++;
+		}
+
 
 		function loadScribbles () {
+			
+			for (var i =0 ; i <= 5; i++){
+							var counter=0;
+				for (var k in scribbles) {
+					counter++;
+					storeCoordinate(k,counter,counter,points);
+					var px = points[k].x;
+					var py = points[k].y;
+					// use hasOwnProperty to filter out keys from the Object.prototype
+					if (scribbles.hasOwnProperty(k)) {
+						$("#canvas5").addLayer({
+							type: "image",
+							source: "" + root+"/"+scribbles[k] + "",
+							x: 210*px-105, y: 140*i+70,
+							width: 210, height: 140
+						})
+						.drawLayers();
+					}
+				}	
+			}
 
-		// <?php 
+			
 
-		// 	if (!$loggedIn) {
-		// 		exit();
-		// 	}
-		// 	echo "var path = '".path."';";
-		// 	$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
-		// 	$result = $mysqli->query($sql);
-		// 	while ($row = $result->fetch_array(MYSQLI_NUM)) {
-		// 		echo 'scribbles['.$row[0]."] = '".$row[1]."';";
-		// 	}
-		// ?>
-		// 	// var wall = document.getElementById('wall');
-		// 	// var row = document.createElement('div');
-		// 	// row.setAttribute('class','row');
-		// 	// wall.appendChild(row);
-		// 	// var temp;
+					
 
-		// 	for (var k in scribbles) {
-		// 		// use hasOwnProperty to filter out keys from the Object.prototype
-		// 		if (scribbles.hasOwnProperty(k)) {
-		// 			// temp = document.createElement('div');
-		// 			// temp.setAttribute('class', 'cell');
-		// 			// temp.innerHTML = '<a href="'+path+'/view"><img src="'+path+'/'+scribbles[k]+'"></a><br>';
-		// 			// row.appendChild(temp);
-		// 			//<?php echo '<div class="cell"><a href="'.path.'/view"><img src="ressources/img/template.gif"></a></div>' ?>
-		// 			//alert('key is: ' + k + ', value is: ' + scribbles[k]);
-
-		// 			var graphic = new OpenLayers.Layer.Image(
-		// 			'scribble_'+k+'',
-		// 			''+path+'/'+scribbles[k]+'',
-		// 			new OpenLayers.Bounds(-200, -150, 200, 150),
-		// 			new OpenLayers.Size(400, 300),
-		// 			{numZoomLevels: 3}
-		// 			);
-		// 			var scribbleLayers[k] = graphic;
-		// 		}
-		// 	}
+			// // init scroll position
+			// $(window).scrollTop($(window).height()/2);
+			// $(window).scrollLeft($(window).width()/2);
 
 
+		}
 
-		// 	graphic.events.on({
-		// 		loadstart: function() {
-		// 			OpenLayers.Console.log("loadstart");
-		// 		},
-		// 		loadend: function() {
-		// 			OpenLayers.Console.log("loadend");
-		// 		}
-		// 	});
-
-
-
-			var points = new OpenLayers.Layer.PointGrid({
-				isBaseLayer: true, dx: 15, dy: 15
-			});
-
-			var map = new OpenLayers.Map({
-				div: "map",
-				layers: [points],
-				center: new OpenLayers.LonLat(0, 0),
-				zoom: 2
-			});
-
-			var rotation = document.getElementById("rotation");
-			rotation.value = String(points.rotation);
-			rotation.onchange = function() {
-				points.setRotation(Number(rotation.value));
-			};
-
-			var dx = document.getElementById("dx");
-			var dy = document.getElementById("dy");
-			dx.value = String(points.dx);
-			dy.value = String(points.dy);
-			dx.onchange = function() {
-				points.setSpacing(Number(dx.value), Number(dy.value));
-			};
-			dy.onchange = function() {
-				points.setSpacing(Number(dx.value), Number(dy.value));
-			};
-
-			var max = document.getElementById("max");
-			max.value = String(points.maxFeatures);
-			max.onchange = function() {
-				points.setMaxFeatures(Number(max.value));
-			};
+		$(window).scroll(function()
+			{
+				// Scrollbar on Bottom
+				if($(window).scrollTop() == $(document).height() - $(window).height())
+				{
+					// $('div#processbar').show();
+					// $.ajax({
+					// 	type: "POST",
+					// 	url: "ajaxMapTop.php",
+					// 	data: {scribbleid: "BOTTOM"},
+					// 	success: function(html)
+					// 	{
+					// 		if(html)
+					// 		{
+								add();
 
 
-	}
+								// $('div#processbar').hide();
+							// }else
+							// {
+							// 	$('div#processbar').html('<center>OUT OF SPACE</center>');
+							// }
+					// 	}
+					// });
+				}
+			});	
+
+
+		function getWindowHeight(){
+			return $(window).height();
+		}
+
+		function getWindowWidth(){
+			return $(window).width();
+		}
+
+
+
+
+			// //************************************************************************
+			// function mousedown(evt)
+			// {
+			// //console.log("MOUSE:DOWN");
+
+			//	// Non-IE browsers will use evt
+			//	var ev = evt || window.event;
+
+			//	var canvas = document.getElementById('canvas');
+			//	canvas.onmousemove=mousemove;
+
+			//	lastX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
+			//	lastY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
+
+			//	capturing = inCanvasBounds(lastX, lastY);
+
+			//	// Register click immediately
+			//	mousemove(evt);
+			// }
+
+
+			// //************************************************************************
+			// // posX and posY are assumed relative to canvas boundaries.
+			// // Returns true if posX and posY are contained within canvas boundaries.
+			// function inCanvasBounds( posX, posY )
+			// {
+			//	var left = 0;
+			// var top = 0;
+			//	var right = canvasSize.width;
+			// var bottom = canvasSize.height;
+
+			// return ( posX >= left && posX <= right && 
+			//	posY >= top && posY <= bottom);
+			// }
+
+			// function mousemove(evt) {
+
+			//		// Non-IE browsers will use evt
+			//		var ev = evt || window.event;
+
+			//		var penAPI = plugin().penAPI;	
+			//		var canvas = document.getElementById('canvas');
+			//		var pressure = 0.0;
+
+			//		if (penAPI){
+			//			pressure = penAPI.pressure;
+			//		}
+			//		else {
+			//			pressure = 1.0;
+			//		}
+
+			//		//console.log("pressure: " + pressure);
+						
+			//		curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
+			//		curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
+
+			//		capturing = inCanvasBounds(curX, curY);
+
+			//		if (capturing && pressure > 0.0)
+			//		{
+			//			if (canvas.getContext)
+			//			{
+			//				var ctx = canvas.getContext("2d");
+			//				ctx.beginPath();
+			//				ctx.moveTo(lastX, lastY);
+			//				ctx.lineTo(curX, curY);
+			//				ctx.lineWidth = 25.0 * pressure;
+			//				ctx.strokeStyle = "rgba(128, 0, 0, 1.0)";
+			//				$("canvas").translateCanvas({
+			//					translateX: curX, translateY: curY
+			//				})
+			//				// MOVE ON CANVAS !!!
+			//			}
+
+			//			ctx.stroke();
+			//		}
+			//		lastX = curX;
+			//		lastY = curY;
+			// }
+
 		</script>
-
 		<title>Scribbit - Wall</title>
 	</head>
 
-<body onload="loadScribbles();"> 
+<body> 
 			<div id="site">
 				<div id="header">
 					<div id="logo">
 						<?php
 						echo '<a href="'.path.'/"><</a>';
 						?>
+						<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
 					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 					<?php include docroot.'/'.path.'/searchbar.php'; ?>
+				</div>	
+				<div id="clippingMask"  overflow="scroll">		
+
+					<div class="table" id="table">
+						<div id="loadPlaceNorth"></div>
+						<div class="row" id="row1">
+							<div class="cell" id="cell1"><canvas id="canvas1" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell2"><canvas id="canvas2" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell3"><canvas id="canvas3" width="1890" height="840"></canvas></div>
+						</div>
+						<div class="row" id="row2">
+							<div class="cell" id="cell4"><canvas id="canvas4" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell5"><canvas id="canvas5" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell6"><canvas id="canvas6" width="1890" height="840"></canvas></div>
+						</div>
+						<div class="row" id="row3">
+							<div class="cell" id="cell7"><canvas id="canvas7" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell8"><canvas id="canvas8" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell9"><canvas id="canvas9" width="1890" height="840"></canvas></div>
+						</div>
+						<div id="loadPlaceSouth"></div>
+					</div>
+
 				</div>
-				<div id="content">
-					<div id="map" class="smallmap"></div>
-				</div>
-				
 
 			</div>
-				
+
 	</body>
 </html>

@@ -7,7 +7,7 @@ div#content {
 	float:right;
 	width: 98%;
 	margin-top: 100px;
-	background-color: #ffffff;
+	background-color: transparent;
 	margin-left: 1%;
 	margin-right: 1%;
 	
@@ -47,10 +47,39 @@ div#content {
 
 .row {
 	width:100%;
-	height:100px;
 	display: table-row;
 	text-align: center;
 
+}
+
+.paint {
+	padding: 5px;
+	background-color: #7600C9;
+}
+
+.topneightbour {
+	width: 100%;
+	height: 100px;
+	background-position: bottom;
+	background-size: 100% 500%;
+}
+.rightneightbour {
+	width: 100px;
+	height: 100%;
+	background-position: left;
+	background-size: 500% 100%;
+}
+.bottomneightbour {
+	width: 100%;
+	height: 100px;
+	background-position: top;
+	background-size: 100% 500%;
+}
+.leftneightbour {
+	width: 100px;
+	height: 100%;
+	background-position: right;
+	background-size: 100% 500%;
 }
 
 .image {
@@ -58,6 +87,7 @@ div#content {
 	display: table-cell;
 	/*border: 1px solid black;*/
 	text-align: center;
+	background-color: white;
 	vertical-align: top;
 	width:800px; height:500px;
 	background-size: 100% 100%;
@@ -72,7 +102,7 @@ div#content {
 }
 
 div#from{
-	background-color: transparent;
+	background-color: white;
 	margin: 10px;
 	box-shadow: 0px 1px 6px #444;
 	vertical-align: top;
@@ -82,11 +112,11 @@ div#from{
 div#showcomments {
 	width: 60%;
 	text-align: center;
-	margin-top: 1em;
+
+	margin-top: 0px;
 	margin-left: 20%;
 	margin-right: 20%;
-	padding: 0.5em;
-	background-color: #FFFAA0;
+	margin-bottom: 5px;
 }
 
 a:link {
@@ -106,7 +136,6 @@ a:hover {
 
 div#comments {
 	width: 100%;
-	background-color: #FFFAA0;
 }
 
 canvas#canvas {
@@ -115,7 +144,7 @@ canvas#canvas {
 	box-shadow: 0px 0px 9px #444;
 /*	border: 1px solid;
 	border-color: #333;*/
-	background-color: #fff;
+	background-color: white;
 	position: relative;
 	top: 75px;
 	left: 60px;
@@ -124,6 +153,11 @@ canvas#canvas {
 div#canvasholder {
 	float: left;
 	width: 100%;
+}
+
+hr#bar {
+	background-color: transparent;
+	box-shadow: 0px 0px 5px #114;
 }
 
 div#submitcomment {
