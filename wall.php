@@ -24,7 +24,7 @@ require_once 'header.php';
 
 
 		var scribbles = {};
-		var points={};
+		var points=new Object();
 		var canvasCount = 10;
 		var rowCount = 4;
 		var canvasPos ={};
@@ -56,7 +56,7 @@ require_once 'header.php';
 
 		function init() {
 
-			storeCoordinate(0, 0, 0, points);
+			storeCoordinate(0, 1, 0, points);
 			storeCoordinate(1, 1, 0, points);
 			storeCoordinate(2, 0, 1, points);
 			storeCoordinate(3, 10, 10, points);
@@ -66,15 +66,17 @@ require_once 'header.php';
 			storeCoordinate(7, -20, 20, points);
 			storeCoordinate(8, 2, 2, points);
 			storeCoordinate(9, -2, -2, points);
-
-
+			for(var i =10;i<=21;i++){
+					storeCoordinate(i, 0, 0, points);
+			}
 			
 			for (var y=-1; y<=1; y++){
-				for (var x=-1; x<=0; x++){
-					storeCoordinate(""+x+""+y+"", x, y, canvasPos);
+				for (var x=-1; x<=1; x++){
+					storeCoordinate(x+""+y, x, y, canvasPos);
+					
 				}
 			}
-
+console.log(canvasPos);
 				loadScribbles();
 
 		}
@@ -88,7 +90,7 @@ require_once 'header.php';
 
 		function loadScribbles () {
 
-var count=0;
+			var count=0;
 			for (var k in scribbles) {
 				var canvasCheck = checkCanvas(count);
 				// use hasOwnProperty to filter out keys from the Object.prototype
@@ -102,8 +104,10 @@ var count=0;
 						width: 210, height: 140
 					})
 					.drawLayers();
+					
 				}
 				count++;
+
 			}	
 			
 		}
@@ -116,19 +120,26 @@ var count=0;
 					
 					//North East
 					if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
+												
 						return id;
+						break;
 					}
 					//North West
 					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
 						return id;
+						console.log(id);
+						break;
+
 					}
 					//South West
 					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
 						return id;
+						break;
 					}
 					//South East
 					else if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
 						return id;
+						break;
 					}
 
 
