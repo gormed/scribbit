@@ -174,7 +174,7 @@
 						<div class="cell"></div>
 					</div>
 				</div>
-				<a href="#comments" id="commentslink"><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
+				<a href="#comments" id="commentslink"><hr width=90%><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
 				<div id="comments" class="hidden">
 					<!-- 
 					***************************************************************** 

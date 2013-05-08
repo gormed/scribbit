@@ -82,11 +82,12 @@ div#from{
 div#showcomments {
 	width: 60%;
 	text-align: center;
-	margin-top: 1em;
+
+	margin-top: -5px;
 	margin-left: 20%;
 	margin-right: 20%;
-	padding: 0.5em;
-	background-color: #FFFAA0;
+	margin-bottom: 5px;
+	background-color: white;
 }
 
 a:link {
@@ -106,7 +107,7 @@ a:hover {
 
 div#comments {
 	width: 100%;
-	background-color: #FFFAA0;
+	background-color: white;
 }
 
 canvas#canvas {

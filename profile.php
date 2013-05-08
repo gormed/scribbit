@@ -96,7 +96,9 @@ function friendsSince($userid, $friendid, $mysqli)
 		?>
 
 		function loadSingleItem (id, username, date, imgpath) {
-		
+			var link = document.createElement('a');
+			link.setAttribute('href', path+'/scribbles/'+id);
+
 			var profitem = document.createElement('div');
 			profitem.setAttribute('class','profitem');
 			profitem.setAttribute('style', 'background-image: url(' + root+imgpath + '); background-size: 100% 100%;');
@@ -110,9 +112,9 @@ function friendsSince($userid, $friendid, $mysqli)
 			'<span style="float:right"><a href="'+path+'/scribbles/'+id+
 			'"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
 			+'</span>';
-
+			link.appendChild(profitem);
 			profitem.appendChild(temp);
-			return profitem;
+			return link;
 		}
 
 		function loadFavs (content) {
