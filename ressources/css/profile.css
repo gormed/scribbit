@@ -15,10 +15,9 @@ div#content {
 .profitem{
 	
 	margin-left:10px;
-	margin-top:10px;
 	background:white;
-	width: 250px;
-	height:200px;
+	width: 210px;
+	height: 140px;
 	overflow: auto;
 	float: left;
 	box-shadow: 0px 1px 5px #444;
@@ -30,16 +29,16 @@ div#content {
 	padding-top: 1em;
 	background-color: #2D508D;
 	width: 100%;
-	height: 250px;
 	overflow-x: scroll;
     overflow-y: hidden;
+
 	box-shadow: 0px 1px 10px #333;
 }
 
 .holder{
 
 	width: 2650px;
-	height: 100%;
+	height: 150px;
 }
 
 div#removeFriend {
@@ -65,8 +64,8 @@ div#addFriend {
 .initem{
 	background: transparent;
 	color:transparent;
-	margin-top:145px;
-	width: 235px;
+	margin-top: 85px;
+	width: 200px;
 	height: 40px;/*
 	word-spacing: 30px;*/
 	font-size: 1.2em;
@@ -84,7 +83,17 @@ div#addFriend {
 }
 
 .initem:hover a:visited {
-	font-weight: bold; 
+	font-weight: lighter; 
+	color:white;
+}
+
+.initem:hover a:link {
+	font-weight: lighter; 
+	color:white;
+}
+
+.initem:hover a:hover {
+	font-weight: bolder; 
 	color:white;
 }
 
@@ -94,11 +103,11 @@ div#addFriend {
 }
 
 .initem:hover{
-	width: 235px;
+	width: 200px;
 	height: 40px;
 	background-color: #385a8f;
 	color: white;
 	word-spacing: 30px;
 	font-size: 1.2em;
-
+	opacity: 0.7;
 }

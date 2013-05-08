@@ -117,7 +117,7 @@
 		}
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-				document.getElementById("upload").innerHTML=xmlhttp.response;
+				document.getElementById("upload").innerHTML=xmlhttp.responseText;
 			}
 		}
 		xmlhttp.open("POST","upload_image.php",true);

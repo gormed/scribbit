@@ -13,8 +13,8 @@ require_once 'header.php';
 		<title>Scribbit - Gallery</title>
 		<script type="text/javascript">
 		<?php 
-		echo "var path = '".path."';";
-		echo "var root = '".root."';"; 
+		echo "var path = '".path."';".PHP_EOL;
+		echo "var root = '".root."';".PHP_EOL; 
 		?>
 		var scribbles = {};
 		var dates = {};
@@ -67,24 +67,24 @@ require_once 'header.php';
 				$sql = "SELECT `scribbleid`, `path`, `userid`, `creation` FROM `scribbles` ORDER BY `scribbles`.`creation` DESC LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
-					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
-					echo 'dates['.$row[0]."] = '".($row[3])."';";
+					echo 'scribbles['.$row[0]."] = '/scribbles/lm/".$row[1]."'; ";
+					echo 'dates['.$row[0]."] = '".($row[3])."'; ";
 
 					$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE (id = %d) LIMIT 1", $row[2]);
 					$answer = $mysqli->query($sql);
 					$user = $answer->fetch_array();
-					echo 'users['.$row[0]."] = '".$user[1]."';";
+					echo 'users['.$row[0]."] = '".$user[1]."'; ";
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
 					$isFav = 'false';
 					$fav = $mysqli->query($sql);
 					if ($fav->num_rows > 0) {
 						$isFav = 'true';
 					}
-					echo 'favorites['.$row[0]."] = ".$isFav.";";
+					echo 'favorites['.$row[0]."] = ".$isFav."; ";
 
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
 					$favcount = $mysqli->query($sql);
-					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";";
+					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";".PHP_EOL;
 				}
 			?>
 

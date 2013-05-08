@@ -35,8 +35,10 @@ if (array_key_exists($folder,$pages)
 	if ($loginRequired[$folder] == $loggedIn) {
 		include($pages[$folder]);
 		exit();
-	} else {
+	} else if (!$loggedIn) {
 		header('location: '.path.'/login');
+	} else {
+		header('location: '.path.'/wall');
 	}
 }
 
