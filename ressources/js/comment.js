@@ -8,9 +8,9 @@
 // *************************************************************************** 
 
 var canvasPos = {x:0.0, y:0.0};
-var canvasSize = {width:500, height:300};
-var width = 500;
-var height = 300;
+var canvasSize = {width: 150, height: 150};
+var width = 150;
+var height = 150;
 var lastX = 0.0;
 var lastY = 0.0;
 var capturing = false;	// tracks in/out of canvas context

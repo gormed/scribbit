@@ -3,15 +3,15 @@
 	margin-left:10px;
 	margin-top:10px;
 	background:white;
-	width: 250px;
-	height:200px;
+	width: 210px;
+	height:140px;
 }
 
 .initem{
 	background: transparent;
 	color:transparent;
-	margin-top:145px;
-	width: 240px;
+	margin-top:75px;
+	width: 200px;
 	height: 50px;/*
 	word-spacing: 30px;*/
 	font-size: 1.2em;
@@ -39,13 +39,13 @@
 }
 
 .initem:hover{
-	width: 240px;
+	width: 200px;
 	height:50px;
 	background-color: #385a8f;
 	color: white;
 	word-spacing: 30px;
 	font-size: 1.2em;
-
+	opacity: 0.7;
 }
 
 div#content {

@@ -12,7 +12,7 @@
 		<title>Scribbit - View</title>
 		<style type="text/css">
 		div#picture {
-		<?php echo 'background: url('.root.$scribblepath.'); '; ?>
+		<?php echo 'background: url('.root.'/scribbles/h/'.$scribblepath.'); '; ?>
 			box-shadow: 0px 1px 10px #333;
 			
 			display: table-cell;
@@ -43,6 +43,7 @@
 
 				$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $scribbleid);
 				$result = $mysqli->query($sql);
+				echo 'var commentCount = '.$result->num_rows.';'.PHP_EOL;
 				while ($row = $result->fetch_array()) {
 					echo 'comments['.$row[0]."] = '".$row[3]."';";
 					echo 'dates['.$row[0]."] = '".$row[2]."';";
@@ -50,7 +51,8 @@
 				}
 
 				?>
-				var commentlist = document.getElementById('commentlist');
+				var commentlist = document.getElementById('commentholder');
+				commentlist.setAttribute('style', 'width: '+((180*commentCount)+40)+'px;')
 				commentlist.appendChild(document.createElement('br'));
 				var element;
 
@@ -71,18 +73,23 @@
 						commentlist.appendChild(element);
 					}
 				}
-
 			}
 
 			function showComments() {
-				var tools = document.getElementById('comments');
+				var comments = document.getElementById('comments');
 				var content = document.getElementById('content');
-				if(tools.className == "hidden") {
-					tools.className = "visible";
 
+				if(comments.className == "hidden") {
+					comments.className = "visible";
+
+					// var canvas = document.getElementById('canvas');
+					// canvas.setAttribute('id', 'canvasbug');
 					//content.className = "contentspace";
 				} else {
-					tools.className = "hidden";
+					comments.className = "hidden";
+					// var canvas = document.getElementById('canvasbug');
+					// canvas.setAttribute('id', 'canvas');
+					//canvas.setAttribute('class', '');
 					//content.className = "contentnospace";
 				}
 			}
@@ -101,9 +108,11 @@
 				}
 				xmlhttp.onreadystatechange=function() {
 					if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-						document.getElementById("upload").innerHTML=xmlhttp.responseText;
+						location.reload();
+						//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
 					}
 				}
+				document.getElementById("upload").innerHTML="Sending...";
 				xmlhttp.open("POST",path+"/upload_comment.php",true);
 				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				xmlhttp.send("data=" + img + "&scribbleid=" + scribbleid);
@@ -136,8 +145,8 @@
 				</div>
 				<?php include docroot.'/'.path.'/topnav.php'; ?>	
 			</div>
-			<center>
-				<div class="table" id="content">
+			<div id="content">
+				<div class="table" >
 					<div class="row">
 						<div class="cell"></div>
 						<div class="cell" id="top"><?php echo '<a href="'.path.'/view">upper picture <br>(show this)</a>'; ?></div>
@@ -165,12 +174,8 @@
 						<div class="cell"></div>
 					</div>
 				</div>
-			</center>
-			<a href="#comments"><div id="showcomments" onclick="showComments();">
-				↓ Comments ↓
-			</div></a>
-
-			<div id="comments" class="hidden">
+				<a href="#comments" id="commentslink"><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
+				<div id="comments" class="hidden">
 					<!-- 
 					***************************************************************** 
 					 Embed the Wacom TabletPlugin object.
@@ -185,19 +190,20 @@
 					</object>
 
 					<![endif]--><!--[if !IE]> <-->
-
-					<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:0px; top:0px">
+					<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:20px; top:20px">
 						<!-- <param name="onload" value="pluginLoaded" /> -->
 					</object>
-					<canvas id="canvas" width="500" height="300" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 				
+					<canvas id="canvas" width="150" height="150" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove(); " > </canvas>
 					<div id="makecomment">
-						<div id="upload"></div>
-						
-						<a href="#comments"><div id="submitcomment" onclick="saveComment();">Submit</div></a>
+						<a href="#submit"><div tag="submit" id="submitcomment" onclick="saveComment();">Submit <div id="upload"></div></div></a>
+						<a href="#clear"><div tag="clear" id="clear" onclick="clearCanvas();">Clear</div></a>
 					</div>
-				<div id="commentlist">
-
+					<div id="commentlist">
+						<div id="commentholder">
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>

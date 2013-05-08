@@ -1,5 +1,7 @@
 <?php 
+
 $message = "";
+
 if (!isset($register)) {
 	$email = "your@email.com";
 }
