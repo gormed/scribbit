@@ -69,6 +69,44 @@
 
 	$userid = $_SESSION['user_id'];
 	$data=$_POST["data"];
+	$where = $_POST["where"];
+	$parentid = $_POST["parentid"];
+	$xpos = 0;
+	$ypos = 0;
+
+	$sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $parentid);
+	$result = $mysqli->query($sql)->fetch_array();
+
+	$xparent = $result[0];
+	$yparent = $result[1];
+
+	switch ($where) {
+		//top
+		case '0':
+			$xpos = $xparent;
+			$ypos = $yparent + 1;
+			break;
+		//right
+		case '1':
+			$ypos = $yparent;
+			$xpos = $xparent + 1;
+			break;
+		//bottom
+		case '2':
+			$xpos = $xparent;
+			$ypos = $yparent - 1;
+			break;
+		//left
+		case '3':
+			$ypos = $yparent;
+			$xpos = $xparent - 1;
+			break;
+		
+		default:
+			
+			break;
+	}
+
 	$scribbleid = time();//mt_rand(0,mt_getrandmax());
 	$now = time();
 	$mysqldate = date( 'Y-m-d H:i:s', $now );
@@ -95,8 +133,12 @@
 
 	$sql = sprintf("INSERT INTO `scribbles`(`scribbleid`, `path`, `userid`, `creation`) VALUES (%d, '%s',%d, '%s')", 
 																			$scribbleid, $filename, $userid, $mysqldate);
+	
 	$mysqli->query($sql);
 
-	echo "Done!";
+	
+	$sql = sprintf("INSERT INTO `map` (`position`, `scribbleid`, `parentid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d, %d)", $xpos, $ypos, $scribbleid, $parentid);
+	$result = $mysqli->query($sql);
+	echo "Done! ".$result->num_rows;
 
 ?>

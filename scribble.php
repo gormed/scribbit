@@ -1,4 +1,13 @@
-<?php require_once 'path.php'; require_once 'header.php';?>
+<?php 
+require_once 'path.php'; require_once 'header.php';
+if (isset($_POST['parentid']) && isset($_POST['where'])) {
+	$where = $_POST['where'];
+	$parentid = $_POST['parentid'];
+} else {
+	header("location: ".path."/gallery");
+}
+
+?>
 
 <html>
 <head>
@@ -21,6 +30,13 @@
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
+<script type="text/javascript">
+<?php 
+	echo 'var parentid = '.$parentid.';';
+	echo 'var where = '.$where.';';
+?>
+
+</script>
 <!-- 
 **************************************************************************
 *    Scribble app using javascript Canvas object with WebTabletPlugin.
@@ -114,7 +130,7 @@
 		}
 		xmlhttp.open("POST","upload_image.php",true);
 		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		xmlhttp.send("data=" + img);
+		xmlhttp.send("data=" + img + "&where=" + where +"&parentid="+parentid );
 	}
 
 	//************************************************************************

@@ -129,13 +129,68 @@
 				
 			}
 
+			function submitWhere(where) {
+
+				var input = document.getElementById('where'); 
+				input.value = where;
+				var form = document.getElementById('postscribble'); 
+				form.submit();
+			}
+
 			function onLoad () {
 				loadCanvas();
 				loadComments();
+
+				var form = document.getElementById('postscribble'); 
+				var p = document.createElement("input");
+
+				// Add the new element to our form.
+				form.appendChild(p);
+				p.id = "where";
+				p.name ="where";
+				p.type = "hidden"
+				p.value = "0";
+				
+				p = document.createElement("input");
+
+				// Add the new element to our form.
+				form.appendChild(p);
+				p.id = "parentid";
+				p.type = "hidden";
+				p.name = "parentid";
+				<?php echo 'p.value = "'.$scribbleid.'";'; ?>
 			}
 		</script>
 	</head>
 
+	<?php 
+		echo '<form action="'.path.'/scribble" method="post" id="postscribble"></form>';
+
+		$sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $scribbleid);
+		$result = $mysqli->query($sql)->fetch_array();
+
+		$xcurr = $result[0];
+		$ycurr = $result[1];
+		$parentid = $result[2];
+
+		function hasNeighbour($mysqli, $xcurr, $ycurr, $x, $y)
+		{
+			$sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1 ", ($xcurr + $x), ($ycurr + $y));
+			$result = $mysqli->query($sql);
+			if ($result->num_rows > 0) {
+				return true;
+			}
+			return false;
+		}
+
+		function getNeightbour($mysqli, $xcurr, $ycurr)
+		{
+			$sql = sprintf("SELECT `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username` FROM `map`, `scribbles`, `members` WHERE X(`position`) = %d AND Y(`position`) = %d AND `scribbles`.`scribbleid` = `map`.`scribbleid` AND `scribbles`.`userid` = `members`.`id` LIMIT 0, 1 ", $xcurr, $ycurr);
+			$result = $mysqli->query($sql)->fetch_array();
+			return $result;
+		}
+
+	?>
 	<body onload="onLoad();">
 		<div id="site">
 			<div id="header">
@@ -150,13 +205,35 @@
 				<div class="table" >
 					<div class="row">
 						<div class="cell"></div>
-						<div class="cell" id="top"><?php echo '<a href="'.path.'/view">upper picture <br>(show this)</a>'; ?></div>
+						<div class="cell" id="top">
+							<?php
+							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
+								$where = 0;
+								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+							} else {
+								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
+								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr+1);
+								echo '<div class="topneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+
+							}
+							?>
+						</div>
 						<div class="cell"></div>
 					</div>
 					<div class="row" id="wrapper">
+						
+						<div class="cell">
+							<?php
+							if(!hasNeighbour($mysqli, $xcurr, $ycurr, -1, 0)) {
+								$where = 3;
+								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+							} else {
+								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
+								$neighbour = getNeightbour($mysqli, $xcurr-1, $ycurr);
+								echo '<div class="leftneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
 
-						<div class="cell" id="leftcolumn">
-							<?php echo '<a href="'.path.'/view">left picture <br>(show this)</a>'; ?>
+							}
+							?>
 						
 						</div>
 						
@@ -164,14 +241,36 @@
 							<?php echo '<div id="from">'.$fromname." | ".$fromdate.'</div>'; ?>
 						</div>
 
-						<div class="cell" id="rightcolumn">
-							<?php echo '<a href="'.path.'/scribble">right space <br>(paint here)</a>'; ?>
+						<div class="cell">
+							<?php
+							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 1, 0)) {
+								$where = 1;
+								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+							} else {
+								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
+								$neighbour = getNeightbour($mysqli, $xcurr+1, $ycurr);
+								echo '<div class="rightneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+
+							}
+							?>
 						</div>
 
 					</div>
 					<div class="row">
 						<div class="cell"></div>
-						<div class="cell" id="bottom"><?php echo '<a href="'.path.'/scribble">bottom space <br>(paint here)</a>'; ?></div>
+						<div class="cell" id="bottom">
+							<?php
+							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
+								$where = 2;
+								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+							} else {
+								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
+								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr-1);
+								echo '<div class="bottomneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+
+							}
+							?>
+						</div>
 						<div class="cell"></div>
 					</div>
 				</div>
