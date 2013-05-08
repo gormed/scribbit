@@ -41,8 +41,8 @@ div#tools {
 	width: 8em;
 	padding: 0.5em;
 	padding-top: 2em;
-	background-color: #777;
-	z-index: 500;
+	background-color: transparent;
+
 }
 
 div#tools li {
@@ -53,12 +53,12 @@ div#tools li {
 	background-color: #bbb;
 	border: 1px solid;
 	border-color: #666;
-	z-index: 500;
+	
 }
 
 div#tools ul {
 	display: block;
-	z-index: 500;
+	
 	list-style-type: disc;
 	-webkit-margin-before: 0em;
 	-webkit-margin-after: 0em;
@@ -128,7 +128,7 @@ canvas#canvas {
 	border-color: #333;
 	background-color: #fff;
 	float: left;
-	z-index: 1;
+	
 }
 
 #clear{
@@ -166,54 +166,49 @@ canvas#canvas {
 
 #color1{
 	margin-left: 5px;
-	
-	width: 120px;
-	height: 40px;
+	width: 40px;
+	height: 120px;
 	background-color: lightgrey;
+	float: left;
 }
 
-
-#colorblock{
-
+#cbox{
 	width: 40px;
-	height:40px;
+	height: 40px;
 	background-color: red;
 	float: left;
 }
-#sidemenu{
 
-
-	background-color: transparent;
+#cbox1{
 	width: 40px;
 	height: 40px;
-	float: left;
-	position: relative;
-	left: 150px;
-	z-index: 5000;
-}
-
-#sidemenu:hover{
-
 	background-color: green;
-	z-index: 5000;
+	float: left;
 }
+
+#cbox2{
+	width: 40px;
+	height: 40px;
+	background-color: blue;
+	float: left;
+}
+
 
 #brush{
-	margin-left: 5px;
 	
-	width: 120px;
-	height: 40px;
+	float: right;
+	margin-right: 5px;
+	width: 40px;
+	height: 120px;
 	background-color: lightgrey;
-
 }
-
-
-
-
 #rubber{
 	margin-left: 5px;
-	
 	width: 120px;
 	height: 40px;
 	background-color: lightgrey;
 }
+
+#bar{
+
+margin-top: 160px;

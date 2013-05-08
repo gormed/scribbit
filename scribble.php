@@ -102,6 +102,7 @@
 		var imageData = context.clearRect(0,0,960,640);
 	}
 
+
 	//************************************************************************
 	function saveImage () {
 		
@@ -154,7 +155,11 @@
 		var canvas = document.getElementById('canvas');
 		canvas.onmousemove=null;
 	capturing = false;
+
+
 	}
+
+	
 
 	  
 
@@ -256,9 +261,37 @@
 		}
 	}
 </script>
+
+<script type="text/javascript">
+	
+	var imgData;
+
+	function copy () {
+		var canvas = document.getElementById('canvas');
+		var ctx=canvas.getContext("2d");
+		 imgData=ctx.getImageData(0,0,960,640);
+		 
+	}
+
+	
+
+	function fill () {
+		var canvas = document.getElementById('canvas');
+		var ctx=canvas.getContext("2d");
+		ctx.putImageData(imgData,0,0);
+	}
+
+</script>
+
+
+
+
 </head>
 
 <body onload="onLoad();">
+
+	<button onclick="copy()">Copy</button>
+	<button onclick="fill()">fill</button>
 
 	<!-- 
 	***************************************************************** 
@@ -288,16 +321,29 @@
 				<div id="clear" title="Clear" onclick="clearCanvas();">clear</div><br>
 				
 					<div id="stepback" title="back" onclick="...();">back</div>
-					<div id="stepforward" title="forward" onclick="...();">for</div>
+					<div id="stepforward" title="forward" onclick="...();">for</div><br><br>
+					<div id="rubber" title="rubber" onclick="...();">rubber</div><br>
 				
-					<br><br><br>
-				<div id="color1" onclick="...();">color
-						<div id="colorblock"></div>
-						<div id="sidemenu"></div>
-				</div><br>
+					<div>
+						<div id="color1">
+								<div id="cbox"></div>
+								<div id="cbox1"></div>
+								<div id="cbox2"></div>
+						</div>
 
-				<div id="brush" onclick="...();">brush</div><br>
-				<div id="rubber" title="rubber" onclick="...();">rubber</div><br>
+						<div id="brush" onclick="...();">brush</div>
+					</div>
+
+				
+				<div id="bar">
+				<input  type="range" min="0" max="100" value="100" /><br><br>
+
+				<input  type="range" min="0" max="100" value="100" />
+				</div>
+				<br>
+
+				
+				
 				
 				
 
@@ -306,6 +352,10 @@
 
 			</div>
 		</div>
+
+		
+
+
 		<div id="content" class="contentnospace">
 			<div id="show" onclick="show();">Show/Hide</div>
 			<div id="share">
@@ -315,5 +365,8 @@
 			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		</div>
 	</div>
+
+
+
 </body>
 </html>
