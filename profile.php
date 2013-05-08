@@ -193,7 +193,7 @@ function friendsSince($userid, $friendid, $mysqli)
 
 				function fillFavs ($result) {
 					while ($row = $result->fetch_array()) {
-						echo 'favPath['.$row[0]."] = '".$row[4]."';";
+						echo 'favPath['.$row[0]."] = '/scribbles/l/".$row[4]."';";
 						echo 'favDates['.$row[0]."] = '".($row[3])."';";
 						echo 'favNames['.$row[0]."] = '".$row[2]."';".PHP_EOL;
 					}
@@ -202,7 +202,7 @@ function friendsSince($userid, $friendid, $mysqli)
 
 				function fillFriends ($result) {
 					while ($row = $result->fetch_array()) {
-						echo 'friendPath['.$row[0]."] = '".$row[1]."';";
+						echo 'friendPath['.$row[0]."] = '/scribbles/l/".$row[1]."';";
 						echo 'friendDates['.$row[0]."] = '".($row[3])."';";
 						echo 'friendNames['.$row[0]."] = '".($row[2])."';".PHP_EOL;
 					}
@@ -216,7 +216,7 @@ function friendsSince($userid, $friendid, $mysqli)
 					$result = getOwnScribbles($_SESSION['user_id'], $mysqli);
 				}
 				while ($row = $result->fetch_array()) {
-					echo 'ownPath['.$row[0]."] = '".$row[1]."';";
+					echo 'ownPath['.$row[0]."] = '/scribbles/l/".$row[1]."';";
 					echo 'ownDates['.$row[0]."] = '".($row[3])."';".PHP_EOL;
 				}
 				if (isset($viewProfile) && $viewProfile && 
@@ -333,9 +333,9 @@ function friendsSince($userid, $friendid, $mysqli)
 				if (isset($viewProfile) && isset($profile)) {
 					$row = findLoginTime($friendid, $mysqli);
 					echo $profile."<br>";
-					echo "Last Login: ".$row->fetch_array()[1].'<br><div id="friends">';
+					echo "Last Login: <br>".$row->fetch_array()[1].'<br><div id="friends">';
 					if (areFriends($_SESSION['user_id'], $friendid, $mysqli)) {
-						echo '<br>friends since '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
+						echo '<br>friends since:<br> '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
 						echo '<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
 					} else {
 						echo '<br>not friends yet<br><br>';
