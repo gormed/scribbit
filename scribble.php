@@ -27,7 +27,7 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 </style>
 
 
-<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
+
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
 <script type="text/javascript">
@@ -47,8 +47,16 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 *    For use on Internet Explorer, Firefox, Chrome.
 *************************************************************************** 
 -->
-<script type="text/javascript">
+<script type="text/javascript"
 
+        src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
+
+<script type="text/javascript"
+
+        src="http://code.jquery.com/jquery-2.0.0.js"></script>
+
+
+    <script>
 	var canvasPos = {x:0.0, y:0.0};
 	var canvasSize = {width:960, height:640};
 	var lastX = 0.0;
@@ -110,6 +118,7 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		var imageData = context.clearRect(0,0,960,640);
 	}
 
+
 	//************************************************************************
 	function saveImage () {
 		
@@ -162,7 +171,11 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		var canvas = document.getElementById('canvas');
 		canvas.onmousemove=null;
 	capturing = false;
+
+
 	}
+
+	
 
 	  
 
@@ -264,9 +277,37 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		}
 	}
 </script>
+
+<script type="text/javascript">
+	
+	var imgData;
+
+	function copy () {
+		var canvas = document.getElementById('canvas');
+		var ctx=canvas.getContext("2d");
+		 imgData=ctx.getImageData(0,0,960,640);
+		 
+	}
+
+	
+
+	function fill () {
+		var canvas = document.getElementById('canvas');
+		var ctx=canvas.getContext("2d");
+		ctx.putImageData(imgData,0,0);
+	}
+
+</script>
+
+
+
+
 </head>
 
 <body onload="onLoad();">
+
+	<button onclick="copy()">Copy</button>
+	<button onclick="fill()">fill</button>
 
 	<!-- 
 	***************************************************************** 
@@ -293,32 +334,44 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		
 		<div id="tools" class="hidden">
 			<div>
-				<ul>
-					<a href=""><li>Brush</li></a>
-					<a href=""><li>Fill</li></a>
-					<a href=""><li>Marquee</li></a>
-					<a href=""><li>Symbol</li></a>
-					<a href=""><li>...</li></a>
-					<a href=""><li>Get new tools!</li></a>
-				</ul>
+				<div id="clear" title="Clear" onclick="clearCanvas();">clear</div><br>
+				
+					<div id="stepback" title="back" onclick="...();">back</div>
+					<div id="stepforward" title="forward" onclick="...();">for</div><br><br>
+					<div id="rubber" title="rubber" onclick="...();">rubber</div><br>
+				
+					<div>
+						<div id="color1">
+								<div id="cbox"></div>
+								<div id="cbox1"></div>
+								<div id="cbox2"></div>
+						</div>
 
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear"></div>
-				<div id="cut1" title="Save"></div>
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear"></div>
-				<div id="cut1" title="Save"></div>
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear" onclick="clearCanvas();"></div>
-				<div id="cut1" title="Save"></div>
+						<div id="brush" onclick="...();">brush</div>
+					</div>
 
-				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();">
-				</input>
+				
+				<div id="bar">
+				<input  type="range" min="0" max="100" value="100" /><br><br>
+
+				<input  type="range" min="0" max="100" value="100" />
+				</div>
+				<br>
+
+				
+				
+				
+				
+
+
+				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
+
 			</div>
 		</div>
+
+		
+
+
 		<div id="content" class="contentnospace">
 			<div id="show" onclick="show();">Show/Hide</div>
 			<div id="share">
@@ -328,5 +381,8 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		</div>
 	</div>
+
+
+
 </body>
 </html>
