@@ -18,7 +18,7 @@
 </style>
 
 
-<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
+
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
 <!-- 
@@ -31,8 +31,16 @@
 *    For use on Internet Explorer, Firefox, Chrome.
 *************************************************************************** 
 -->
-<script type="text/javascript">
+<script type="text/javascript"
 
+        src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
+
+<script type="text/javascript"
+
+        src="http://code.jquery.com/jquery-2.0.0.js"></script>
+
+
+    <script>
 	var canvasPos = {x:0.0, y:0.0};
 	var canvasSize = {width:960, height:640};
 	var lastX = 0.0;
@@ -277,30 +285,25 @@
 		
 		<div id="tools" class="hidden">
 			<div>
-				<ul>
-					<a href=""><li>Brush</li></a>
-					<a href=""><li>Fill</li></a>
-					<a href=""><li>Marquee</li></a>
-					<a href=""><li>Symbol</li></a>
-					<a href=""><li>...</li></a>
-					<a href=""><li>Get new tools!</li></a>
-				</ul>
+				<div id="clear" title="Clear" onclick="clearCanvas();">clear</div><br>
+				
+					<div id="stepback" title="back" onclick="...();">back</div>
+					<div id="stepforward" title="forward" onclick="...();">for</div>
+				
+					<br><br><br>
+				<div id="color1" onclick="...();">color
+						<div id="colorblock"></div>
+						<div id="sidemenu"></div>
+				</div><br>
 
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear"></div>
-				<div id="cut1" title="Save"></div>
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear"></div>
-				<div id="cut1" title="Save"></div>
-				<div id="cut1" title="Back"></div>
-				<div id="cut1" title="Forward"></div>
-				<div id="cut1" title="Clear" onclick="clearCanvas();"></div>
-				<div id="cut1" title="Save"></div>
+				<div id="brush" onclick="...();">brush</div><br>
+				<div id="rubber" title="rubber" onclick="...();">rubber</div><br>
+				
+				
 
-				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();">
-				</input>
+
+				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
+
 			</div>
 		</div>
 		<div id="content" class="contentnospace">
