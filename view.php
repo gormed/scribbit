@@ -11,18 +11,18 @@
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/comment.js"></script>'; ?>
 		<title>Scribbit - View</title>
 		<style type="text/css">
-		div#picture {
-		<?php echo 'background: url('.root.'/scribbles/h/'.$scribblepath.'); '; ?>
-			box-shadow: 0px 1px 10px #333;
-			
-			display: table-cell;
-			/*border: 1px solid black;*/
-			text-align: center;
-			vertical-align: top;
-			height: 640px; width: 960px;
-			background-size: 100% 100%;
-			background-color: white;
-		}
+			div#picture {
+			<?php echo 'background: url('.root.'/scribbles/h/'.$scribblepath.'); '; ?>
+				box-shadow: 0px 1px 10px #333;
+				
+				display: table-cell;
+				/*border: 1px solid black;*/
+				text-align: center;
+				vertical-align: top;
+				height: 640px; width: 960px;
+				background-size: 100% 100%;
+				background-color: white;
+			}
 		</style>
 		
 		<!-- SCRIPT -->
@@ -205,7 +205,7 @@
 				<div class="table" >
 					<div class="row">
 						<div class="cell"></div>
-						<div class="cell" id="top">
+						<div class="cell">
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
 								$where = 0;
@@ -213,7 +213,7 @@
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr+1);
-								echo '<div class="topneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+								echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="topneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
 
 							}
 							?>
@@ -230,7 +230,7 @@
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr-1, $ycurr);
-								echo '<div class="leftneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+								echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="leftneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
 
 							}
 							?>
@@ -249,7 +249,7 @@
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr+1, $ycurr);
-								echo '<div class="rightneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+								echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="rightneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
 
 							}
 							?>
@@ -258,7 +258,7 @@
 					</div>
 					<div class="row">
 						<div class="cell"></div>
-						<div class="cell" id="bottom">
+						<div class="cell">
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
 								$where = 2;
@@ -266,7 +266,7 @@
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr-1);
-								echo '<div class="bottomneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div>';
+								echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="bottomneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
 
 							}
 							?>
@@ -274,7 +274,7 @@
 						<div class="cell"></div>
 					</div>
 				</div>
-				<a href="#comments" id="commentslink"><hr width=90% id="bar" size=3><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
+				<a href="#comments" id="commentslink"><hr width=50% id="bar" size=1><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
 				<div id="comments" class="hidden">
 					<!-- 
 					***************************************************************** 
