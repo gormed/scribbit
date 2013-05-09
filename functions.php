@@ -51,7 +51,7 @@ function login($email, $password, $mysqli) {
 			if ($result->num_rows == 0) {
 				$sql = sprintf("INSERT INTO `login_time`(`userid`, `datetime`) VALUES (%d,'%s')",$user_id, $mysqldate);
 			} else {
-				$sql = sprintf("UPDATE `secure_login`.`login_time` SET `datetime` = '%s' WHERE `login_time`.`userid` = 76 LIMIT 1 ", $mysqldate);
+				$sql = sprintf("UPDATE `secure_login`.`login_time` SET `datetime` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", $mysqldate, $user_id);
 			}
 			
 			$mysqli->query($sql);
