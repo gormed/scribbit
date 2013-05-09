@@ -24,9 +24,10 @@ require_once 'header.php';
 
 
 		var scribbles = {};
-		var points={};
+		var points=new Object();
 		var canvasCount = 10;
 		var rowCount = 4;
+		var canvasPos ={};
 		// var lastX, curX, lastY, curY;
 
 		<?php 
@@ -36,7 +37,7 @@ require_once 'header.php';
 			}
 			else {
 				echo "var path = '".path."';";
-				echo "var root = '".root."';"; 
+				echo "var root = '".root."/scribbles/l';"; 
 
 				$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
 				$result = $mysqli->query($sql);
@@ -48,120 +49,171 @@ require_once 'header.php';
 				// while ($row = $result->fetch_array(MYSQLI_NUM)) {
 				// 	echo 'points['.$row[0]."] = '".$row[1]."';";
 				// }
+
+
 			}
 		?>
 
-		function storeCoordinate(scribbleid, xVal, yVal, array) {
-			array[scribbleid]={x: xVal, y: yVal};
-		}
+		function init() {
 
-
-this.$OuterDiv = $('<div></div>')
-    .hide()
-    .append($('<table></table>')
-        .attr({ cellSpacing : 0 })
-        .addClass("text")
-    )
-;
-
-
-
-
-		function add(){
-   
-			var row = document.createElement("div");
-			row.setAttribute('class', 'row');
-			row.setAttribute('id', 'row'+rowCount+'');
-			for(var i=0;i<3;i++){
-				var cell = document.createElement("div");
-				cell.setAttribute('class', 'cell');
-				cell.setAttribute('id', 'cell'+canvasCount+'');
-
-				var canvas =document.createElement("canvas");
-				canvas.setAttribute('width','1890');
-				canvas.setAttribute('height','840');
-				canvas.setAttribute('id', 'canvas'+canvasCount+'');
-				cell.appendChild(canvas);
-				row.appendChild(cell);
-				canvasCount++;
+			storeCoordinate(0, 1, 0, points);
+			storeCoordinate(1, 1, 0, points);
+			storeCoordinate(2, 0, 1, points);
+			storeCoordinate(3, 10, 10, points);
+			storeCoordinate(4, -10, 10, points);
+			storeCoordinate(5, 10, -10, points);
+			storeCoordinate(6, -10, -10, points);
+			storeCoordinate(7, -20, 20, points);
+			storeCoordinate(8, 2, 2, points);
+			storeCoordinate(9, -2, -2, points);
+			for(var i =10;i<=21;i++){
+					storeCoordinate(i, 0, 0, points);
 			}
-			document.getElementById("table").appendChild(row);
-		 	$("div.row").insertBefore("#loadPlaceSouth");
-		 	rowCount++;
+			
+			for (var y=-1; y<=1; y++){
+				for (var x=-1; x<=1; x++){
+					storeCoordinate(x+""+y, x, y, canvasPos);
+					
+				}
+			}
+console.log(canvasPos);
+				loadScribbles();
+
 		}
 
+
+
+		function storeCoordinate(id, xVal, yVal, array) {
+			array[id]={x: xVal, y: yVal};
+		}
+		
 
 		function loadScribbles () {
-			
-			for (var i =0 ; i <= 5; i++){
-							var counter=0;
-				for (var k in scribbles) {
-					counter++;
-					storeCoordinate(k,counter,counter,points);
-					var px = points[k].x;
-					var py = points[k].y;
-					// use hasOwnProperty to filter out keys from the Object.prototype
-					if (scribbles.hasOwnProperty(k)) {
-						$("#canvas5").addLayer({
-							type: "image",
-							source: "" + root+"/"+scribbles[k] + "",
-							x: 210*px-105, y: 140*i+70,
-							width: 210, height: 140
-						})
-						.drawLayers();
-					}
-				}	
-			}
 
-			
-
+			var count=0;
+			for (var k in scribbles) {
+				var canvasCheck = checkCanvas(count);
+				// use hasOwnProperty to filter out keys from the Object.prototype
+				if (scribbles.hasOwnProperty(k)) {
+					var rx = getRelativXPos(count);
+					var ry = getRelativYPos(count);
+					$("#canvas"+canvasCheck).addLayer({
+						type: "image",
+						source: "" + root+"/"+scribbles[k] + "",
+						x: 210*rx-105, y: 140*ry+70, 
+						width: 210, height: 140
+					})
+					.drawLayers();
 					
+				}
+				count++;
 
-			// // init scroll position
-			// $(window).scrollTop($(window).height()/2);
-			// $(window).scrollLeft($(window).width()/2);
-
-
+			}	
+			
 		}
+
+		function checkCanvas(scribbleid) {
+				
+				for(var id in canvasPos){
+					var cPosX = canvasPos[id].x*9;
+					var cPosY = canvasPos[id].y*6;
+					
+					//North East
+					if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
+												
+						return id;
+						break;
+					}
+					//North West
+					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
+						return id;
+						console.log(id);
+						break;
+
+					}
+					//South West
+					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
+						return id;
+						break;
+					}
+					//South East
+					else if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
+						return id;
+						break;
+					}
+
+
+				}
+				return null;
+		}
+
+
+		function getRelativXPos(scribbleid) {
+				var relx =	points[scribbleid].x;	
+				return relx%9;
+		}
+		function getRelativYPos(scribbleid) {		
+				var rely =	points[scribbleid].y;
+				return rely%6;
+		}
+
+
+					/////////////////////////////
+					///////jQueryEvents/////////// 
+					/////////////////////////////
 
 		$(window).scroll(function()
 			{
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					// $('div#processbar').show();
-					// $.ajax({
-					// 	type: "POST",
-					// 	url: "ajaxMapTop.php",
-					// 	data: {scribbleid: "BOTTOM"},
-					// 	success: function(html)
-					// 	{
-					// 		if(html)
-					// 		{
-								add();
+					$('div#processbar').show();
+					$.ajax({
+						type: "POST",
+						url: "ajaxWallBottom.php",
+						data: {currentCanvas: "BOTTOM"},
+						success: function(html)
+						{
+							if(html)
+							{
+					
+								addBottomRow();
 
-
-								// $('div#processbar').hide();
-							// }else
-							// {
-							// 	$('div#processbar').html('<center>OUT OF SPACE</center>');
-							// }
-					// 	}
-					// });
+							$('div#processbar').hide();
+							}else
+							{
+								$('div#processbar').html('<center>OUT OF SPACE</center>');
+							}
+						}
+					});
 				}
 			});	
 
 
-		function getWindowHeight(){
-			return $(window).height();
-		}
+			function addbottomRow(){
+			
+						var row = document.createElement("div");
+						row.setAttribute('class', 'row');
+						row.setAttribute('id', 'row'+rowCount+'');
+						for(var i=0;i<3;i++){
+							var cell = document.createElement("div");
+							cell.setAttribute('class', 'cell');
+							cell.setAttribute('id', 'cell'+canvasCount+'');
 
-		function getWindowWidth(){
-			return $(window).width();
-		}
+							var canvas =document.createElement("canvas");
+							canvas.setAttribute('width','1890');
+							canvas.setAttribute('height','840');
+							canvas.setAttribute('id', 'canvas'+canvasCount+'');
+							cell.appendChild(canvas);
+							row.appendChild(cell);
+							canvasCount++;
 
-
-
+						}
+						document.getElementById("table").appendChild(row);
+						$("#row"+rowCount).insertBefore("#loadPlaceSouth");
+						rowCount++;
+						// loadScribbles (canvasCount);
+					}
 
 			// //************************************************************************
 			// function mousedown(evt)
@@ -247,7 +299,7 @@ this.$OuterDiv = $('<div></div>')
 		<title>Scribbit - Wall</title>
 	</head>
 
-<body> 
+<body onload="init()"> 
 			<div id="site">
 				<div id="header">
 					<div id="logo">
@@ -264,19 +316,19 @@ this.$OuterDiv = $('<div></div>')
 					<div class="table" id="table">
 						<div id="loadPlaceNorth"></div>
 						<div class="row" id="row1">
-							<div class="cell" id="cell1"><canvas id="canvas1" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell2"><canvas id="canvas2" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell3"><canvas id="canvas3" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell1"><canvas id="canvas-11" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell2"><canvas id="canvas01" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell3"><canvas id="canvas11" width="1890" height="840"></canvas></div>
 						</div>
 						<div class="row" id="row2">
-							<div class="cell" id="cell4"><canvas id="canvas4" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell5"><canvas id="canvas5" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell6"><canvas id="canvas6" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell4"><canvas id="canvas-10" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell5"><canvas id="canvas00" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell6"><canvas id="canvas10" width="1890" height="840"></canvas></div>
 						</div>
 						<div class="row" id="row3">
-							<div class="cell" id="cell7"><canvas id="canvas7" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell8"><canvas id="canvas8" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell9"><canvas id="canvas9" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell7"><canvas id="canvas-1-1" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell8"><canvas id="canvas0-1" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell9"><canvas id="canvas1-1" width="1890" height="840"></canvas></div>
 						</div>
 						<div id="loadPlaceSouth"></div>
 					</div>

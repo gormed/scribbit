@@ -41,7 +41,8 @@ div#tools {
 	width: 8em;
 	padding: 0.5em;
 	padding-top: 2em;
-	background-color: #777;
+	background-color: transparent;
+
 }
 
 div#tools li {
@@ -52,16 +53,19 @@ div#tools li {
 	background-color: #bbb;
 	border: 1px solid;
 	border-color: #666;
+	
 }
 
 div#tools ul {
 	display: block;
+	
 	list-style-type: disc;
 	-webkit-margin-before: 0em;
 	-webkit-margin-after: 0em;
 	-webkit-margin-start: 0px;
 	-webkit-margin-end: 0px;
 	-webkit-padding-start: 0px;
+
 }
 
 div#tools a:link {
@@ -124,4 +128,87 @@ canvas#canvas {
 	border-color: #333;
 	background-color: #fff;
 	float: left;
+	
 }
+
+#clear{
+	margin-left: 5px;
+	width: 120px;
+	height: 20px;
+	background-color:lightgrey;
+}
+
+#publish{
+	width: 120px;
+	height: 40px;
+	margin-left: 5px;
+	border: none;
+	background-color: lightgrey;
+
+}
+
+#stepback{
+	margin-left: 5px;
+	
+	width: 55px;
+	height: 30px;
+	background-color: lightgrey;
+	float: left;
+}
+
+#stepforward{
+	margin-left: 10px;
+	width: 55px;
+	height: 30px;
+	background-color: lightgrey;
+	float: left;
+}
+
+#color1{
+	margin-left: 5px;
+	width: 40px;
+	height: 120px;
+	background-color: lightgrey;
+	float: left;
+}
+
+#cbox{
+	width: 40px;
+	height: 40px;
+	background-color: red;
+	float: left;
+}
+
+#cbox1{
+	width: 40px;
+	height: 40px;
+	background-color: green;
+	float: left;
+}
+
+#cbox2{
+	width: 40px;
+	height: 40px;
+	background-color: blue;
+	float: left;
+}
+
+
+#brush{
+	
+	float: right;
+	margin-right: 5px;
+	width: 40px;
+	height: 120px;
+	background-color: lightgrey;
+}
+#rubber{
+	margin-left: 5px;
+	width: 120px;
+	height: 40px;
+	background-color: lightgrey;
+}
+
+#bar{
+
+margin-top: 160px;
