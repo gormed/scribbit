@@ -3,9 +3,9 @@
 if (isset($_GET['mapcoord']))
 	$mapcoord = $_GET['mapcoord'];
 else
-	$mapcoord = '0,0,0';
+	$mapcoord = '0-0-0';
 
-$split = preg_split('[,]', $mapcoord);
+$split = preg_split('[-]', $mapcoord);
 $xpos = $split[0];
 $ypos = $split[1];
 $zoom = $split[2];

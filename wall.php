@@ -8,18 +8,18 @@ require_once 'header.php';
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">      
-		<link rel="stylesheet" type="text/css" href="ressources/css/wall.css">
-		<link rel="stylesheet" type="text/css" href="ressources/css/openLayersTheme.css">
-		<style type="text/css">
+
+		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/headerSearch.css">'; ?>
+		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/wall.css">'; ?>
+		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/openLayersTheme.css">'; ?>
 		.olControlAttribution {
 			left: 5px;
 			bottom: 5px; 
 		}
 		</style>
-		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
-		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
-		<script type="text/javascript" src="ressources/js/jcanvas.min.js"></script>
+		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
+		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
+		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jcanvas.min.js"></script>'; ?>
 		<script type="text/javascript">
 
 
