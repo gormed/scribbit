@@ -1,15 +1,15 @@
 <div class="searchbar" >
-	<ul>
-		<li><input class="searchtext" type="text" name="searchtext"/></li>
+	<div style="float: left">
+		<div id="search"><input class="searchtext" type="text" name="searchtext"/></div>
 		<br>
-		<br>
-		<li><input name="filter" type="checkbox" value="favorits"/>Favorits&nbsp;</li>
-		<li><input name="filter" type="checkbox" value="friends">Friends&nbsp;</li>		
-		<li><input name="filter" type="checkbox" value="my"/>Own&nbsp;</li>	
-		<li><select name="timefilter">
+		<div id="filterfav"><input name="filter" type="checkbox" value="favorits"/>Favorites&nbsp;</div>
+		<div id="filterfriends"><input name="filter" type="checkbox" value="friends">Friends&nbsp;</div>		
+		<div id="filtermy"><input name="filter" type="checkbox" value="my"/>Own&nbsp;</div>	
+		<div id="filtertime">
+			<select name="timefilter">
 			<option value="all">all Time</option> 
 			<option value="h24">last 24 h</option> 
 			<option value="d7">last 7 days</option>
-		</select></li>
-	</ul>
+		</select></div>
+	</div>
 </div>

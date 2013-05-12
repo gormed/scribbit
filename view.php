@@ -34,7 +34,7 @@
 
 	function getCommentCount($mysqli, $scribbleid)
 	{
-		$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $row[0]);
+		$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $scribbleid);
 		return $mysqli->query($sql)->num_rows;
 	}
 ?>
@@ -125,17 +125,7 @@
 					echo 'commentCount['.$row[0]."] = ".$commentcount.";".PHP_EOL;
 				}
 				?>
-				var fav; 
-				if (favorites[scribbleid]) {
-					fav = '<a href="#unfav"><img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
-				} else {
-					fav = '<a href="#fav"><img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
-				}
-				var inner = '<a href="'+path+'/'+users[scribbleid]+'">'+users[scribbleid]+'</a> <br> '+
-							scribDates[scribbleid]+'<br><span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+
-							commentCount[scribbleid]+'</a>'+fav+'<span id="count_'+scribbleid+'">'+favCount[scribbleid]+'</a></span>';
-				var from = document.getElementById('from');
-				from.innerHTML = inner;
+				
 
 				// for (var k in scribbles) {
 				// 	// use hasOwnProperty to filter out keys from the Object.prototype
@@ -300,7 +290,19 @@
 						
 						<div id="picture">
 
-							<?php echo '<div id="from"></div>'; ?>
+							<?php 
+							$viewFavCount = getFavoriteCount($mysqli, $scribbleid);
+							$viewCmtCount = getCommentCount($mysqli, $scribbleid);
+							$userlink = '<a href="'.path.'/'.$fromname.'">'.$fromname.'</a> <br> ';
+							$imgdate = $fromdate.'<br>';
+							$favs = '<a href="#unfav"><img id="fav_'.$scribbleid.'" src="'.path.
+							'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('.$scribbleid.');">';
+
+							$icon = '<span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();">'.
+							'<img src="'.path.'/ressources/img/ico/comment.png" width="16" height="16">'.$viewCmtCount.'</a>'.$favs.
+							'<span id="count_'.$scribbleid.'">'.$viewFavCount.'</a></span>';
+							echo '<div id="from">'.$userlink.$imgdate.$icon.'</div>'; 
+							?>
 						</div>
 
 						<div class="cell">
@@ -336,7 +338,37 @@
 						<div class="cell"></div>
 					</div>
 				</div>
-				<?php include docroot.'/'.path.'/comment.php'; ?>
+				
+				<a href="#comments" id="commentslink"><hr width=50% id="bar" size=1><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
+				<div id="comments" class="hidden">
+					<!-- 
+					***************************************************************** 
+					 Embed the Wacom TabletPlugin object.
+					 To avoid plugin selection on page, size and position are adjusted 
+					 so as to "tuck it under" canvas. 
+					***************************************************************** 
+					-->
+
+					<!--[if IE]>
+
+					<object id='wtPlugin' classid='CLSID:092dfa86-5807-5a94-bf3b-5a53ba9e5308' WIDTH=1 HEIGHT=1 style="position:absolute; left:100px; top:100px">
+					</object>
+
+					<![endif]--><!--[if !IE]> <-->
+					<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:20px; top:20px">
+						<!-- <param name="onload" value="pluginLoaded" /> -->
+					</object>
+
+					<canvas id="canvas" width="150" height="150" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove(); " > </canvas>
+					<div id="makecomment">
+						<a href="#submit"><div tag="submit" id="submitcomment" onclick="saveComment();">Submit <div id="upload"></div></div></a>
+						<a href="#clear"><div tag="clear" id="clear" onclick="clearCanvas();">Clear</div></a>
+					</div>
+					<div id="commentlist">
+						<div id="commentholder">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
