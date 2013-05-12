@@ -1,6 +1,43 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
 <!-- <?php echo $scribblepath.' '.$fromuser; ?> -->
+<?php 
+	$sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $scribbleid);
+	$result = $mysqli->query($sql)->fetch_array();
+
+	$xcurr = $result[0];
+	$ycurr = $result[1];
+	$parentid = $result[2];
+
+	function hasNeighbour($mysqli, $xcurr, $ycurr, $x, $y)
+	{
+		$sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1 ", ($xcurr + $x), ($ycurr + $y));
+		$result = $mysqli->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	function getNeightbour($mysqli, $xcurr, $ycurr)
+	{
+		$sql = sprintf("SELECT `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username` FROM `map`, `scribbles`, `members` WHERE X(`position`) = %d AND Y(`position`) = %d AND `scribbles`.`scribbleid` = `map`.`scribbleid` AND `scribbles`.`userid` = `members`.`id` LIMIT 0, 1 ", $xcurr, $ycurr);
+		$result = $mysqli->query($sql)->fetch_array();
+		return $result;
+	}
+
+	function getFavoriteCount($mysqli, $scribbleid)
+	{
+		$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $scribbleid);
+		return $mysqli->query($sql)->num_rows;
+	}
+
+	function getCommentCount($mysqli, $scribbleid)
+	{
+		$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $row[0]);
+		return $mysqli->query($sql)->num_rows;
+	}
+?>
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -9,6 +46,7 @@
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/comment.js"></script>'; ?>
+		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/socials.js"></script>'; ?>
 		<title>Scribbit - View</title>
 		<style type="text/css">
 			div#picture {
@@ -38,6 +76,95 @@
 			var comments = {};
 			var dates = {};
 			var usernames = {};
+			var scribbles = {};
+			var scribDates = {};
+			var users = {};
+			var commentCount = {};
+			var positionsx = {};
+			var positionsy = {};
+			var map = {};
+
+			// var favNames = {};
+			var favCount = {};
+			var favorites = {};
+
+			function loadScribbles (argument) {
+				<?php
+				$bl = ($xcurr-1.5).' '.($ycurr-1.5);
+				$tl = ($xcurr-1.5).' '.($ycurr+1.5);
+				$tr = ($xcurr+1.5).' '.($ycurr+1.5);
+				$br = ($xcurr+1.5).' '.($ycurr-1.5);
+
+				$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `scribbles`.`userid`, `scribbles`.`creation`, X(`map`.`position`), Y(`map`.`position`) FROM `scribbles`, `map` WHERE `scribbles`.`scribbleid` = `map`.`scribbleid` AND MBRContains(GeomFromText('Polygon((%s, %s, %s, %s, %s))'), `map`.`position`) = 1 LIMIT 0, 9 ", $bl, $tl, $tr, $br, $bl);
+				$result = $mysqli->query($sql);
+				while ($row = $result->fetch_array()) {
+					echo 'scribbles['.$row[0]."] = '/scribbles/h/".$row[1]."'; ";
+					echo 'scribDates['.$row[0]."] = '".($row[3])."'; ";
+					echo 'positionsx['.$row[0]."] = '".($row[4])."'; ";
+					echo 'positionsy['.$row[0]."] = '".($row[5])."'; ";
+					echo 'map['.$row[4].$row[5]."] = '".$row[0]."'; ";
+
+					$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE (id = %d) LIMIT 1", $row[2]);
+					$answer = $mysqli->query($sql);
+					$user = $answer->fetch_array();
+					echo 'users['.$row[0]."] = '".$user[1]."'; ";
+					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
+					$isFav = 'false';
+					$fav = $mysqli->query($sql);
+					if ($fav->num_rows > 0) {
+						$isFav = 'true';
+					}
+					echo 'favorites['.$row[0]."] = ".$isFav."; ";
+
+					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
+					$favcount = $mysqli->query($sql);
+					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";".PHP_EOL;
+
+					$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $row[0]);
+					$commentcount = $mysqli->query($sql)->num_rows;
+					echo 'commentCount['.$row[0]."] = ".$commentcount.";".PHP_EOL;
+				}
+				?>
+				var fav; 
+				if (favorites[scribbleid]) {
+					fav = '<a href="#unfav"><img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+				} else {
+					fav = '<a href="#fav"><img id="fav_'+scribbleid+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+scribbleid+');">';
+				}
+				var inner = '<a href="'+path+'/'+users[scribbleid]+'">'+users[scribbleid]+'</a> <br> '+
+							scribDates[scribbleid]+'<br><span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+
+							commentCount[scribbleid]+'</a>'+fav+'<span id="count_'+scribbleid+'">'+favCount[scribbleid]+'</a></span>';
+				var from = document.getElementById('from');
+				from.innerHTML = inner;
+
+				// for (var k in scribbles) {
+				// 	// use hasOwnProperty to filter out keys from the Object.prototype
+				// 	if (scribbles.hasOwnProperty(k)) {
+				// 		element = document.createElement('div');
+				// 		element.setAttribute('class','item');
+				// 		element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
+				// 		link.appendChild(element);
+
+
+				// 		temp = document.createElement('div');
+				// 		temp.setAttribute('class', 'initem');
+				// 		temp.setAttribute('id', 'div_'+k);
+				// 		var fav; 
+				// 		if (favorites[k]) {
+				// 			fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
+				// 		} else {
+				// 			fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
+				// 		}
+				// 		temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
+				// 		'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
+				// 		'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+commentCount[k]+'</a>'
+				// 		+fav+'<span id="count_'+k+'">'+favCount[k]+'</a></span></span>';
+
+				// 		element.appendChild(temp);
+				// 		gallery.appendChild(link);
+				// 	}
+				// }
+			}
 
 			function loadComments() {
 				<?php 
@@ -49,8 +176,9 @@
 					echo 'comments['.$row[0]."] = '".$row[3]."';";
 					echo 'dates['.$row[0]."] = '".$row[2]."';";
 					echo 'usernames['.$row[0]."] = '".$row[1]."';".PHP_EOL;
+					
 				}
-
+				
 				?>
 				var commentlist = document.getElementById('commentholder');
 				commentlist.setAttribute('style', 'width: '+((180*commentCount)+40)+'px;')
@@ -76,49 +204,6 @@
 				}
 			}
 
-			function showComments() {
-				var comments = document.getElementById('comments');
-				var content = document.getElementById('content');
-
-				if(comments.className == "hidden") {
-					comments.className = "visible";
-
-					// var canvas = document.getElementById('canvas');
-					// canvas.setAttribute('id', 'canvasbug');
-					//content.className = "contentspace";
-				} else {
-					comments.className = "hidden";
-					// var canvas = document.getElementById('canvasbug');
-					// canvas.setAttribute('id', 'canvas');
-					//canvas.setAttribute('class', '');
-					//content.className = "contentnospace";
-				}
-			}
-			//************************************************************************
-			function saveComment () {
-				
-				var xmlhttp;
-				var canvas = document.getElementById('canvas');
-				var img = canvas.toDataURL("image/png");
-				document.getElementById("upload").innerHTML="Sending...";
-
-				if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-					xmlhttp=new XMLHttpRequest();
-				} else {// code for IE6, IE5
-					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				xmlhttp.onreadystatechange=function() {
-					if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-						location.reload();
-						//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
-					}
-				}
-				document.getElementById("upload").innerHTML="Sending...";
-				xmlhttp.open("POST",path+"/upload_comment.php",true);
-				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-				xmlhttp.send("data=" + img + "&scribbleid=" + scribbleid);
-			}
-
 			// 0 topScrib;
 			// 1 bottomScrib;
 			// 2 leftScrib;
@@ -140,6 +225,7 @@
 			function onLoad () {
 				loadCanvas();
 				loadComments();
+				loadScribbles();
 
 				var form = document.getElementById('postscribble'); 
 				var p = document.createElement("input");
@@ -165,31 +251,6 @@
 
 	<?php 
 		echo '<form action="'.path.'/scribble" method="post" id="postscribble"></form>';
-
-		$sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $scribbleid);
-		$result = $mysqli->query($sql)->fetch_array();
-
-		$xcurr = $result[0];
-		$ycurr = $result[1];
-		$parentid = $result[2];
-
-		function hasNeighbour($mysqli, $xcurr, $ycurr, $x, $y)
-		{
-			$sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1 ", ($xcurr + $x), ($ycurr + $y));
-			$result = $mysqli->query($sql);
-			if ($result->num_rows > 0) {
-				return true;
-			}
-			return false;
-		}
-
-		function getNeightbour($mysqli, $xcurr, $ycurr)
-		{
-			$sql = sprintf("SELECT `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username` FROM `map`, `scribbles`, `members` WHERE X(`position`) = %d AND Y(`position`) = %d AND `scribbles`.`scribbleid` = `map`.`scribbleid` AND `scribbles`.`userid` = `members`.`id` LIMIT 0, 1 ", $xcurr, $ycurr);
-			$result = $mysqli->query($sql)->fetch_array();
-			return $result;
-		}
-
 	?>
 	<body onload="onLoad();">
 		<div id="site">
@@ -238,7 +299,8 @@
 						</div>
 						
 						<div id="picture">
-							<?php echo '<div id="from">'.$fromname." | ".$fromdate.'</div>'; ?>
+
+							<?php echo '<div id="from"></div>'; ?>
 						</div>
 
 						<div class="cell">
@@ -274,37 +336,7 @@
 						<div class="cell"></div>
 					</div>
 				</div>
-				<a href="#comments" id="commentslink"><hr width=50% id="bar" size=1><div id="showcomments" onclick="showComments();">↓ Comments ↓</div></a>
-				<div id="comments" class="hidden">
-					<!-- 
-					***************************************************************** 
-					 Embed the Wacom TabletPlugin object.
-					 To avoid plugin selection on page, size and position are adjusted 
-					 so as to "tuck it under" canvas. 
-					***************************************************************** 
-					-->
-
-					<!--[if IE]>
-
-					<object id='wtPlugin' classid='CLSID:092dfa86-5807-5a94-bf3b-5a53ba9e5308' WIDTH=1 HEIGHT=1 style="position:absolute; left:100px; top:100px">
-					</object>
-
-					<![endif]--><!--[if !IE]> <-->
-					<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:20px; top:20px">
-						<!-- <param name="onload" value="pluginLoaded" /> -->
-					</object>
-				
-					<canvas id="canvas" width="150" height="150" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove(); " > </canvas>
-					<div id="makecomment">
-						<a href="#submit"><div tag="submit" id="submitcomment" onclick="saveComment();">Submit <div id="upload"></div></div></a>
-						<a href="#clear"><div tag="clear" id="clear" onclick="clearCanvas();">Clear</div></a>
-					</div>
-					<div id="commentlist">
-						<div id="commentholder">
-						</div>
-					</div>
-					
-				</div>
+				<?php include docroot.'/'.path.'/comment.php'; ?>
 			</div>
 		</div>
 	</body>

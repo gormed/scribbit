@@ -103,11 +103,26 @@ div#content {
 }
 
 div#from{
-	background-color: white;
-	margin: 10px;
+	background-color: transparent;
+	opacity: 0;
+	/*margin: 10px;*/
+	margin-top: 10%;
+	margin-bottom: 70%;
+	margin-left: 20px;
+	width: 30%;
+	height: 20%;
+	padding-top: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 	box-shadow: 0px 0px 10px #111;
-	vertical-align: top;
+	text-align: left;
+	/*vertical-align: middle;*/
 	/*box-shadow: 5px;*/
+}
+
+div#picture:hover div#from {
+	background-color: white;
+	opacity: 0.8;
 }
 
 div#showcomments {

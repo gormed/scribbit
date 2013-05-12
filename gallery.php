@@ -10,6 +10,7 @@ require_once 'header.php';
 		<link rel="stylesheet" type="text/css" href="ressources/css/gallery.css">
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
+		<script type="text/javascript" src="ressources/js/socials.js"></script>
 		<title>Scribbit - Gallery</title>
 		<script type="text/javascript">
 		<?php 
@@ -28,42 +29,6 @@ require_once 'header.php';
 		var lastX = 0.0;
 		var lastY = 0.0;
 		var capturing = false;
-
-		function favToggle(scribbleid) {
-			favorites[scribbleid] = !favorites[scribbleid];
-			if (favorites[scribbleid])
-				favCount[scribbleid]++;
-			else 
-				favCount[scribbleid]--;
-
-			var temp = document.getElementById('fav_'+scribbleid);
-			if (favorites[scribbleid])
-				temp.setAttribute('src', path+'/ressources/img/ico/star.png');
-			else
-				temp.setAttribute('src', path+'/ressources/img/ico/unstar.png');
-
-			var temp = document.getElementById('count_'+scribbleid);
-			temp.innerHTML = favCount[scribbleid];
-		}
-
-		function favImage(scribbleid) {
-			var xmlhttp;
-
-			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp=new XMLHttpRequest();
-			} else {// code for IE6, IE5
-				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.onreadystatechange=function() {
-				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-					favToggle(scribbleid); //on success
-				}
-			}
-			xmlhttp.open("POST","fav_image.php",true);
-			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-			xmlhttp.send("scribbleid="+scribbleid);
-
-		}
 
 		function loadScribbles () {
 			<?php 
