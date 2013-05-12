@@ -21,6 +21,7 @@ require_once 'header.php';
 		var users = {};
 		var favorites = {};
 		var favCount = {};
+		var commentCount = {};
 
 		var canvasPos = {x:0.0, y:0.0};
 		var canvasSize = {width:960, height:640};
@@ -91,6 +92,10 @@ require_once 'header.php';
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
 					$favcount = $mysqli->query($sql);
 					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";".PHP_EOL;
+
+					$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $row[0]);
+					$commentcount = $mysqli->query($sql)->num_rows;
+					echo 'commentCount['.$row[0]."] = ".$commentcount.";".PHP_EOL;
 				}
 			?>
 
@@ -118,14 +123,14 @@ require_once 'header.php';
 					temp.setAttribute('id', 'div_'+k);
 					var fav; 
 					if (favorites[k]) {
-						fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');"></a>';
+						fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
 					} else {
-						fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');"></a>';
+						fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
 					}
 					temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
 					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16"></a>'
-					+fav+'<span id="count_'+k+'">'+favCount[k]+'</span></span>';
+					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+commentCount[k]+'</a>'
+					+fav+'<span id="count_'+k+'">'+favCount[k]+'</a></span></span>';
 
 					element.appendChild(temp);
 					gallery.appendChild(link);
