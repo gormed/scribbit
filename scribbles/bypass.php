@@ -17,6 +17,10 @@ if ($rqst->num_rows > 0 && $loggedIn) {
 	$fromdate = $entry[3];
 	include (docroot.path.'/view.php');
 	exit();
+} else if ($rqst->num_rows <= 0 && $loggedIn) {
+	include (docroot.path.'/error');
+} else {
+	header("location: ".path."/");
 }
 
 ?>

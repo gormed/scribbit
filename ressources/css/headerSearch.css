@@ -243,7 +243,6 @@
 				left:50%;
 			}
 
-
 			/*HEADER inculdes navigation*/
 
 			div#header {
@@ -262,13 +261,11 @@
 				display:inline;
 				float:left;
 				font-size: 45px; 
-				width: 80px;
+				width: 50px;
 				height: 50px;
 				font-weight: bold;
 				text-align: center;
 				background-color: #444;
-				border: 5px;
-				border-color: black;
 
 			}
 			div#logo a:link {
@@ -288,6 +285,7 @@
 			}
 
 			/*Searchbar*/
+
 			div.searchbar {
 				display: inline-block;
 				float:left;
@@ -297,16 +295,17 @@
 				color: #fff;
 				/*background: #4e80cc;*/
 			}
+
 			div.searchbar div{
-				top: 2px; left: 10px;
-			 	position: relative;
+				top: 2px; left: 0px;
+				position: relative;
 				display:inline;
 				height: auto;
 			}
 
 			div.searchbar input.searchtext {
 				width: 330px;
-				height:60%;
+				height:16px;
 			}
 			/* NAVIGATION */
 
@@ -321,36 +320,26 @@
 
 			.topnav {
 				/*margin-left: 40%;*/
-				float: right;
+				/*float: right;
+				width: 250px;*/
 				/*background: #222;*/
+				margin-left: 15px;
 
 				/*background: url(topnav_bg.gif) repeat-x;*/
 			}
 
 			.topnav div {
-				float: right;
 				padding-right: 5px;
 				/*position: relative; --Declare X and Y axis base for sub navigation--*/
 			}
 
-			div.spacerdiv {
-				width: 20px;
-			}
 			.main {
-				margin-right: 15px;
-				font-size: 30px;
-				height: 32px;
-				/*width: 32px;*/
-				margin-top: 8px;
-				margin-bottom: 8px;
+				float: left;
+				margin-left: 15px;
 			}
 			.social {
+				float: right;
 				margin-right: 15px;
-				font-size: 16px;
-				height: 16px;
-				/*width: 16px;*/
-				margin-top: 17px;
-				margin-bottom: 17px;
 			}
 
 			.topnav a {
