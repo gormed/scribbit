@@ -41,27 +41,14 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/header.css">'; ?>
+		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/headerSearch.css">'; ?>
 		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/view.css">'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/comment.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/socials.js"></script>'; ?>
 		<title>Scribbit - View</title>
-		<style type="text/css">
-			div#picture {
-			<?php echo 'background: url('.root.'/scribbles/h/'.$scribblepath.'); '; ?>
-				box-shadow: 0px 1px 10px #333;
-				
-				display: table-cell;
-				/*border: 1px solid black;*/
-				text-align: center;
-				vertical-align: top;
-				height: 640px; width: 960px;
-				background-size: 100% 100%;
-				background-color: white;
-			}
-		</style>
+
 		
 		<!-- SCRIPT -->
 
@@ -255,12 +242,12 @@
 			<div id="content">
 				<div class="table" >
 					<div class="row">
-						<div class="cell"></div>
+						<div class="corner"></div>
 						<div class="cell">
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
 								$where = 0;
-								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+								echo '<div id="painthorz" onclick="submitWhere('.$where.');">(paint here)</div>';
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr+1);
@@ -269,7 +256,7 @@
 							}
 							?>
 						</div>
-						<div class="cell"></div>
+						<div class="corner"></div>
 					</div>
 					<div class="row" id="wrapper">
 						
@@ -277,7 +264,7 @@
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, -1, 0)) {
 								$where = 3;
-								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+								echo '<div id="paintvert" onclick="submitWhere('.$where.');">(paint here)</div>';
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr-1, $ycurr);
@@ -287,7 +274,18 @@
 							?>
 						
 						</div>
-						
+						<style type="text/css">
+							div#picture {
+							<?php echo 'background: url('.root.'/scribbles/h/'.$scribblepath.'); '; ?>
+								box-shadow: 0px 0px 10px #333;
+								float: left;
+								/*border: 1px solid black;*/
+								height: 640px; width: 960px;
+								background-size: 100% 100%;
+								background-color: white;
+								z-index: 100; 
+							}
+						</style>
 						<div id="picture">
 
 							<?php 
@@ -309,7 +307,7 @@
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 1, 0)) {
 								$where = 1;
-								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+								echo '<div id="paintvert" onclick="submitWhere('.$where.');">(paint here)</div>';
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr+1, $ycurr);
@@ -321,12 +319,12 @@
 
 					</div>
 					<div class="row">
-						<div class="cell"></div>
+						<div class="corner"></div>
 						<div class="cell">
 							<?php
 							if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
 								$where = 2;
-								echo '<div class="paint" onclick="submitWhere('.$where.');">(paint here)</div>';
+								echo '<div id="painthorz" onclick="submitWhere('.$where.');">(paint here)</div>';
 							} else {
 								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
 								$neighbour = getNeightbour($mysqli, $xcurr, $ycurr-1);
@@ -335,7 +333,7 @@
 							}
 							?>
 						</div>
-						<div class="cell"></div>
+						<div class="corner"></div>
 					</div>
 				</div>
 				

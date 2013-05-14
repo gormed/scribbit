@@ -109,17 +109,7 @@ require_once 'header.php';
 
 	<body onload="loadScribbles();">
 			<div id="site">
-				<div id="profilenav">
-					<?php 
-						echo '<div style="float: right; margin-right: 20px; font-size: small; vertical-align: top;">';
-						if ($loggedIn) {
-							echo '<a href="'.path.'/settings">settings | </a>'.'<a href="'.path.'/profile"><img src="'.path.'/ressources/img/ico/status_online.png" width=16 height=16></a> Hello <a href="'.path.'/profile">'.$_SESSION['username'].'</a>! (<a href="'.path.'/logout">logout</a>)';
-						} else {
-
-						}
-						echo '</div>';
-					?>
-				</div>
+				
 				<div id="header">
 					<div id="logo">
 						<?php

@@ -70,7 +70,7 @@ function friendsSince($userid, $friendid, $mysqli)
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/header.css">
+		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">
 		<link rel="stylesheet" type="text/css" href="ressources/css/profile.css">
 		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
 		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
@@ -335,7 +335,7 @@ function friendsSince($userid, $friendid, $mysqli)
 				if (isset($viewProfile) && isset($profile)) {
 					$row = findLoginTime($friendid, $mysqli);
 					echo $profile."<br>";
-					echo "Last Login: <br>".$row->fetch_array()[1].'<br><div id="friends">';
+					echo "Last Login: <br>".$row->fetch_array()[1].'<br><div id="friendssection">';
 					if (areFriends($_SESSION['user_id'], $friendid, $mysqli)) {
 						echo '<br>friends since:<br> '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
 						echo '<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';

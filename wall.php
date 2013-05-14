@@ -309,7 +309,6 @@ console.log(canvasPos);
 						<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
 					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
-					<?php include docroot.'/'.path.'/searchbar.php'; ?>
 				</div>	
 				<div id="clippingMask"  overflow="scroll">		
 

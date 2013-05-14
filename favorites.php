@@ -88,7 +88,6 @@ require_once 'header.php';
 						?>
 					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
-					<?php include docroot.'/'.path.'/searchbar.php'; ?>
 				</div>
 
 				<div id="content">

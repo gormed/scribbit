@@ -30,6 +30,8 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 <?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
+<script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
 <script type="text/javascript">
 <?php 
 	echo 'var parentid = '.$parentid.';';
@@ -47,14 +49,6 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 *    For use on Internet Explorer, Firefox, Chrome.
 *************************************************************************** 
 -->
-<script type="text/javascript"
-
-        src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
-
-<script type="text/javascript"
-
-        src="http://code.jquery.com/jquery-2.0.0.js"></script>
-
 
     <script>
 	var canvasPos = {x:0.0, y:0.0};

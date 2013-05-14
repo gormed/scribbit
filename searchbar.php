@@ -7,14 +7,14 @@
 					$("#mainsearchbar").show(); 
 				},
 				function() {
-					$("#mainsearchbar").animate({width:'0px'}, "fast", function() {
+					$("#mainsearchbar").animate({opacity:'0.0'}, "fast", function() {
 						$("#mainsearchbar").hide();
 					});
 				} );
 			$("#searchicon").hover(
 				function() { 
 					$("#mainsearchbar").show(); 
-					$("#mainsearchbar").animate({width:'360px'}, "fast", function() {
+					$("#mainsearchbar").animate({opacity:'1.0'}, "fast", function() {
 						// body...
 					});
 					// $("#mainsearchbar").show(); 
@@ -29,6 +29,10 @@
 <div id="searchicon"></div>
 <div class="searchbar" >
 	<style type="text/css">
+
+		div#searchicon:hover {
+			background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
+		}
 		div#searchicon {
 			background-image: url(<?php echo path.'/ressources/img/ico/lupeA.png'; ?>);
 			background-size: 100% 100%;
@@ -41,7 +45,7 @@
 			float: left;
 		}
 		div#mainsearchbar {
-			width: 0px;
+			opacity: 0.0;
 		}
 	</style>
 	<div id="mainsearchbar">
