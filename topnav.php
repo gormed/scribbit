@@ -1,6 +1,113 @@
 
 <style type="text/css">
 
+@media screen and (max-width: 700px) {
+
+	div#searchicon:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
+	}
+	div#searchicon {
+		background-image: url(<?php echo path.'/ressources/img/ico/lupeA.png'; ?>);
+		background-size: 100% 100%;
+		width: 22px;
+		height: 22px;
+		margin-left: 15px;
+		margin-bottom: 9px;
+		margin-top: 9px;
+		display: inline;
+		float: left;
+	}
+	div#mainsearchbar {
+		opacity: 0.0;
+	}
+
+	#friends:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/frieB.png'; ?>);
+	}
+
+	#friends {
+		background-image: url(<?php echo path.'/ressources/img/ico/frieA.png'; ?>);
+		background-size: 100% 100%;
+		height: 16px;
+		width: 16px;
+	}
+
+	#favorites:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/favoB.png'; ?>);
+	}
+
+	#favorites {
+		background-image: url(<?php echo path.'/ressources/img/ico/favoA.png'; ?>);
+		background-size: 100% 100%;
+		height: 16px;
+		width: 16px;
+	}
+
+	#gallery:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/gallB.png'; ?>);
+	}
+
+	#gallery {
+		background-image: url(<?php echo path.'/ressources/img/ico/gallA.png'; ?>);
+		background-size: 100% 100%;
+		height: 22px;
+		width: 22px;
+		margin-top: 9px;
+		margin-bottom: 9px;
+	}
+
+	#wall:hover { 
+		background-image: url(<?php echo path.'/ressources/img/ico/wallB.png'; ?>);
+	}
+
+	#wall { 
+		background-image: url(<?php echo path.'/ressources/img/ico/wallA.png'; ?>);
+		background-size: 100% 100%;
+		height: 22px;
+		width: 32px;
+		margin-top: 9px;
+		margin-bottom: 9px;
+	}
+
+	#logout:hover { 
+		background-image: url(<?php echo path.'/ressources/img/ico/door_open.png'; ?>);
+	}
+
+	#logout { 
+		background-image: url(<?php echo path.'/ressources/img/ico/door.png'; ?>);
+		background-size: 100% 100%;
+		height: 16px;
+		width: 16px;
+	}
+
+	#settings { 
+		background-image: url(<?php echo path.'/ressources/img/ico/wrench_orange.png'; ?>);
+		background-size: 100% 100%;
+		height: 16px;
+		width: 16px;
+
+	}
+} 
+
+@media screen and (min-width: 701px) {
+	div#searchicon:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
+	}
+	div#searchicon {
+		background-image: url(<?php echo path.'/ressources/img/ico/lupeA.png'; ?>);
+		background-size: 100% 100%;
+		width: 32px;
+		height: 32px;
+		margin-left: 15px;
+		margin-bottom: 9px;
+		margin-top: 9px;
+		display: inline;
+		float: left;
+	}
+	div#mainsearchbar {
+		opacity: 0.0;
+	}
+
 	#friends:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/frieB.png'; ?>);
 	}
@@ -22,7 +129,7 @@
 		background-image: url(<?php echo path.'/ressources/img/ico/favoA.png'; ?>);
 		background-size: 100% 100%;
 		height: 20px;
-		width: 17px;
+		width: 20px;
 		margin-top: 25px;
 		margin-bottom: 15px;
 	}
@@ -62,8 +169,8 @@
 		background-size: 100% 100%;
 		height: 16px;
 		width: 16px;
-		position: absolute;
-		right: -19px;
+		position: relative;
+		right: 5px;
 		top: 2px;
 	}
 
@@ -75,8 +182,14 @@
 		margin-top: 25px;
 		margin-bottom: 15px;
 	}
-</style>
+}
 
+</style>
+<div id="logo">
+	<?php
+	echo '<a href="'.path.'/"><</a>';
+	?>
+</div>
 <div class="topnav">
 
 	<div class="main"><?php echo '<span><a href="'.path.'/wall"><div id="wall"></div></a></span>' ?></div>
@@ -85,20 +198,19 @@
 
 <?php include docroot.'/'.path.'/searchbar.php'; ?>
 
-<div class="topnav">
-	<div id="profilenav">
-		
-		<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
-		<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
-		<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
-		<?php 
-			echo '<div id="profileline">';
-			if ($loggedIn) {
-				echo 'Hello <a href="'.path.'/profile">'.$_SESSION['username'].'</a>! <a href="'.path.'/logout"><div id="logout"></div></a>';
-			} else {
+<div id="profilenav">
+	
+	<div class="social"><?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?></div>
+	<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
+	<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
+	<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
+	<?php 
+		echo '<div id="profileline">';
+		if ($loggedIn) {
+			echo 'Hello <a href="'.path.'/profile">'.$_SESSION['username'].'</a>!';
+		} else {
 
-			}
-			echo '</div>';
-		?>
-	</div>
+		}
+		echo '</div>';
+	?>
 </div>

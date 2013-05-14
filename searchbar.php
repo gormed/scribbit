@@ -28,26 +28,6 @@
 
 <div id="searchicon"></div>
 <div class="searchbar" >
-	<style type="text/css">
-
-		div#searchicon:hover {
-			background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
-		}
-		div#searchicon {
-			background-image: url(<?php echo path.'/ressources/img/ico/lupeA.png'; ?>);
-			background-size: 100% 100%;
-			width: 32px;
-			height: 32px;
-			margin-left: 15px;
-			margin-bottom: 9px;
-			margin-top: 9px;
-			display: inline;
-			float: left;
-		}
-		div#mainsearchbar {
-			opacity: 0.0;
-		}
-	</style>
 	<div id="mainsearchbar">
 		<div id="search"><input class="searchtext" type="text" name="searchtext"/></div>
 		<br>

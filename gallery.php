@@ -111,11 +111,7 @@ require_once 'header.php';
 			<div id="site">
 				
 				<div id="header">
-					<div id="logo">
-						<?php
-						echo '<a href="'.path.'/"><</a>';
-						?>
-					</div>
+					
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>
 
