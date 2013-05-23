@@ -11,12 +11,6 @@ require_once 'header.php';
 
 		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/headerSearch.css">'; ?>
 		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/wall.css">'; ?>
-		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/openLayersTheme.css">'; ?>
-		.olControlAttribution {
-			left: 5px;
-			bottom: 5px; 
-		}
-		</style>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jcanvas.min.js"></script>'; ?>
@@ -24,10 +18,14 @@ require_once 'header.php';
 
 
 		var scribbles = {};
+		var positionsx = {};
+		var positionsy = {};
+		var map={};
 		var points=new Object();
 		var canvasCount = 10;
-		var rowCount = 4;
+		var rowCount = 9;
 		var canvasPos ={};
+		var canvases ={};
 		// var lastX, curX, lastY, curY;
 
 		<?php 
@@ -36,125 +34,307 @@ require_once 'header.php';
 			exit();
 			}
 			else {
-				echo "var path = '".path."';";
-				echo "var root = '".root."/scribbles/l';"; 
-
-				$sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
-				$result = $mysqli->query($sql);
-				while ($row = $result->fetch_array(MYSQLI_NUM)) {
-					echo 'scribbles['.$row[0]."] = '".$row[1]."';";
-				}
+				echo "var path = '".path."';".PHP_EOL;
+				echo "var root = '".root."';".PHP_EOL; 
+				echo "var xpos = ".$xpos.";".PHP_EOL;
+				echo "var ypos = ".$ypos.";".PHP_EOL;
+				echo "var zoom = ".$zoom.";".PHP_EOL;
+				// $sql = "SELECT `scribbleid`, `path` FROM `scribbles` LIMIT 0, 40 ";
+				// $result = $mysqli->query($sql);
+				// while ($row = $result->fetch_array(MYSQLI_NUM)) {
+				// 	echo 'scribbles['.$row[0]."] = '".$row[1]."';";
+				// }
 				// $sql = "SELECT `scribbleid`, `AsText(position)` FROM `map`LIMIT 0, 40  ";
 				// $result = $mysqli->query($sql);
 				// while ($row = $result->fetch_array(MYSQLI_NUM)) {
 				// 	echo 'points['.$row[0]."] = '".$row[1]."';";
 				// }
+				$bl = ($xpos-9).' '.($ypos-11);
+				$tl = ($xpos-9).' '.($ypos+6);
+				$tr = ($xpos+17).' '.($ypos+6);
+				$br = ($xpos+17).' '.($ypos-11);
 
+				$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `scribbles`.`userid`, `scribbles`.`creation`, X(`map`.`position`), Y(`map`.`position`) FROM `scribbles`, `map` WHERE `scribbles`.`scribbleid` = `map`.`scribbleid` AND MBRContains(GeomFromText('Polygon((%s, %s, %s, %s, %s))'), `map`.`position`) = 1 LIMIT 0, 486 ", $bl, $br, $tr, $tl, $bl);
+				$result = $mysqli->query($sql);
+				while ($row = $result->fetch_array()) {
+					echo 'scribbles['.$row[0]."] = '/scribbles/l/".$row[1]."'; ";
+					// echo 'scribDates['.$row[0]."] = '".($row[3])."'; ";
+					echo 'positionsx['.$row[0]."] = '".($row[4])."'; ";
+					echo 'positionsy['.$row[0]."] = '".($row[5])."'; ";
+					echo 'map['.$row[4].''.$row[5]."] = '".$row[0]."'; ".PHP_EOL;
+				}
 
 			}
 		?>
 
 		function init() {
 
-			storeCoordinate(0, 1, 0, points);
-			storeCoordinate(1, 1, 0, points);
-			storeCoordinate(2, 0, 1, points);
-			storeCoordinate(3, 10, 10, points);
-			storeCoordinate(4, -10, 10, points);
-			storeCoordinate(5, 10, -10, points);
-			storeCoordinate(6, -10, -10, points);
-			storeCoordinate(7, -20, 20, points);
-			storeCoordinate(8, 2, 2, points);
-			storeCoordinate(9, -2, -2, points);
-			for(var i =10;i<=21;i++){
-					storeCoordinate(i, 0, 0, points);
-			}
-			
-			for (var y=-1; y<=1; y++){
-				for (var x=-1; x<=1; x++){
-					storeCoordinate(x+""+y, x, y, canvasPos);
-					
+
+				initDivCanvas(fDiv(xpos,9),fDiv(ypos,6));
+				for(var k in scribbles){
+					if (scribbles.hasOwnProperty(k)) {
+						createMapCell(positionsx[k], positionsy[k], k);
+
+					}	
 				}
-			}
-console.log(canvasPos);
-				loadScribbles();
+
+				addBottomRow();
+
+			// 	var iy = ypos-20;
+			// 	var ix = xpos-20;
+			// for(var y = iy;y<ypos+20;y++){
+			// 	for(var x = ix;x< xpos+20;x++){
+			// 		createMapCell(x,y);
+
+			// 	}
+			// }
+
+
+				// 	console.log(scribbles);
+				// 	console.log(positionsx);
+				// 	console.log(positionsy);
+				// 	// console.log(canvases[1][1]);
+
+				// 	loadScribbles();
 
 		}
 
+		function createMapCell(x,y, scrid){
 
+							var canvasCheck = checkCanvas(scrid);
+							if (canvasCheck!=null){
+								var mapCell  =document.createElement("div");
+								var carDir = getCardinalDirection(scrid);
+								var rely = 140 * getRelativYPos(scrid, carDir);
+								var relx = 210 * getRelativXPos(scrid, carDir);
+								mapCell.setAttribute('class','mapCell');
+								mapCell.setAttribute('id','mapCell'+x+''+y+'');						
+								mapCell.style.backgroundImage = "url("+root+scribbles[scrid]+")"; 
+								var divCanvas = document.getElementById(canvasCheck);
+								divCanvas.appendChild(mapCell);
+								console.log(scrid + " @ " + x + " " + y + " witch relcoord " + relx + " " + rely+ " on "+divCanvas.id );
+								$("#mapCell"+x+""+y).css({	'top' : rely + "px",
+															'left': relx + "px" });
+		
+							}
+						
+		}
+
+
+		function initDivCanvas(x,y){
+			document.getElementById("divCanvas-11").setAttribute("id","divCanvas"+(x-1)+""+(y+1));
+			storeCanvas("divCanvas"+(x-1)+""+(y+1), (x-1), (y+1), canvases);
+			document.getElementById("divCanvas01").setAttribute("id","divCanvas"+x+""+(y+1));
+			storeCanvas("divCanvas"+x+""+(y+1), x, (y+1), canvases);
+			document.getElementById("divCanvas11").setAttribute("id","divCanvas"+(x+1)+""+(y+1));
+			storeCanvas("divCanvas"+(x+1)+""+(y+1), (x+1), (y+1), canvases);
+
+			document.getElementById("divCanvas-10").setAttribute("id","divCanvas"+(x-1)+""+y);
+			storeCanvas("divCanvas"+(x-1)+""+y, (x-1), y, canvases);
+			document.getElementById("divCanvas00").setAttribute("id","divCanvas"+x+""+y);
+			storeCanvas("divCanvas"+x+""+y, x, y, canvases);
+			document.getElementById("divCanvas10").setAttribute("id","divCanvas"+(x+1)+""+y);
+			storeCanvas("divCanvas"+(x+1)+""+y, (x+1), y, canvases);
+
+			document.getElementById("divCanvas-1-1").setAttribute("id","divCanvas"+(x-1)+""+(y-1));
+			storeCanvas("divCanvas"+(x-1)+""+(y-1), (x-1), (y-1), canvases);
+			document.getElementById("divCanvas0-1").setAttribute("id","divCanvas"+x+""+(y-1));
+			storeCanvas("divCanvas"+x+""+(y-1), x, (y-1), canvases);
+			document.getElementById("divCanvas1-1").setAttribute("id","divCanvas"+(x+1)+""+(y-1));
+			storeCanvas("divCanvas"+(x+1)+""+(y-1), (x+1), (y-1), canvases);
+		}
+
+		function storeCanvas(id, xVal, yVal, array){
+			if (typeof array[xVal] == "undefined"){
+				array[xVal] = new Array();
+			}
+			array[xVal][yVal] = id;
+		}
 
 		function storeCoordinate(id, xVal, yVal, array) {
 			array[id]={x: xVal, y: yVal};
 		}
+
+		function fDiv(n1, n2)
+		{
+		// Simulation einer ganzahligen Division
+		// erst dividieren, dann auf Ganzzahl abrunden. 
+		if ( n1*n2 > 0 ) return Math.floor( n1/n2 );
+		else return Math.ceil ( n1/n2 );
+		}
 		
 
-		function loadScribbles () {
+		// function loadScribbles () {
 
-			var count=0;
-			for (var k in scribbles) {
-				var canvasCheck = checkCanvas(count);
-				// use hasOwnProperty to filter out keys from the Object.prototype
-				if (scribbles.hasOwnProperty(k)) {
-					var rx = getRelativXPos(count);
-					var ry = getRelativYPos(count);
-					$("#canvas"+canvasCheck).addLayer({
-						type: "image",
-						source: "" + root+"/"+scribbles[k] + "",
-						x: 210*rx-105, y: 140*ry+70, 
-						width: 210, height: 140
-					})
-					.drawLayers();
+		//	for (var k in scribbles) {
+				
+		//		// use hasOwnProperty to filter out keys from the Object.prototype
+		//		if (scribbles.hasOwnProperty(k)) {
+		//			var canvasCheck = checkCanvas(k);
+		//			var rx = getRelativXPos(k);
+		//			var ry = getRelativYPos(k);
+		//			$("#"+canvasCheck).addLayer({
+		// 				type: "image",
+		// 				source: "" + root+"/"+scribbles[k] + "",
+		// 				x: 210*rx+105, y: 140*ry+70, 
+		// 				width: 210, height: 140
+		// 			})
+		// 			.drawLayers();
 					
-				}
-				count++;
+		// 		}
 
-			}	
+		// 	}	
 			
+		// }
+
+		function getCardinalDirection(scribbleid){
+			if(positionsx[scribbleid]>=0 && positionsy[scribbleid]<=0){
+				return "se";
+			}
+			else if(positionsx[scribbleid]>=0 && positionsy[scribbleid]>0){
+				return "ne";
+			}
+			else if(positionsx[scribbleid]<0 && positionsy[scribbleid]<=0){
+				return "sw";
+			}
+			else if(positionsx[scribbleid]<0 && positionsy[scribbleid]>0){
+				return "nw";
+			}
 		}
 
 		function checkCanvas(scribbleid) {
 				
-				for(var id in canvasPos){
-					var cPosX = canvasPos[id].x*9;
-					var cPosY = canvasPos[id].y*6;
-					
-					//North East
-					if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
-												
-						return id;
-						break;
+				if(positionsx[scribbleid]>=0 && positionsy[scribbleid]<=0){
+					//SOUTHEAST
+					for(var x in canvases){
+						if (canvases.hasOwnProperty(x)) {
+							var cPosX = x*9;
+							for (var y in canvases[x]){
+								if (canvases[x].hasOwnProperty(y)) {
+									var cPosY = y*6;
+									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]<=cPosY && positionsy[scribbleid]>(cPosY-6)){
+										return canvases[x][y];
+										break;
+									}
+								}
+							}	
+						}	
 					}
-					//North West
-					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y>=cPosY && points[scribbleid].y<cPosY+9){
-						return id;
-						console.log(id);
-						break;
+				}
 
+				else if(positionsx[scribbleid]>=0 && positionsy[scribbleid]>0){
+					//NORTHEAST
+					for(var x in canvases){
+						if (canvases.hasOwnProperty(x)) {
+							var cPosX = x*9;
+							for (var y in canvases[x]){
+								if (canvases[x].hasOwnProperty(y)) {
+									var cPosY = y*6;
+									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]>(cPosY-6) && positionsy[scribbleid]<=cPosY){
+										return canvases[x][y];
+										break;
+									}
+								}
+							}
+						}
 					}
-					//South West
-					else if (points[scribbleid].x<=cPosX && points[scribbleid].x>cPosX-9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
-						return id;
-						break;
-					}
-					//South East
-					else if (points[scribbleid].x>=cPosX && points[scribbleid].x<cPosX+9 && points[scribbleid].y<=cPosY && points[scribbleid].y>cPosY-9){
-						return id;
-						break;
-					}
+				}
 
+				else if(positionsx[scribbleid]<0 && positionsy[scribbleid]>0){
+					//NORTHWEST
+					for(var x in canvases){
+						if (canvases.hasOwnProperty(x)) {
+							var cPosX = x*9;
+							for (var y in canvases[x]){
+								if (canvases[x].hasOwnProperty(y)) {
+									var cPosY = y*6;
+									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]>(cPosY-6) && positionsy[scribbleid]<=cPosY){
+										return canvases[x][y];
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
 
+				else if(positionsx[scribbleid]<0 && positionsy[scribbleid]<=0){
+					//SOUTHWEST
+					for(var x in canvases){
+						if (canvases.hasOwnProperty(x)) {
+							var cPosX = x*9;
+							for (var y in canvases[x]){
+								if (canvases[x].hasOwnProperty(y)) {
+									var cPosY = y*6;
+									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]<=cPosY && positionsy[scribbleid]>(cPosY-6)){
+										return canvases[x][y];
+										break;
+									}
+								}
+							}
+						}
+					}
 				}
 				return null;
 		}
 
 
-		function getRelativXPos(scribbleid) {
-				var relx =	points[scribbleid].x;	
-				return relx%9;
+		function getRelativXPos(scribbleid, carDir) {
+			switch (carDir) {
+				case "nw":
+					var relx =	positionsx[scribbleid]* -1;
+					relx = relx%9;
+					if(relx != 0) relx = 9-relx;
+					return relx;
+					break;
+				case "ne":
+					var relx = positionsx[scribbleid];	
+					return relx%9;
+					break;
+				case "sw":
+					var relx =	positionsx[scribbleid]* -1;
+					relx = relx%9;
+					if(relx != 0) relx = 9-relx;
+					return relx; 
+					break;
+				case "se":
+					var relx =	positionsx[scribbleid];	
+					return relx%9;
+					break;
+				default:
+					console.log("getRelativCoord failed!");
+					break;
+			}		
 		}
-		function getRelativYPos(scribbleid) {		
-				var rely =	points[scribbleid].y;
-				return rely%6;
+		function getRelativYPos(scribbleid, carDir) {		
+			switch (carDir) {
+				case "nw":
+					var rely =	positionsy[scribbleid];
+					rely = rely%6;
+					if(rely != 0) rely = 6-rely;
+					return rely; 
+					break;
+				case "ne":
+					var rely =	positionsy[scribbleid];
+					rely = rely%6;
+					if(rely != 0) rely = 6-rely;
+					return rely; 
+					break;
+				case "sw":
+					var rely =	positionsy[scribbleid]* -1;
+					return rely%6;
+					break;
+				case "se":
+					var rely =	positionsy[scribbleid]* -1;
+					return rely%6;
+					break;
+				default:
+					return 0;
+					console.log("getRelativCoord failed!");
+					break;
+			}
+
+				
 		}
 
 
@@ -167,31 +347,32 @@ console.log(canvasPos);
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					$('div#processbar').show();
-					$.ajax({
-						type: "POST",
-						url: "ajaxWallBottom.php",
-						data: {currentCanvas: "BOTTOM"},
-						success: function(html)
-						{
-							if(html)
-							{
+					console.log("scrolldown");
+					// $('div#processbar').show();
+					// $.ajax({
+					// 	type: "POST",
+					// 	url: "ajaxWallBottom.php",
+					// 	data: {currentCanvas: "BOTTOM"},
+					// 	success: function(html)
+					// 	{
+					// 		if(html)
+					// 		{
 					
 								addBottomRow();
 
-							$('div#processbar').hide();
-							}else
-							{
-								$('div#processbar').html('<center>OUT OF SPACE</center>');
-							}
-						}
+					// 		$('div#processbar').hide();
+					// 		}else
+					// 		{
+					// 			$('div#processbar').html('<center>OUT OF SPACE</center>');
+					// 		}
+					}
 					});
-				}
-			});	
+				
 
 
-			function addbottomRow(){
-			
+
+			function addBottomRow(){
+				
 						var row = document.createElement("div");
 						row.setAttribute('class', 'row');
 						row.setAttribute('id', 'row'+rowCount+'');
@@ -296,6 +477,7 @@ console.log(canvasPos);
 			// }
 
 		</script>
+
 		<title>Scribbit - Wall</title>
 	</head>
 
@@ -310,27 +492,27 @@ console.log(canvasPos);
 					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>	
-				<div id="clippingMask"  overflow="scroll">		
+				<div id="clippingMask">		
 
-					<div class="table" id="table">
+					<span class="table" id="table">
 						<div id="loadPlaceNorth"></div>
 						<div class="row" id="row1">
-							<div class="cell" id="cell1"><canvas id="canvas-11" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell2"><canvas id="canvas01" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell3"><canvas id="canvas11" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell1"><div id="divCanvas-11">&nbsp;</div></div>
+							<div class="cell" id="cell2"><div id="divCanvas01">&nbsp;</div></div>
+							<div class="cell" id="cell3"><div id="divCanvas11">&nbsp;</div></div>
 						</div>
 						<div class="row" id="row2">
-							<div class="cell" id="cell4"><canvas id="canvas-10" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell5"><canvas id="canvas00" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell6"><canvas id="canvas10" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell4"><div id="divCanvas-10">&nbsp;</div></div>
+							<div class="cell" id="cell5"><div id="divCanvas00">&nbsp;</div></div>
+							<div class="cell" id="cell6"><div id="divCanvas10">&nbsp;</div></div>
 						</div>
 						<div class="row" id="row3">
-							<div class="cell" id="cell7"><canvas id="canvas-1-1" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell8"><canvas id="canvas0-1" width="1890" height="840"></canvas></div>
-							<div class="cell" id="cell9"><canvas id="canvas1-1" width="1890" height="840"></canvas></div>
+							<div class="cell" id="cell7"><div id="divCanvas-1-1">&nbsp;</div></div>
+							<div class="cell" id="cell8"><div id="divCanvas0-1">&nbsp;</div></div>
+							<div class="cell" id="cell9"><div id="divCanvas1-1">&nbsp;</div></div>
 						</div>
 						<div id="loadPlaceSouth"></div>
-					</div>
+					</span>
 
 				</div>
 
