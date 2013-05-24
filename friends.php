@@ -78,19 +78,14 @@ require_once 'header.php';
 	</head>
 
 	<body onload="loadFriends();">
-			<div id="site">
+		<div id="site">
 			<div id="header">
-					<div id="logo">
-						<?php
-						echo '<a href="'.path.'/"><</a>';
-						?>
-					</div>
-					<?php include docroot.'/'.path.'/topnav.php'; ?>
-				</div>
-
-				<div id="content">
-
-				</div>
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
+
+			<div id="content">
+
+			</div>
+		</div>
 	</body>
 </html>

@@ -14,6 +14,7 @@ $pages['scribble']='scribble.php';
 $pages['view']='view.php';
 $pages['favorites']='favorites.php';
 $pages['friends']='friends.php';
+$pages['settings']='settings.php';
 
 $loginRequired['login']=false;
 $loginRequired['register']=false;
@@ -26,6 +27,7 @@ $loginRequired['scribble']=true;
 $loginRequired['view']=true;
 $loginRequired['favorites']=true;
 $loginRequired['friends']=true;
+$loginRequired['settings']=true;
 
 $folder = $_GET['start'];
 

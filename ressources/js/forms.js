@@ -15,13 +15,13 @@ function checkPassword(form) {
 	}
 }
 
-function passwordValidation(form) {
-	if (form.password.value != "" 
-		&& form.password.value == form.confirm_password.value) {
+function passwordCkeck(password, confirm_password) {
+	if (password != "" 
+		&& password == confirm_password) {
 		// at least one number, one lowercase and one uppercase letter
-		// at least six characters
-		var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-		var validPassword = re.test(form.password.value);
+		// at least eight characters
+		var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+		var validPassword = re.test(password);
 		if (!validPassword) {
 			return 1;
 		}
@@ -29,6 +29,10 @@ function passwordValidation(form) {
 	} else {
 		return 2;
 	}
+}
+
+function passwordValidation(form) {
+	return passwordCkeck(form.password.value, form.confirm_password.value);
 }
 
 function checkPasswordStrength(form) {
@@ -48,10 +52,9 @@ function checkPasswordStrength(form) {
 }
 
 function checkEmail (form) {
-	var email = form.email.value;
 	var validEmail = document.getElementById('validEmail');
 
-	if (email.indexOf("@") != -1 && email.indexOf(".") != -1) {
+	if (checkEmailValid(form)) {
 		validEmail.innerHTML = "Valid email!"
 		validEmail.style.color = "#6f6";
 	} else {
@@ -62,7 +65,6 @@ function checkEmail (form) {
 
 function checkEmailValid (form) {
 	var email = form.email.value;
-	var validEmail = document.getElementById('validEmail');
 
 	if (email.indexOf("@") != -1 && email.indexOf(".") != -1) {
 		return true;
@@ -71,8 +73,26 @@ function checkEmailValid (form) {
 	}	
 }
 
+function checkUsername(form) {
+	var username = form.username.value;
+	var regex = /([\w|-]+)/gi;
+	var valid = regex.exec(username);
+	if (username.length == 0) {
+		return false;
+	}
+	if (valid[0].length == username.length) {
+		document.getElementById('validName').innerHTML = "";
+		return true;
+	}
+	else {
+		form.username.value = "";
+		document.getElementById('validName').innerHTML = '<div style="color: #f66">Only A-Z, a-z, 0-9<br>and -_ are allowed</div>';
+		return false;
+	}
+}
+
 function registerformhash(form) {
-	if (checkPassword(form) && checkEmailValid(form)) {
+	if ((passwordValidation(form) == 0) && checkEmailValid(form) && checkUsername(form)) {
 		// Create a new element input, this will be out hashed passw ord field.
 		var p = document.createElement("input");
 		// Add the new element to our form.

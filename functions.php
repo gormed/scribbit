@@ -32,9 +32,6 @@ function login($email, $password, $mysqli) {
 		 } else {
 		 if($db_password == $password) { // Check if the password in the database matches the password the user submitted. 
 			// Password is correct!
-			  
-
-
 			$user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 
 			$user_id = preg_replace("/[^0-9]+/", "", $user_id); // XSS protection as we might print this value
@@ -42,7 +39,8 @@ function login($email, $password, $mysqli) {
 			$username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username); // XSS protection as we might print this value
 			$_SESSION['username'] = $username;
 			$_SESSION['login_string'] = hash('sha512', $password.$user_browser);
-
+			$_SESSION['views'] = 1;
+			$_SESSION['ip'] = $_SERVER['SERVER_ADDR'];
 			// log last login time
 			$now = time();
 			$mysqldate = date( 'Y-m-d H:i:s', $now );
@@ -130,6 +128,27 @@ function login_check($mysqli) {
 	 // Not logged in
 	 return false;
    }
+}
+
+function updatePassword($mysqli, $userid, $password, $newpw, $randomSalt)
+{
+	if ($stmt = $mysqli->prepare("SELECT username, password, salt FROM members WHERE id = ? LIMIT 1")) { 
+		$stmt->bind_param('s', $userid); // Bind "$email" to parameter.
+		$stmt->execute(); // Execute the prepared query.
+		$stmt->store_result();
+		$stmt->bind_result($username, $db_password, $salt); // get variables from result.
+		$stmt->fetch();
+		$password = hash('sha512', $password.$salt); // hash the password with the unique salt.
+		
+		if($stmt->num_rows == 1) { // If the user exists		
+			if($db_password == $password) {
+				$sql = sprintf("UPDATE `members` SET `password`='%s',`salt`='%s' WHERE `id` = %d", $newpw, $randomSalt, $userid);
+				$mysqli->query($sql);
+				return "Successful";
+			}
+		}
+	}
+	return "Error";
 }
 
 ?>

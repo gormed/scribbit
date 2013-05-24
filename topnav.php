@@ -169,9 +169,7 @@
 		background-size: 100% 100%;
 		height: 16px;
 		width: 16px;
-		position: relative;
-		right: 5px;
-		top: 2px;
+		margin: 5px;
 	}
 
 	#settings { 
@@ -199,18 +197,21 @@
 <?php include docroot.'/'.path.'/searchbar.php'; ?>
 
 <div id="profilenav">
-	
-	<div class="social"><?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?></div>
-	<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
-	<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
-	<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
+	<div class="profilelogout"><?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?></div>
 	<?php 
 		echo '<div id="profileline">';
 		if ($loggedIn) {
-			echo 'Hello <a href="'.path.'/profile">'.$_SESSION['username'].'</a>!';
+			echo ' Hello <a href="'.path.'/profile">'.$_SESSION['username'].'</a>!';
 		} else {
 
 		}
 		echo '</div>';
 	?>
+	
+	<div id="profileicons">
+	<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
+	<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
+	<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
+	</div>
+
 </div>

@@ -82,12 +82,7 @@ require_once 'header.php';
 	<body onload="loadFavorites();">
 			<div id="site">
 			<div id="header">
-					<div id="logo">
-						<?php
-						echo '<a href="'.path.'/"><</a>';
-						?>
-					</div>
-					<?php include docroot.'/'.path.'/topnav.php'; ?>
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>
 
 				<div id="content">

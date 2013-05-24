@@ -63,9 +63,9 @@ div#content {
 	margin-top: 100px;
 	display: block;
 	float:left;
-	width: 90%;
-	margin-right: 5%;
-	margin-left: 5%;
+	width: 98% auto;
+	margin-right: 1%;
+	margin-left: 1%;
 	/*padding: 10 10 10 10;*/
 	background-color: transparent;
 }

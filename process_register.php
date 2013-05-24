@@ -9,6 +9,9 @@ $password = hash('sha512', $password.$randomSalt);
 // get mail and username from form
 $email = $_POST['email'];
 $username = $_POST['username'];
+// XSS protection as we might print this value
+$username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username); 
+
 // chekc if username is already taken
 $query = sprintf("SELECT * FROM `members` WHERE `username` LIKE '%s' LIMIT 0, 1", $username);
 $usernames = $mysqli->query($query);
@@ -19,9 +22,9 @@ $emails = $mysqli->query($query);
 //echo $email, " ", $username, " ", $result->num_rows;
 if (isset($username) && isset($password) && isset($email) && isset($randomSalt)) {
 	if($usernames->num_rows > 0) {
-		$nameTaken = '<td style="color: #f66">Username already taken!</td>';
+		$nameTaken = '<div style="color: #f66">Username already taken!</div>';
 	} else if($emails->num_rows > 0) {
-		$mailTaken = '<span style="color: #f66">Email already registered!</span>';
+		$mailTaken = '<div style="color: #f66">Email already registered!</div>';
 	} else {
 		// Add your insert to database script here. 
 		// Make sure you use prepared statements!

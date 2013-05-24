@@ -302,14 +302,9 @@ console.log(canvasPos);
 <body onload="init()"> 
 			<div id="site">
 				<div id="header">
-					<div id="logo">
-						<?php
-						echo '<a href="'.path.'/"><</a>';
-						?>
-						<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
-					</div>
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
-				</div>	
+				</div>
+				<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
 				<div id="clippingMask"  overflow="scroll">		
 
 					<div class="table" id="table">

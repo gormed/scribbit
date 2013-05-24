@@ -1,19 +1,28 @@
+<?php
+	if (isset($_POST['username'])) {
+		require_once 'process_register.php';
+	}
+	$error = '';
+	$taken = "<td>What's your name?</td>";
+	$email = '';
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
-	<?php
-		if (isset($_POST['username'])) {
-			require_once 'process_register.php';
-		}
-		$error = '';
-		$taken = "<td>What's your name?</td>";
-		$email = '';
-	?>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title>Register Page</title>
 		<script type="text/javascript" src="ressources/js/sha512.js"></script>
 		<script type="text/javascript" src="ressources/js/forms.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
+		<script type="text/javascript">
+			// jQuery
+			$(document).ready(function() {
+				
+				// $("#validUsername")
+			});
+
+		</script>
 		<style type="text/css">
 
 			body {
@@ -76,10 +85,10 @@
 					<table>
 					<tr>
 						<td id="text">Artistname </td>
-						<td><input type="text" name="username" id="username" size="16"/></td>
-						<?php
-						echo $taken;
-						?>
+						<td><input type="text" name="username" id="username" size="16" onblur="checkUsername(this.form)"/></td>
+						<td id="validName" >
+							<?php if (isset($nameTaken)) { echo $nameTaken; } ?>
+						</td>
 					</tr>
 					<tr>
 						<td id="text">Email </td>
@@ -103,7 +112,7 @@
 					</tr>
 					</table>
 					<br>
-					<div style="font-size:small">Password must contain at least 6 characters and <br>
+					<div style="font-size:small">Password must contain at least 8 characters and <br>
 						one uppercase and lowercase letter <br>and at least one number!</div>
 					<br>
 					<input type="button" value="Register" onclick="registerformhash(this.form);" />

@@ -12,51 +12,57 @@ include("process_login.php");
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-<title>Login Please</title>
-<script type="text/javascript" src="ressources/js/sha512.js"></script>
-<script type="text/javascript" src="ressources/js/forms.js"></script>
-<style type="text/css">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Login Please</title>
+	<script type="text/javascript" src="ressources/js/sha512.js"></script>
+	<script type="text/javascript" src="ressources/js/forms.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
+	<style type="text/css">
 
-	body {
-		color: black; background-color: #E0E0E0;
-		font-size: 100.00%;
-		font-family: Tahoma,sans-serif;
-		margin: 0; padding: 0em;
-	}
+		body {
+			color: black; background-color: #E0E0E0;
+			font-size: 100.00%;
+			font-family: Tahoma,sans-serif;
+			margin: 0; padding: 0em;
+		}
 
-	div#site {
-		background-color: #696969;
-		text-align: left;    /* Seiteninhalt wieder links ausrichten */
-		margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
-		width: 640px;
-	}
+		div#site {
+			background-color: #696969;
+			text-align: left;    /* Seiteninhalt wieder links ausrichten */
+			margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
+			width: 640px;
+		}
 
-	div#logo {
-		color: black;
-		font-family: 'Tahoma', sans-serif;
-		font-size: 2em; 
-		letter-spacing:0.4em; 
-		word-spacing:0.4em;
-		padding-top: 2em;
-		padding-bottom: 1em;
-		padding-left: 1em;
-		font-weight: bold;
-	}
+		div#logo {
+			color: black;
+			font-family: 'Tahoma', sans-serif;
+			font-size: 2em; 
+			letter-spacing:0.4em; 
+			word-spacing:0.4em;
+			padding-top: 2em;
+			padding-bottom: 1em;
+			padding-left: 1em;
+			font-weight: bold;
+		}
 
-</style>
-<script type="text/javascript">
-	function onEnter(event) {
-		if (event.keyCode == 13) {
-			var email = document.getElementById('email');
-			var pw = document.getElementById('password');
-			if (email.value != "" && pw.value != "") {
-				formhash(document.getElementById('login_form'));
+	</style>
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+			
+		});
+
+		function onEnter(event) {
+			if (event.keyCode == 13) {
+				var email = document.getElementById('email');
+				var pw = document.getElementById('password');
+				if (email.value != "" && pw.value != "") {
+					formhash(document.getElementById('login_form'));
+				}
 			}
 		}
-	}
-	document.onkeypress = onEnter;
-</script>
+		document.onkeypress = onEnter;
+	</script>
 </head>
 <body>
 	<div id="site">

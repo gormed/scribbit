@@ -1,3 +1,8 @@
+/*
+=============================================================
+=					LOW RESOLUTIONS
+=============================================================
+*/
 
 @media screen and (max-width: 700px) {
 	
@@ -33,9 +38,9 @@
 		font-size: 100%;
 		font-family: 'Tahoma', sans-serif; 
 		left:0%;
+		margin: 0px;
 	}
 	div#site {
-		margin-left: -8px;
 		display:block;
 		width:100%;
 		top:50%;
@@ -48,7 +53,6 @@
 		display:block;
 		position:fixed;
 		float:left;
-		margin-top: -8px;
 		width:100%;
 		height:40px;
 		color: white;
@@ -139,6 +143,10 @@
 	}
 	.social {
 		float: right;
+		margin-left: 15px;
+	}
+	.profilelogout {
+		float:right; margin-left: 10px; margin-right: 5px;
 	}
 
 	.topnav a {
@@ -152,14 +160,18 @@
 
 	div#profilenav {
 		float: right;
-		height: 20px;
 		width: 100%;
 		background-color: #385a8f;
 		vertical-align: bottom;
+		padding-bottom: 4px;
+	}
+
+	div#profileicons {
+		float: right;
 	}
 
 	div#profileline {
-
+		padding-left: 5px;
 		float: right;
 		font-size: small;
 	}
@@ -188,7 +200,11 @@
 }
 
 
-
+/*
+=============================================================
+=					HIGH RESOLUTIONS
+=============================================================
+*/
 
 @media screen and (min-width: 701px) {
 
@@ -223,11 +239,11 @@
 		background-color: #E0E0E0;
 		font-size: 100%;
 		font-family: 'Tahoma', sans-serif; 
+		margin: 0px;
 	}
 	div#site {
-		margin-left: -8px;
 		display:block;
-		width:100%;
+		width: 0 auto;
 	}
 
 	/*HEADER inculdes navigation*/
@@ -236,7 +252,6 @@
 		display:block;
 		position:fixed;
 		float:left;
-		margin-top: -8px;
 		width:100%;
 		height:50px;
 		color: white;
@@ -326,7 +341,10 @@
 	}
 	.social {
 		float: right;
-		margin-left: 15px;
+		margin-left: 10px;
+	}
+	.profilelogout {
+		float:right; 
 	}
 
 	.topnav a {
@@ -339,6 +357,10 @@
 	}
 
 	div#profilenav {
+		display: block;
+	}
+
+	div#profileicons {
 	}
 
 	div#profileline {

@@ -113,34 +113,6 @@
 				}
 				?>
 				
-
-				// for (var k in scribbles) {
-				// 	// use hasOwnProperty to filter out keys from the Object.prototype
-				// 	if (scribbles.hasOwnProperty(k)) {
-				// 		element = document.createElement('div');
-				// 		element.setAttribute('class','item');
-				// 		element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
-				// 		link.appendChild(element);
-
-
-				// 		temp = document.createElement('div');
-				// 		temp.setAttribute('class', 'initem');
-				// 		temp.setAttribute('id', 'div_'+k);
-				// 		var fav; 
-				// 		if (favorites[k]) {
-				// 			fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
-				// 		} else {
-				// 			fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
-				// 		}
-				// 		temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
-				// 		'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-				// 		'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+commentCount[k]+'</a>'
-				// 		+fav+'<span id="count_'+k+'">'+favCount[k]+'</a></span></span>';
-
-				// 		element.appendChild(temp);
-				// 		gallery.appendChild(link);
-				// 	}
-				// }
 			}
 
 			function loadComments() {
@@ -232,11 +204,6 @@
 	<body onload="onLoad();">
 		<div id="site">
 			<div id="header">
-				<div id="logo">
-					<?php
-					echo '<a href="'.path.'/"><</a>';
-					?>
-				</div>
 				<?php include docroot.'/'.path.'/topnav.php'; ?>	
 			</div>
 			<div id="content">
@@ -287,19 +254,18 @@
 							}
 						</style>
 						<div id="picture">
-
 							<?php 
-							$viewFavCount = getFavoriteCount($mysqli, $scribbleid);
-							$viewCmtCount = getCommentCount($mysqli, $scribbleid);
-							$userlink = '<a href="'.path.'/'.$fromname.'">'.$fromname.'</a> <br> ';
-							$imgdate = $fromdate.'<br>';
-							$favs = '<a href="#unfav"><img id="fav_'.$scribbleid.'" src="'.path.
-							'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('.$scribbleid.');">';
+								$viewFavCount = getFavoriteCount($mysqli, $scribbleid);
+								$viewCmtCount = getCommentCount($mysqli, $scribbleid);
+								$userlink = '<a href="'.path.'/'.$fromname.'">'.$fromname.'</a> <br> ';
+								$imgdate = $fromdate.'<br>';
+								$favs = '<a href="#unfav"><img id="fav_'.$scribbleid.'" src="'.path.
+								'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('.$scribbleid.');">';
 
-							$icon = '<span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();">'.
-							'<img src="'.path.'/ressources/img/ico/comment.png" width="16" height="16">'.$viewCmtCount.'</a>'.$favs.
-							'<span id="count_'.$scribbleid.'">'.$viewFavCount.'</a></span>';
-							echo '<div id="from">'.$userlink.$imgdate.$icon.'</div>'; 
+								$icon = '<span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();">'.
+								'<img src="'.path.'/ressources/img/ico/comment.png" width="16" height="16">'.$viewCmtCount.'</a>'.$favs.
+								'<span id="count_'.$scribbleid.'">'.$viewFavCount.'</a></span>';
+								echo '<div id="from">'.$userlink.$imgdate.$icon.'</div>'; 
 							?>
 						</div>
 
