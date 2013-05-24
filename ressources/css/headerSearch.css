@@ -58,6 +58,7 @@
 		color: white;
 		background-color: #385a8f;
 		box-shadow: 0px 0px 20px #111;
+				z-index: 2;
 	}
 
 	div#logo {
@@ -240,6 +241,7 @@
 		font-size: 100%;
 		font-family: 'Tahoma', sans-serif; 
 		margin: 0px;
+		/*Hady: overflow:scroll;*/
 	}
 	div#site {
 		display:block;
@@ -257,6 +259,7 @@
 		color: white;
 		background-color: #385a8f;
 		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
 	}
 
 	div#logo {

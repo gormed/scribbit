@@ -14,6 +14,7 @@ $sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) =
 $result = $mysqli->query($sql);
 
 
+
 // $sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $scribbleid);
 // $result = $mysqli->query($sql);
 // $pos = $result->fetch_array();
