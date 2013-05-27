@@ -81,11 +81,14 @@
 	}
 
 	#settings { 
-		background-image: url(<?php echo path.'/ressources/img/ico/wrench_orange.png'; ?>);
+		background-image: url(<?php echo path.'/ressources/img/ico/zahnradA.png'; ?>);
 		background-size: 100% 100%;
 		height: 16px;
 		width: 16px;
 
+	}
+	#settings:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/zahnradB.png'; ?>);
 	}
 } 
 
@@ -173,12 +176,15 @@
 	}
 
 	#settings { 
-		background-image: url(<?php echo path.'/ressources/img/ico/wrench_orange.png'; ?>);
+		background-image: url(<?php echo path.'/ressources/img/ico/zahnradA.png'; ?>);
 		background-size: 100% 100%;
-		height: 16px;
-		width: 16px;
+		height: 20px;
+		width: 20px;
 		margin-top: 25px;
 		margin-bottom: 15px;
+	}
+	#settings:hover {
+		background-image: url(<?php echo path.'/ressources/img/ico/zahnradB.png'; ?>);
 	}
 }
 

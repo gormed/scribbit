@@ -75,18 +75,25 @@ function checkEmailValid (form) {
 
 function checkUsername(form) {
 	var username = form.username.value;
+	var valid = checkValidUsername(username);
+	if (valid) {
+		document.getElementById('validName').innerHTML = "";
+	} else {
+		form.username.value = "";
+		document.getElementById('validName').innerHTML = 
+		'<div style="color: #f66">Only A-Z, a-z, 0-9<br>and -_ are allowed</div>';	
+	}
+}
+
+function checkValidUsername(username) {
 	var regex = /([\w|-]+)/gi;
 	var valid = regex.exec(username);
 	if (username.length == 0) {
 		return false;
 	}
 	if (valid[0].length == username.length) {
-		document.getElementById('validName').innerHTML = "";
 		return true;
-	}
-	else {
-		form.username.value = "";
-		document.getElementById('validName').innerHTML = '<div style="color: #f66">Only A-Z, a-z, 0-9<br>and -_ are allowed</div>';
+	} else {
 		return false;
 	}
 }

@@ -68,12 +68,17 @@
 
 	function daysSince($date)
 	{
-		//$split = preg_split('[ ]', $date);
-
 		$now = time(); // or your date as well
 		$your_date = strtotime($date);
 		$datediff = abs($now - $your_date);
 		return floor($datediff/(60*60*24));
+	}
+
+	function getPublicProfile($mysqli, $userid)
+	{
+		$sql = sprintf("SELECT `userid`, `name`, `email`, `location`, `url` FROM `public_profile` WHERE `userid` = %d LIMIT 0, 1", $userid);
+		$res = $mysqli->query($sql);
+		return $profile = $res->fetch_array();
 	}
 ?>
 <html>
@@ -356,9 +361,13 @@
 					}
 					echo "</div>";
 				} else { 
-					$row = findLoginTime($userid, $mysqli);
+					$public = getPublicProfile($mysqli, $_SESSION['user_id']);
 					echo $_SESSION['username']."<br>";
-					echo "Last Login: ".$row->fetch_array()[1]."<br>";
+					echo $public[1].'<br>';
+					echo $public[2].'<br>';
+					echo $public[3].'<br>';
+					echo $public[4].'<br>';
+
 				}
 
 				?>

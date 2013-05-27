@@ -28,7 +28,6 @@
 	} else {
 		$sql = sprintf("INSERT INTO `public_profile`(`userid`, `name`, `email`, `location`, `url`) VALUES (%d, '%s','%s','%s','%s')", $userid, $name, $email, $location, $url);	
 	}
-	$res = $mysqli->query($sql);
-	echo "Done " + $pid + " " + $res;
+	$mysqli->query($sql);
 
 ?>

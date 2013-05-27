@@ -41,6 +41,7 @@
 						<div class="subheading">Change password</div>
 						<div class="discription">Old password<br>
 							<input class="options" type="password" id="oldpass">
+							<div id="changepwresult"></div>
 						</div><br>
 						<div class="discription">New password<br>
 							<input class="options" type="password" id="pass">
@@ -49,12 +50,14 @@
 							<input class="options" type="password" id="passconfirm">
 						</div>
 						<input class="update" type="button" value="Update Password" id="updatepassword">
+
 					</div>
 					<div class="horizontal"></div>
 					<div id="changeusername">
 						<div class="subheading">Change username</div>
 						<div class="discription">New username<br>
-							<input class="options" type="text" name="newusername">
+							<input class="options" type="text" id="newusername">
+							<div id="changeusernameresult"></div>
 						</div>
 						<input class="update" type="button" value="Update Username" id="updatename">
 					</div>
@@ -104,6 +107,15 @@
 				$('#pass').css('background-color','#FF2B2B');
 			}
 		});
+		// update username blur
+		$('#newusername').blur(function() {
+			if (checkValidUsername($('#newusername').val())) {
+				$('#newusername').css('background-color','#56FF2D');
+			} else {
+				$('#newusername').css('background-color','#FF2B2B');
+				$('#changeusernameresult').html('<div style="color: #f66">Only A-Z, a-z, 0-9 and -_ are allowed</div>');
+			}
+		});
 		// update profile button
 		$('#updateprofile').click(function() {
 			updateProfile($('#name').val(),$('#email').val(),$('#location').val(),$('#url').val());
@@ -114,11 +126,17 @@
 		});
 		// update username button
 		$('#updatename').click(function() {
-			// body...
+			if (checkValidUsername($('#newusername').val())) {
+				updateUsername();
+				$('#newusername').css('background-color','#56FF2D');
+			} else {
+				$('#newusername').css('background-color','#FF2B2B');
+				$('#changeusernameresult').html('<div style="color: #f66">Only A-Z, a-z, 0-9<br>and -_ are allowed</div>');
+			}
 		});
 		// delete acc button
 		$('#delete').click(function() {
-			// body...
+
 		});
 	});
 
@@ -160,6 +178,9 @@
 			xmlhttp.onreadystatechange=function() {
 				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 					console.log(xmlhttp.responseText);
+					$('#changepwresult').html(xmlhttp.responseText);
+					$('#passconfirm').css('background-color','#56FF2D');
+					$('#pass').css('background-color','#56FF2D');
 					//location.reload();
 					//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
 				}
@@ -170,6 +191,35 @@
 		} else {
 			$('#passconfirm').css('background-color','#FF2B2B');
 			$('#pass').css('background-color','#FF2B2B');
+		}
+	}
+
+	function updateUsername (newname) {
+		if (newname.length > 2) {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			} else {
+				// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+
+			xmlhttp.onreadystatechange=function() {
+				if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					console.log(xmlhttp.responseText);
+					//location.reload();
+					$('#changeusernameresult').html(xmlhttp.responseText);
+					$('#newusername').css('background-color','#56FF2D');
+					//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("POST",path+"/update_name.php",true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("newname=" + newname);
+		} else {
+			$('#newusername').css('background-color','#FF2B2B');
+			$('#changeusernameresult').html('<div style="color: #FF2B2B">Please give us some more characters...</div>');
 		}
 	}
 
