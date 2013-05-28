@@ -175,7 +175,7 @@ canvas#canvas {
 #cbox{
 	width: 40px;
 	height: 40px;
-	background-color: red;
+	background-color: #FF0000;
 	float: left;
 }
 
@@ -190,6 +190,13 @@ canvas#canvas {
 	width: 40px;
 	height: 40px;
 	background-color: blue;
+	float: left;
+}
+
+#cbox3{
+	width: 40px;
+	height: 40px;
+	background-color: black;
 	float: left;
 }
 
@@ -212,3 +219,20 @@ canvas#canvas {
 #bar{
 
 margin-top: 160px;
+}
+
+#resultDicke{
+
+	width: 30px;
+	height: 20px;
+	background-color:grey;
+	color: white;
+}
+
+#resultTrans{
+
+	width: 30px;
+	height: 20px;
+	background-color:grey;
+	color: white;
+}
