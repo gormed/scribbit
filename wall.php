@@ -74,29 +74,9 @@ require_once 'header.php';
 				for(var k in scribbles){
 					if (scribbles.hasOwnProperty(k)) {
 						createMapCell(positionsx[k], positionsy[k], k);
-
 					}	
 				}
-
 				addBottomRow();
-
-			// 	var iy = ypos-20;
-			// 	var ix = xpos-20;
-			// for(var y = iy;y<ypos+20;y++){
-			// 	for(var x = ix;x< xpos+20;x++){
-			// 		createMapCell(x,y);
-
-			// 	}
-			// }
-
-
-				// 	console.log(scribbles);
-				// 	console.log(positionsx);
-				// 	console.log(positionsy);
-				// 	// console.log(canvases[1][1]);
-
-				// 	loadScribbles();
-
 		}
 
 		function createMapCell(x,y, scrid){
@@ -484,12 +464,9 @@ require_once 'header.php';
 <body onload="init()"> 
 			<div id="site">
 				<div id="header">
-					<div id="logo">
-						<?php
-						echo '<a href="'.path.'/"><</a>';
-						?>
+					
 						<div id="processbar" style="display:none;"><center><p>LADEN</p></center></div>
-					</div>
+
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>	
 				<div id="clippingMask">		

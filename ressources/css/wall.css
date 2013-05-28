@@ -70,23 +70,15 @@
 
 .table {
     display: table;
-  
-    
-
-
 }
 
 .row {
-
     display:table-row;
-    	height: 840px;	
-    clear: both;
-
 }
 
 .cell {
 	width:1890px;
-
+	height: 840px;	
     display: table-cell;
 	position: relative;
     /*border: 1px solid black;*/
@@ -105,6 +97,10 @@
 	background: #ffffff;
 
 
+}
+
+.divCanvas {
+	height: 840px;
 }
 
 }
