@@ -21,11 +21,16 @@ require_once 'header.php';
 		var positionsx = {};
 		var positionsy = {};
 		var map={};
-		var points=new Object();
-		var canvasCount = 10;
-		var rowCount = 9;
+		
+		var temp_scribbles = {};
+		var temp_positionsx = {};
+		var temp_positionsy = {};
+		var temp_map={};
+
 		var canvasPos ={};
 		var canvases ={};
+		var topY, bottomY, leftX, rightX;
+		var mapCells = {};
 		// var lastX, curX, lastY, curY;
 
 		<?php 
@@ -67,72 +72,191 @@ require_once 'header.php';
 			}
 		?>
 
-		function init() {
 
+					/////////////////////////////
+					///////jQueryEvents/////////// 
+					/////////////////////////////
 
-				initDivCanvas(fDiv(xpos,9),fDiv(ypos,6));
+		$(document).ready(function() {
+				topY =  (ypos+6);
+				bottomY = (ypos-11);
+				leftX = (xpos-9);
+				rightX = (xpos+17);
+
+				//TODO FOKUS AUF XPOS, YPOS
+				window.scrollTo(($(document).width() - $(window).width())/2, ($(document).height() - $(window).height())/2);
+				for(var y =topY ; y>=bottomY; y--){
+					for (var x = leftX; x<=rightX; x++){
+						createMapCell(x, y);
+					}
+
+				}
 				for(var k in scribbles){
 					if (scribbles.hasOwnProperty(k)) {
-						createMapCell(positionsx[k], positionsy[k], k);
+						createScribble(positionsx[k], positionsy[k], k);
 					}	
 				}
-				addBottomRow();
-		}
+		})
 
-		function createMapCell(x,y, scrid){
-
-							var canvasCheck = checkCanvas(scrid);
-							if (canvasCheck!=null){
-								var mapCell  =document.createElement("div");
-								var carDir = getCardinalDirection(scrid);
-								var rely = 140 * getRelativYPos(scrid, carDir);
-								var relx = 210 * getRelativXPos(scrid, carDir);
-								mapCell.setAttribute('class','mapCell');
-								mapCell.setAttribute('id','mapCell'+x+''+y+'');						
-								mapCell.style.backgroundImage = "url("+root+scribbles[scrid]+")"; 
-								var divCanvas = document.getElementById(canvasCheck);
-								divCanvas.appendChild(mapCell);
-								console.log(scrid + " @ " + x + " " + y + " witch relcoord " + relx + " " + rely+ " on "+divCanvas.id );
-								$("#mapCell"+x+""+y).css({	'top' : rely + "px",
-															'left': relx + "px" });
 		
+		$(window).scroll(function()
+			{
+				// Scrollbar on Bottom
+				if($(window).scrollTop() == $(document).height() - $(window).height())
+				{
+					
+					$('div#loadingImage').show();
+					$.ajax({
+						type: "POST",
+						url: "wallAjaxRequest.php",
+						data: {	bl: leftX+' '+(bottomY-7), 
+								br: rightX+' '+(bottomY-7),
+								tr: rightX+' '+(bottomY-1), 
+								tl: leftX+' '+(bottomY-1) 
+							},
+						success: function(data){
+								var json = $.parseJSON(data);
+								addBottomRow();
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+									}
+								}	
 							}
+						});
+				}
+
+				// Scrollbar on Top
+				else if($(window).scrollTop() == 0){
+					$('div#loadingImage').show();
+					$.ajax({
+						type: "POST",
+						url: "wallAjaxRequest.php",
+						data: {	bl: leftX+' '+(topY+1), 
+								br: rightX+' '+(topY+1),
+								tr: rightX+' '+(topY+7), 
+								tl: leftX+' '+(topY+7) 
+							},
+						success: function(data){
+								var json = $.parseJSON(data);
+								addTopRow();
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+									}
+								}	
+							}
+						});
+
+				}
+
+				// Scrollbar Left
+				else if($(window).scrollLeft() == 0){
+					console.log("scroll left");
+				}
+
+				// Scrollbar Right
+				else if($(window).scrollLeft() == $(document).width() - $(window).width()){
+					console.log("scroll right");
+				}
+			})
+
+
+
+
+		function createScribble(x, y, scrid){	
+
+			$('<div/>', {
+				id: 'scribble'+x+''+y+''
+				// title: 'Become a Googler',
+				// rel: 'external',
+				// text: 'Go to Google!'
+			}).addClass('scribble'
+			).css({
+				'background-image': 'url('+root+scribbles[scrid]+')'
+			}).appendTo('#mapCell'+x+''+y);
+							
 						
 		}
 
 
-		function initDivCanvas(x,y){
-			document.getElementById("divCanvas-11").setAttribute("id","divCanvas"+(x-1)+""+(y+1));
-			storeCanvas("divCanvas"+(x-1)+""+(y+1), (x-1), (y+1), canvases);
-			document.getElementById("divCanvas01").setAttribute("id","divCanvas"+x+""+(y+1));
-			storeCanvas("divCanvas"+x+""+(y+1), x, (y+1), canvases);
-			document.getElementById("divCanvas11").setAttribute("id","divCanvas"+(x+1)+""+(y+1));
-			storeCanvas("divCanvas"+(x+1)+""+(y+1), (x+1), (y+1), canvases);
+		function createMapCell(x,y){
 
-			document.getElementById("divCanvas-10").setAttribute("id","divCanvas"+(x-1)+""+y);
-			storeCanvas("divCanvas"+(x-1)+""+y, (x-1), y, canvases);
-			document.getElementById("divCanvas00").setAttribute("id","divCanvas"+x+""+y);
-			storeCanvas("divCanvas"+x+""+y, x, y, canvases);
-			document.getElementById("divCanvas10").setAttribute("id","divCanvas"+(x+1)+""+y);
-			storeCanvas("divCanvas"+(x+1)+""+y, (x+1), y, canvases);
+			$('<div/>', {
+				id: 'mapCell'+x+''+y+''
+				// title: 'Become a Googler',
+				// rel: 'external',
+				// text: 'Go to Google!'
+			}).addClass('mapCell'
+			).appendTo('#divCanvas');
 
-			document.getElementById("divCanvas-1-1").setAttribute("id","divCanvas"+(x-1)+""+(y-1));
-			storeCanvas("divCanvas"+(x-1)+""+(y-1), (x-1), (y-1), canvases);
-			document.getElementById("divCanvas0-1").setAttribute("id","divCanvas"+x+""+(y-1));
-			storeCanvas("divCanvas"+x+""+(y-1), x, (y-1), canvases);
-			document.getElementById("divCanvas1-1").setAttribute("id","divCanvas"+(x+1)+""+(y-1));
-			storeCanvas("divCanvas"+(x+1)+""+(y-1), (x+1), (y-1), canvases);
+			store2DArray('mapCell'+x+''+y+'', x, y, mapCells)
+
+			if(x==rightX){
+				$('#mapCell'+x+''+y+'').removeClass('mapCell').addClass('rightMapCell');
+			}
+				
 		}
 
-		function storeCanvas(id, xVal, yVal, array){
+		function createTopMapCell(x,y){
+
+			$('<div/>', {
+				id: 'mapCell'+x+''+y+''
+				// title: 'Become a Googler',
+				// rel: 'external',
+				// text: 'Go to Google!'
+			}).addClass('mapCell'
+			).prependTo('#divCanvas');
+
+			store2DArray('mapCell'+x+''+y+'', x, y, mapCells)
+			console.log("'mapCell'+x+''+y+''");
+			if(x==rightX){
+				$('#mapCell'+x+''+y+'').removeClass('mapCell').addClass('rightMapCell');
+			}
+				
+		}
+		
+		function addBottomRow(){
+			bottomY--;
+			$("#divCanvas").height($("#divCanvas").height()+840+'px');
+			for(var y = bottomY; y >=bottomY-6;y--){
+				for(var x = leftX; x<=rightX; x++){
+					createMapCell(x,y);
+				}	
+			}
+			bottomY -= 6;
+		}
+
+		function addTopRow(){
+			topY++;
+			$("#divCanvas").height($("#divCanvas").height()+840+'px');
+			for(var y = topY; y <=topY+6;y++){
+				for(var x = rightX; x>=leftX; x--){
+					createTopMapCell(x,y);
+				}	
+			}
+			topY += 6;
+		}
+
+		function addLeftColumn(x,y){
+			//$("p").prepend("<b>Hello </b>");
+
+		}
+
+		function addRightColumn(x,y){
+			
+
+		}
+
+
+	
+		function store2DArray(id, xVal, yVal, array){
 			if (typeof array[xVal] == "undefined"){
 				array[xVal] = new Array();
 			}
 			array[xVal][yVal] = id;
-		}
-
-		function storeCoordinate(id, xVal, yVal, array) {
-			array[id]={x: xVal, y: yVal};
 		}
 
 		function fDiv(n1, n2)
@@ -144,237 +268,13 @@ require_once 'header.php';
 		}
 		
 
-		// function loadScribbles () {
 
-		//	for (var k in scribbles) {
-				
-		//		// use hasOwnProperty to filter out keys from the Object.prototype
-		//		if (scribbles.hasOwnProperty(k)) {
-		//			var canvasCheck = checkCanvas(k);
-		//			var rx = getRelativXPos(k);
-		//			var ry = getRelativYPos(k);
-		//			$("#"+canvasCheck).addLayer({
-		// 				type: "image",
-		// 				source: "" + root+"/"+scribbles[k] + "",
-		// 				x: 210*rx+105, y: 140*ry+70, 
-		// 				width: 210, height: 140
-		// 			})
-		// 			.drawLayers();
-					
-		// 		}
 
-		// 	}	
+
+
+
+
 			
-		// }
-
-		function getCardinalDirection(scribbleid){
-			if(positionsx[scribbleid]>=0 && positionsy[scribbleid]<=0){
-				return "se";
-			}
-			else if(positionsx[scribbleid]>=0 && positionsy[scribbleid]>0){
-				return "ne";
-			}
-			else if(positionsx[scribbleid]<0 && positionsy[scribbleid]<=0){
-				return "sw";
-			}
-			else if(positionsx[scribbleid]<0 && positionsy[scribbleid]>0){
-				return "nw";
-			}
-		}
-
-		function checkCanvas(scribbleid) {
-				
-				if(positionsx[scribbleid]>=0 && positionsy[scribbleid]<=0){
-					//SOUTHEAST
-					for(var x in canvases){
-						if (canvases.hasOwnProperty(x)) {
-							var cPosX = x*9;
-							for (var y in canvases[x]){
-								if (canvases[x].hasOwnProperty(y)) {
-									var cPosY = y*6;
-									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]<=cPosY && positionsy[scribbleid]>(cPosY-6)){
-										return canvases[x][y];
-										break;
-									}
-								}
-							}	
-						}	
-					}
-				}
-
-				else if(positionsx[scribbleid]>=0 && positionsy[scribbleid]>0){
-					//NORTHEAST
-					for(var x in canvases){
-						if (canvases.hasOwnProperty(x)) {
-							var cPosX = x*9;
-							for (var y in canvases[x]){
-								if (canvases[x].hasOwnProperty(y)) {
-									var cPosY = y*6;
-									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]>(cPosY-6) && positionsy[scribbleid]<=cPosY){
-										return canvases[x][y];
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				else if(positionsx[scribbleid]<0 && positionsy[scribbleid]>0){
-					//NORTHWEST
-					for(var x in canvases){
-						if (canvases.hasOwnProperty(x)) {
-							var cPosX = x*9;
-							for (var y in canvases[x]){
-								if (canvases[x].hasOwnProperty(y)) {
-									var cPosY = y*6;
-									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]>(cPosY-6) && positionsy[scribbleid]<=cPosY){
-										return canvases[x][y];
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				else if(positionsx[scribbleid]<0 && positionsy[scribbleid]<=0){
-					//SOUTHWEST
-					for(var x in canvases){
-						if (canvases.hasOwnProperty(x)) {
-							var cPosX = x*9;
-							for (var y in canvases[x]){
-								if (canvases[x].hasOwnProperty(y)) {
-									var cPosY = y*6;
-									if (positionsx[scribbleid]>=cPosX && positionsx[scribbleid]<(cPosX+9) && positionsy[scribbleid]<=cPosY && positionsy[scribbleid]>(cPosY-6)){
-										return canvases[x][y];
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-				return null;
-		}
-
-
-		function getRelativXPos(scribbleid, carDir) {
-			switch (carDir) {
-				case "nw":
-					var relx =	positionsx[scribbleid]* -1;
-					relx = relx%9;
-					if(relx != 0) relx = 9-relx;
-					return relx;
-					break;
-				case "ne":
-					var relx = positionsx[scribbleid];	
-					return relx%9;
-					break;
-				case "sw":
-					var relx =	positionsx[scribbleid]* -1;
-					relx = relx%9;
-					if(relx != 0) relx = 9-relx;
-					return relx; 
-					break;
-				case "se":
-					var relx =	positionsx[scribbleid];	
-					return relx%9;
-					break;
-				default:
-					console.log("getRelativCoord failed!");
-					break;
-			}		
-		}
-		function getRelativYPos(scribbleid, carDir) {		
-			switch (carDir) {
-				case "nw":
-					var rely =	positionsy[scribbleid];
-					rely = rely%6;
-					if(rely != 0) rely = 6-rely;
-					return rely; 
-					break;
-				case "ne":
-					var rely =	positionsy[scribbleid];
-					rely = rely%6;
-					if(rely != 0) rely = 6-rely;
-					return rely; 
-					break;
-				case "sw":
-					var rely =	positionsy[scribbleid]* -1;
-					return rely%6;
-					break;
-				case "se":
-					var rely =	positionsy[scribbleid]* -1;
-					return rely%6;
-					break;
-				default:
-					return 0;
-					console.log("getRelativCoord failed!");
-					break;
-			}
-
-				
-		}
-
-
-					/////////////////////////////
-					///////jQueryEvents/////////// 
-					/////////////////////////////
-
-		$(window).scroll(function()
-			{
-				// Scrollbar on Bottom
-				if($(window).scrollTop() == $(document).height() - $(window).height())
-				{
-					console.log("scrolldown");
-					// $('div#processbar').show();
-					// $.ajax({
-					// 	type: "POST",
-					// 	url: "ajaxWallBottom.php",
-					// 	data: {currentCanvas: "BOTTOM"},
-					// 	success: function(html)
-					// 	{
-					// 		if(html)
-					// 		{
-					
-								addBottomRow();
-
-					// 		$('div#processbar').hide();
-					// 		}else
-					// 		{
-					// 			$('div#processbar').html('<center>OUT OF SPACE</center>');
-					// 		}
-					}
-					});
-				
-
-
-
-			function addBottomRow(){
-				
-						var row = document.createElement("div");
-						row.setAttribute('class', 'row');
-						row.setAttribute('id', 'row'+rowCount+'');
-						for(var i=0;i<3;i++){
-							var cell = document.createElement("div");
-							cell.setAttribute('class', 'cell');
-							cell.setAttribute('id', 'cell'+canvasCount+'');
-
-							var canvas =document.createElement("canvas");
-							canvas.setAttribute('width','1890');
-							canvas.setAttribute('height','840');
-							canvas.setAttribute('id', 'canvas'+canvasCount+'');
-							cell.appendChild(canvas);
-							row.appendChild(cell);
-							canvasCount++;
-
-						}
-						document.getElementById("table").appendChild(row);
-						$("#row"+rowCount).insertBefore("#loadPlaceSouth");
-						rowCount++;
-						// loadScribbles (canvasCount);
-					}
 
 			// //************************************************************************
 			// function mousedown(evt)
@@ -461,35 +361,15 @@ require_once 'header.php';
 		<title>Scribbit - Wall</title>
 	</head>
 
-<body onload="init()"> 
-			<div id="site">
-				<div id="header">
-					<?php include docroot.'/'.path.'/topnav.php'; ?>
-				</div>	
-				<div id="clippingMask">	
-					<span class="table" id="table">
-						<div id="loadPlaceNorth"></div>
-						<div class="row" id="row1">
-							<div class="cell" id="cell1"><div id="divCanvas-11">&nbsp;</div></div>
-							<div class="cell" id="cell2"><div id="divCanvas01">&nbsp;</div></div>
-							<div class="cell" id="cell3"><div id="divCanvas11">&nbsp;</div></div>
-						</div>
-						<div class="row" id="row2">
-							<div class="cell" id="cell4"><div id="divCanvas-10">&nbsp;</div></div>
-							<div class="cell" id="cell5"><div id="divCanvas00">&nbsp;</div></div>
-							<div class="cell" id="cell6"><div id="divCanvas10">&nbsp;</div></div>
-						</div>
-						<div class="row" id="row3">
-							<div class="cell" id="cell7"><div id="divCanvas-1-1">&nbsp;</div></div>
-							<div class="cell" id="cell8"><div id="divCanvas0-1">&nbsp;</div></div>
-							<div class="cell" id="cell9"><div id="divCanvas1-1">&nbsp;</div></div>
-						</div>
-						<div id="loadPlaceSouth"></div>
-					</span>
-
-				</div>
-
+	<body> 
+		<div id="site">
+			<div id="header">
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
+			</div>	
+			<div id="clippingMask">	
+				<div id="loadingImage">Loading</div>
+				<div id="divCanvas"></div>
 			</div>
-
+		</div>
 	</body>
 </html>
