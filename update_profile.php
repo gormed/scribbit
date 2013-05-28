@@ -11,23 +11,26 @@
 	}
 
 	$userid = $_SESSION['user_id'];
-	$name=$_POST["name"];
-	$email=$_POST["email"];
-	$location=$_POST["location"];
-	$url=$_POST["url"];
+	$name="".$_POST["name"];
+	$email="".$_POST["email"];
+	$location="".$_POST["location"];
+	$url="".$_POST["url"];
 
 	// XSS protection as we might print this value
 	//$username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username); 
 
-	$sql = sprintf("SELECT `id`, `userid` FROM `public_profile` WHERE `userid` = %d LIMIT 0, 1", $userid);
+	$sql = sprintf("SELECT `id`, `userid` FROM `public_profile` WHERE `userid` = %d LIMIT 0, 1", $_SESSION['user_id']);
 	$res = $mysqli->query($sql);
 	$pid = $res->fetch_array()[0];
-
+	echo $userid.PHP_EOL;
 	if ($res->num_rows > 0) {
 		$sql = sprintf("UPDATE `secure_login`.`public_profile` SET `name`='%s', `email`='%s', `location`='%s', `url`='%s' WHERE `public_profile`.`id` = %d", $name, $email, $location, $url, $pid);
+		echo "UPDATE".PHP_EOL;
 	} else {
 		$sql = sprintf("INSERT INTO `public_profile`(`userid`, `name`, `email`, `location`, `url`) VALUES (%d, '%s','%s','%s','%s')", $userid, $name, $email, $location, $url);	
+		echo "INSERT".PHP_EOL;
 	}
-	$mysqli->query($sql);
+	$res = $mysqli->query($sql);
 
+	echo $userid . " " . $res;
 ?>

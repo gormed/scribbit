@@ -15,6 +15,7 @@ $pages['view']='view.php';
 $pages['favorites']='favorites.php';
 $pages['friends']='friends.php';
 $pages['settings']='settings.php';
+$pages['lost']='lost.php';
 
 $loginRequired['login']=false;
 $loginRequired['register']=false;
@@ -28,6 +29,7 @@ $loginRequired['view']=true;
 $loginRequired['favorites']=true;
 $loginRequired['friends']=true;
 $loginRequired['settings']=true;
+$loginRequired['lost']=false;
 
 $folder = $_GET['start'];
 

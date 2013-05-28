@@ -143,18 +143,16 @@
 	function updateProfile(name, email, location, url) {
 		var xmlhttp;
 
-		//document.getElementById("upload").innerHTML="Sending...";
-
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp=new XMLHttpRequest();
-		} else {// code for IE6, IE5
+		} else {
+			// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 				console.log(xmlhttp.responseText);
-				//location.reload();
-				//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
 			}
 		}
 		xmlhttp.open("POST",path+"/update_profile.php",true);
@@ -165,6 +163,7 @@
 	function updatePassword(oldpw, newpw, newpwconf) {
 		if (passwordCkeck(newpw, newpwconf) == 0) {
 			var xmlhttp;
+			
 			oldpw = hex_sha512(oldpw);
 			newpw = hex_sha512(newpw);
 			if (window.XMLHttpRequest) {
@@ -181,8 +180,6 @@
 					$('#changepwresult').html(xmlhttp.responseText);
 					$('#passconfirm').css('background-color','#56FF2D');
 					$('#pass').css('background-color','#56FF2D');
-					//location.reload();
-					//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
 				}
 			}
 			xmlhttp.open("POST",path+"/update_pw.php",true);

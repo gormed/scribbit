@@ -340,18 +340,38 @@
 			<div id="profile">
 				<br>
 				<div id="profilepic"></div>
+				<div id="profilecontent">
 				<?php 
+
+				function createPublicProfile($mysqli, $userid)
+				{
+					$public = getPublicProfile($mysqli, $userid);
+					echo '<div id="ppublic">';
+					
+					if (isset($public[1]) && $public[1] != "")
+						echo $public[1].'<br>';
+					if (isset($public[2]) && $public[2] != "")
+						echo $public[2].'<br>';
+					if (isset($public[3]) && $public[3] != "")
+						echo $public[3].'<br>';
+					if (isset($public[4]) && $public[4] != "") 
+						echo '<a href="'.$public[4].'">'.$public[4];
+					
+					echo '</div><br>';
+				}
 
 				if (isset($viewProfile) && isset($profile)) {
 					$row = findLoginTime($friendid, $mysqli);
-					echo $profile."<br>";
-					echo "Last login was ";
+					echo '<div id="pname">'.$profile."</div>";
+					echo '<div id="plogin">Last login was ';
 					$days = daysSince($row->fetch_array()[1]);
 					if ($days > 0)
 						echo $days.' days ago';
 					else
 						echo 'today';
-					echo '<br><div id="friendssection">';
+					echo '</div><br>';
+					createPublicProfile($mysqli, $friendid);
+					echo '<div id="friendssection">';
 					if (areFriends($_SESSION['user_id'], $friendid, $mysqli)) {
 						echo '<br>friends since:<br> '.friendsSince($userid, $friendid, $mysqli).'<br><br>';
 						echo '<div id="removeFriend" onclick="removeFriend('.$friendid.');">Remove Friend</div>';
@@ -361,16 +381,14 @@
 					}
 					echo "</div>";
 				} else { 
-					$public = getPublicProfile($mysqli, $_SESSION['user_id']);
-					echo $_SESSION['username']."<br>";
-					echo $public[1].'<br>';
-					echo $public[2].'<br>';
-					echo $public[3].'<br>';
-					echo $public[4].'<br>';
+					echo '<div id="pname">'.$_SESSION['username'].'</div><br>';
+					
+					createPublicProfile($mysqli, $_SESSION['user_id']);
 
 				}
 
 				?>
+				</div>
 			</div>
 			<div id="content">
 
