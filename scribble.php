@@ -51,12 +51,13 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 -->
 
     <script>
+    
 	var canvasPos = {x:0.0, y:0.0};
 	var canvasSize = {width:960, height:640};
 	var lastX = 0.0;
 	var lastY = 0.0;
 	var capturing = false;	// tracks in/out of canvas context
-
+	var ctx ;
 	//************************************************************************
 	function plugin()
 	{
@@ -81,6 +82,8 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		}
 		return {x:curleft, y:curtop};
 	}
+
+	
 	  
 
 
@@ -204,36 +207,63 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		
 	curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
 	curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
+	
 
 	capturing = inCanvasBounds(curX, curY);
 
 	if (capturing && pressure > 0.0)
 	{
 		if (canvas.getContext)
-		{
-				var ctx = canvas.getContext("2d");
-				ctx.beginPath();
-				ctx.moveTo(lastX, lastY);
-				ctx.lineTo(curX, curY);
+		{		
+				this.ctx = canvas.getContext("2d");
+				this.ctx.beginPath();
+				this.ctx.moveTo(lastX, lastY);
+				this.ctx.lineTo(curX, curY);
 				
 				//console.log("mousemove: cur: " + curX + "," + curY);
 
-				ctx.lineCap = 'round';
+				this.ctx.lineCap = 'round';
+
+				//this.ctx.shadowBlur = 3;
+  				//this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  				//this.ctx.shadowOffsetX = 3;
+  				//this.ctx.shadowOffsetY = 6;
+
+				
+
+				
+				//var farbe= [];
+				//farbe[0]="green";
+				//farbe[1]="blue";
+				//farbe[2]="red";
+				//farbe[3]="grey";
+				//farbe[4]="black";
+
+				//rot="red";
+				
+				
+				
+				
+
 				if (isEraser == true) 
 				{
-					ctx.lineWidth = 25.0 * pressure;
-					ctx.strokeStyle = "rgba(255, 255, 255, 1.0)";
+					this.ctx.lineWidth = 25.0 * pressure;
+					this.ctx.strokeStyle = "rgba(255, 255, 255, 1.0)";
 
 				}
 				else 
-				{
-					ctx.lineWidth = 25.0 * pressure;
-					ctx.strokeStyle = "rgba(128, 0, 0, 1.0)";
+				{	
+					
+
+					this.ctx.lineWidth =dicke * pressure;
+					this.ctx.globalAlpha =trans;
+
+
 				}
 
 		//console.log("ctx.lineWidth: " + ctx.lineWidth);
-				ctx.stroke();
-				var tempImg =ctx.getImageData(0,0,960,640);
+				this.ctx.stroke();
+				var tempImg =this.ctx.getImageData(0,0,960,640);
 		}
 	}
 		
@@ -241,7 +271,6 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		lastY = curY;
 
 	}
-
 
 	//************************************************************************
 	// posX and posY are assumed relative to canvas boundaries.
@@ -273,13 +302,13 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 </script>
 
 <script type="text/javascript">
-	
+	var x;
 	var imgData;
 
 	function copy () {
 		var canvas = document.getElementById('canvas');
-		var ctx=canvas.getContext("2d");
-		 imgData=ctx.getImageData(0,0,960,640);
+		 this.ctx=canvas.getContext("2d");
+		 imgData=this.ctx.getImageData(0,0,960,640);
 		 
 	}
 
@@ -287,21 +316,87 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 
 	function fill () {
 		var canvas = document.getElementById('canvas');
-		var ctx=canvas.getContext("2d");
-		ctx.putImageData(imgData,0,0);
+		 this.ctx=canvas.getContext("2d");
+		this.ctx.putImageData(imgData,0,0);
 	}
+
+function setColor() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#ff0000";
+	this.ctx.strokeStyle=farbe;
+	
+}
+
+function setColor1() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#009900";
+	this.ctx.strokeStyle=farbe;
+	
+}
+
+function setColor2() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#0033CC";
+	this.ctx.strokeStyle=farbe;
+
+}
+
+
+
+function setColor3() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#000000";
+	this.ctx.strokeStyle=farbe;
+
+}
+
+
+function rubber() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#FFFFFF";
+	this.ctx.strokeStyle=farbe;
+
+}
+
+ function showValueDicke(val){
+ 			
+          dicke = document.getElementById('resultDicke').value= val;
+
+}function showValueTrans(val){
+ 			
+          trans = document.getElementById('resultTrans').value= val;
+
+}
+
+
+$('#canvas').disableSelection();
+
+
 
 </script>
 
 
 
 
+
+
 </head>
 
-<body onload="onLoad();">
+<body onselectstart="return false" onload="onLoad();"><!-->markieren verhindern<!-->
 
 	<button onclick="copy()">Copy</button>
 	<button onclick="fill()">fill</button>
+	
 
 	<!-- 
 	***************************************************************** 
@@ -332,13 +427,14 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 				
 					<div id="stepback" title="back" onclick="...();">back</div>
 					<div id="stepforward" title="forward" onclick="...();">for</div><br><br>
-					<div id="rubber" title="rubber" onclick="...();">rubber</div><br>
+					<div id="rubber" title="rubber" onclick="rubber();">rubber</div><br>
 				
 					<div>
 						<div id="color1">
-								<div id="cbox"></div>
-								<div id="cbox1"></div>
-								<div id="cbox2"></div>
+								<div id="cbox3" onclick="setColor3();"> </div>
+								<div id="cbox" onclick="setColor();"> </div>
+								<div id="cbox1" onclick="setColor1();"></div>
+								<div id="cbox2" onclick="setColor2();"></div>
 						</div>
 
 						<div id="brush" onclick="...();">brush</div>
@@ -346,9 +442,10 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 
 				
 				<div id="bar">
-				<input  type="range" min="0" max="100" value="100" /><br><br>
-
-				<input  type="range" min="0" max="100" value="100" />
+				<input title="width"  type="range" min="1" max="150" value="50" step="1" onChange="showValueDicke(this.value);" />
+						<input type ="text" id="resultDicke" value="" />
+				<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
+						<input type ="text" id="resultTrans" value="" />
 				</div>
 				<br>
 

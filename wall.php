@@ -74,29 +74,9 @@ require_once 'header.php';
 				for(var k in scribbles){
 					if (scribbles.hasOwnProperty(k)) {
 						createMapCell(positionsx[k], positionsy[k], k);
-
 					}	
 				}
-
 				addBottomRow();
-
-			// 	var iy = ypos-20;
-			// 	var ix = xpos-20;
-			// for(var y = iy;y<ypos+20;y++){
-			// 	for(var x = ix;x< xpos+20;x++){
-			// 		createMapCell(x,y);
-
-			// 	}
-			// }
-
-
-				// 	console.log(scribbles);
-				// 	console.log(positionsx);
-				// 	console.log(positionsy);
-				// 	// console.log(canvases[1][1]);
-
-				// 	loadScribbles();
-
 		}
 
 		function createMapCell(x,y, scrid){
