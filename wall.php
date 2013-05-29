@@ -96,8 +96,16 @@ require_once 'header.php';
 						createScribble(positionsx[k], positionsy[k], k);
 					}	
 				}
+
+				$(".scribble").click(function(event){
+				console.log(event.target.id);
+			
+			});
 		})
 
+
+
+	
 		
 		$(window).scroll(function()
 			{
@@ -330,11 +338,9 @@ require_once 'header.php';
 			$("#divCanvas").width($("#divCanvas").width()+1890+'px');
 			for(var y = topY; y >=bottomY;y--){	
 				for(var x = leftX; x>leftX-9; x--){
-					console.log(x+" "+y);
 					createLeftMapCell(x,y);
 				}	
 			}
-			console.log("-------------------------");
 			leftX -= 8;
 		}
 
