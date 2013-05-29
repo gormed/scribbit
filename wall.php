@@ -101,10 +101,13 @@ require_once 'header.php';
 		
 		$(window).scroll(function()
 			{
+				// var centerX = $(this).offset().left() + $(this).width() / 2;
+				// var centerY = $(this).offset().top() + $(this).height() / 2;
+				// console.log("centerview: "+ centerX+", "+centerY);
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					console.log("scroll down");	
+
 					$('div#loadingImage').show();
 					$.ajax({
 						type: "POST",
@@ -134,9 +137,7 @@ require_once 'header.php';
 
 				// Scrollbar on Top
 				else if($(window).scrollTop() == 0){
-					var scrollY = topY;
 					// $('div#loadingImage').show();
-
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -153,8 +154,8 @@ require_once 'header.php';
 								else {
 									addTopRow();
 									// $('html, body').animate({
-									// 	scrollTop: $("#cellMap").offset().top
-									// 	}, 2000);
+									//	scrollTop: $(".cellMap").offset().top
+									//	}, 2000);
 									for(var k in json.temp_scribbles){
 										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
 											scribbles[k] = json.temp_scribbles[k];
@@ -239,6 +240,8 @@ require_once 'header.php';
 
 			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 		}
+
+		
 
 
 		function createScribble(x, y, scrid){	
