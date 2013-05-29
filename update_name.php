@@ -6,7 +6,7 @@
 	sec_session_start();
 	$loggedIn = login_check($mysqli);	
 
-	if (!$loggedIn || !isset($_POST["newname"])) {
+	if (!$loggedIn) {
 		exit();
 	}
 

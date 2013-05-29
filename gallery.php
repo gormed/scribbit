@@ -29,8 +29,9 @@ require_once 'header.php';
 		var lastX = 0.0;
 		var lastY = 0.0;
 		var capturing = false;
+		var scribbleCount = 0;
 
-		function loadScribbles () {
+		function init () {
 			<?php 
 
 				if (!$loggedIn) {
@@ -64,50 +65,100 @@ require_once 'header.php';
 				}
 			?>
 
-			var gallery = document.getElementById('content');
-			gallery.appendChild(document.createElement('br'));
-			var element;
-			var temp;
-			var img;
-			var link;
 
 			for (var k in scribbles) {
 				// use hasOwnProperty to filter out keys from the Object.prototype
 				if (scribbles.hasOwnProperty(k)) {
-					link = document.createElement('a');
-					link.setAttribute('href', path+'/scribbles/'+k);
-
-					element = document.createElement('div');
-					element.setAttribute('class','item');
-					element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
-					link.appendChild(element);
-
-
-					temp = document.createElement('div');
-					temp.setAttribute('class', 'initem');
-					temp.setAttribute('id', 'div_'+k);
-					var fav; 
-					if (favorites[k]) {
-						fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
-					} else {
-						fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
-					}
-					temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
-					'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
-					'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+commentCount[k]+'</a>'
-					+fav+'<span id="count_'+k+'">'+favCount[k]+'</a></span></span>';
-
-					element.appendChild(temp);
-					gallery.appendChild(link);
+					createScribbleDiv(k);
 				}
+
 			}
-			gallery.appendChild(document.createElement('br'));
-			gallery.appendChild(document.createElement('br'));
+
 		}
+
+
+
+		function createScribbleDiv(k){
+				var gallery = document.getElementById('content');
+				//gallery.appendChild(document.createElement('br'));
+				var element;
+				var temp;
+				var img;
+				var link;
+
+				link = document.createElement('a');
+				link.setAttribute('href', path+'/scribbles/'+k);
+
+				element = document.createElement('div');
+				element.setAttribute('class','item');
+				element.setAttribute('style', 'background-image: url("' + root+scribbles[k] + '"); background-size: 100% 100%;');
+				link.appendChild(element);
+
+
+				temp = document.createElement('div');
+				temp.setAttribute('class', 'initem');
+				temp.setAttribute('id', 'div_'+k);
+				var fav; 
+				if (favorites[k]) {
+					fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
+				} else {
+					fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
+				}
+				temp.innerHTML = '<span><a href="'+path+'/'+users[k]+'">'+ users[k] +'</a> '+'</span>'+
+				'<br><span style="font-size: 0.6em">'+dates[k]+'</span>'+
+				'<span style="float:right"><a href="'+path+'/scribbles/'+k+'#comments"><img src="'+path+'/ressources/img/ico/comment.png" width="16" height="16">'+commentCount[k]+'</a>'
+				+fav+'<span id="count_'+k+'">'+favCount[k]+'</a></span></span>';
+
+				element.appendChild(temp);
+				gallery.appendChild(link);
+				scribbleCount++;
+
+				// gallery.appendChild(document.createElement('br'));
+				// gallery.appendChild(document.createElement('br'));
+		}
+
+
+
+
+		$(window).scroll(function()
+		{
+			if($(window).scrollTop() == $(document).height() - $(window).height())
+			{
+				//$('div#loadingImage').show();
+				$.ajax({
+					type: "POST",
+					url: "galleryAjaxRequest.php",
+					data: {	skipCount: scribbleCount, 
+							rowCount: 40
+						},
+					success: function(data){
+
+							var json = $.parseJSON(data);
+							console.log(json);
+							if($.isEmptyObject(json.temp_scribbles)){
+								// show end 
+							}
+							else {
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										dates[k] =json.temp_dates[k];
+										users[k] = json.temp_users[k];
+										favorites[k] = json.temp_favorites[k];
+										favCount[k] = json.temp_favCount[k];
+										commentCount[k] = json.temp_commentCount[k];
+										createScribbleDiv(k);
+									}
+								}	
+							}
+						}
+					});
+			}
+		})
 		</script>
 	</head>
 
-	<body onload="loadScribbles();">
+	<body onload="init()">
 			<div id="site">
 				
 				<div id="header">
