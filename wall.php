@@ -104,7 +104,7 @@ require_once 'header.php';
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					
+					console.log("scroll down");	
 					$('div#loadingImage').show();
 					$.ajax({
 						type: "POST",
@@ -116,20 +116,27 @@ require_once 'header.php';
 							},
 						success: function(data){
 								var json = $.parseJSON(data);
-								addBottomRow();
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+								if($.isEmptyObject(json.temp_scribbles)){
+
+								}
+								else {
+									addBottomRow();
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						});
 				}
 
 				// Scrollbar on Top
 				else if($(window).scrollTop() == 0){
-					$('div#loadingImage').show();
+					var scrollY = topY;
+					// $('div#loadingImage').show();
+
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -140,13 +147,21 @@ require_once 'header.php';
 							},
 						success: function(data){
 								var json = $.parseJSON(data);
-								addTopRow();
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+								if($.isEmptyObject(json.temp_scribbles)){
+									//		
+								}
+								else {
+									addTopRow();
+									// $('html, body').animate({
+									// 	scrollTop: $("#cellMap").offset().top
+									// 	}, 2000);
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						});
 
@@ -154,100 +169,185 @@ require_once 'header.php';
 
 				// Scrollbar Left
 				else if($(window).scrollLeft() == 0){
-					console.log("scroll left");
+					
+					$('div#loadingImage').show();
+					$.ajax({
+						type: "POST",
+						url: "wallAjaxRequest.php",
+						data: {	bl: (leftX-10)+' '+bottomY, 
+								br: (leftX-1)+' '+bottomY,
+								tr: (leftX-1)+' '+topY, 
+								tl: (leftX-10)+' '+topY 
+							},
+						success: function(data){
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
+
+								}
+								else {
+									addLeftColumn();
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
+							}
+						});
 				}
 
 				// Scrollbar Right
 				else if($(window).scrollLeft() == $(document).width() - $(window).width()){
-					console.log("scroll right");
+						
+					$('div#loadingImage').show();
+					$.ajax({
+						type: "POST",
+						url: "wallAjaxRequest.php",
+						data: {	bl: (rightX+1)+' '+bottomY, 
+								br: (rightX+10)+' '+bottomY,
+								tr: (rightX+10)+' '+topY, 
+								tl: (rightX+1)+' '+topY 
+							},
+						success: function(data){
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
+
+								}
+								else {
+									addRightColumn();
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
+							}
+						});
 				}
 			})
 
 
+		function isScrolledIntoView(elem)
+		{
+			var docViewTop = $(window).scrollTop();
+			var docViewBottom = docViewTop + $(window).height();
+
+			var elemTop = $(elem).offset().top;
+			var elemBottom = elemTop + $(elem).height();
+
+			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+		}
 
 
 		function createScribble(x, y, scrid){	
-
 			$('<div/>', {
-				id: 'scribble'+x+''+y+''
+				id: 'scribble'+x+'_'+y+''
 				// title: 'Become a Googler',
 				// rel: 'external',
 				// text: 'Go to Google!'
 			}).addClass('scribble'
 			).css({
 				'background-image': 'url('+root+scribbles[scrid]+')'
-			}).appendTo('#mapCell'+x+''+y);
-							
-						
+			}).appendTo('#mapCell'+x+'_'+y);				
 		}
 
 
 		function createMapCell(x,y){
-
 			$('<div/>', {
-				id: 'mapCell'+x+''+y+''
+				id: 'mapCell'+x+'_'+y+''
 				// title: 'Become a Googler',
 				// rel: 'external',
 				// text: 'Go to Google!'
 			}).addClass('mapCell'
 			).appendTo('#divCanvas');
-
-			store2DArray('mapCell'+x+''+y+'', x, y, mapCells)
-
-			if(x==rightX){
-				$('#mapCell'+x+''+y+'').removeClass('mapCell').addClass('rightMapCell');
-			}
-				
+			store2DArray('mapCell'+x+'_'+y+'', x, y, mapCells)	
 		}
 
-		function createTopMapCell(x,y){
 
+		function createTopMapCell(x,y){
 			$('<div/>', {
-				id: 'mapCell'+x+''+y+''
+				id: 'mapCell'+x+'_'+y+''
 				// title: 'Become a Googler',
 				// rel: 'external',
 				// text: 'Go to Google!'
 			}).addClass('mapCell'
 			).prependTo('#divCanvas');
-
-			store2DArray('mapCell'+x+''+y+'', x, y, mapCells)
-			console.log("'mapCell'+x+''+y+''");
-			if(x==rightX){
-				$('#mapCell'+x+''+y+'').removeClass('mapCell').addClass('rightMapCell');
-			}
-				
+			store2DArray('mapCell'+x+'_'+y+'', x, y, mapCells)	
 		}
-		
+
+		function createRightMapCell(x,y){			
+			$('<div/>', {
+				id: 'mapCell'+x+'_'+y+''
+				// title: 'Become a Googler',
+				// rel: 'external',
+				// text: 'Go to Google!'
+			}).addClass('mapCell'
+			).insertAfter('#mapCell'+(x-1)+'_'+y);
+			store2DArray('mapCell'+x+'_'+y+'', x, y, mapCells)
+		}
+	
+		function createLeftMapCell(x,y){		
+			$('<div/>', {
+				id: 'mapCell'+x+'_'+y+''
+				// title: 'Become a Googler',
+				// rel: 'external',
+				// text: 'Go to Google!'
+			}).addClass('mapCell'
+			).insertBefore('#mapCell'+(x+1)+'_'+y);
+			store2DArray('mapCell'+x+'_'+y+'', x, y, mapCells)				
+		}	
+
+
 		function addBottomRow(){
 			bottomY--;
 			$("#divCanvas").height($("#divCanvas").height()+840+'px');
-			for(var y = bottomY; y >=bottomY-6;y--){
+			for(var y = bottomY; y >bottomY-6;y--){
 				for(var x = leftX; x<=rightX; x++){
 					createMapCell(x,y);
 				}	
 			}
-			bottomY -= 6;
+			bottomY -= 5;
 		}
 
 		function addTopRow(){
 			topY++;
 			$("#divCanvas").height($("#divCanvas").height()+840+'px');
-			for(var y = topY; y <=topY+6;y++){
+			for(var y = topY; y <topY+6;y++){
 				for(var x = rightX; x>=leftX; x--){
 					createTopMapCell(x,y);
 				}	
 			}
-			topY += 6;
+			topY += 5;
 		}
 
-		function addLeftColumn(x,y){
-			//$("p").prepend("<b>Hello </b>");
-
+		function addLeftColumn(x,y){				
+			leftX--;
+			$("#divCanvas").width($("#divCanvas").width()+1890+'px');
+			for(var y = topY; y >=bottomY;y--){	
+				for(var x = leftX; x>leftX-9; x--){
+					console.log(x+" "+y);
+					createLeftMapCell(x,y);
+				}	
+			}
+			console.log("-------------------------");
+			leftX -= 8;
 		}
+
 
 		function addRightColumn(x,y){
 			
+			rightX++;
 
+			$("#divCanvas").width($("#divCanvas").width()+1890+'px');
+			for(var y = topY; y >=bottomY;y--){	
+				for(var x = rightX; x<rightX+9; x++){
+					createRightMapCell(x,y);
+
+				}	
+			}
+			rightX += 8;
 		}
 
 

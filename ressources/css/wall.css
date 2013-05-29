@@ -104,7 +104,7 @@
 	height: 140px;
 	background: #ffffff;
 	float:left;
-	display: block; /* RowBreak!!!*/
+	display: inline-block;
 
 
 }
