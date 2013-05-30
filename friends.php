@@ -23,7 +23,7 @@ require_once 'header.php';
 		function loadSingleFriend(id, name, date, imgpath) {
 			var element = document.createElement('div');
 			element.setAttribute('class','item');
-			element.setAttribute('style', 'background-image: url("' + root+imgpath + '"); background-size: 100% 100%;');
+			element.setAttribute('style', 'background-image: url("' + root+'/scribbles/l/'+imgpath + '"); background-size: 100% 100%;');
 
 			var temp = document.createElement('div');
 			temp.setAttribute('class', 'initem');
