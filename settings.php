@@ -17,6 +17,11 @@
 				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
 			<div id="content">
+				<div id="profilepic">
+					<div class="heading">Avatar</div>
+					<input class="update" type="button" value="Scribble Avatar" id="scribbleavatar">
+				</div>
+				<div class="horizontal"></div>
 				<div id="profile">
 					<div class="heading">Public Profile</div>
 					<div class="discription">Name<br>

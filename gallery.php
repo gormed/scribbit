@@ -31,6 +31,18 @@ require_once 'header.php';
 		var capturing = false;
 		var scribbleCount = 0;
 
+		function sortArrayByKeys(inputarray) {
+			var arraykeys=[];
+			for(var k in inputarray) {arraykeys.push(k);}
+			arraykeys.sort();
+			arraykeys.reverse();
+			var outputarray=[];
+			for(var i=0; i<arraykeys.length; i++) {
+				outputarray[arraykeys[i]]=inputarray[arraykeys[i]];
+			}
+			return outputarray;
+		}
+
 		function init () {
 			<?php 
 
@@ -66,14 +78,26 @@ require_once 'header.php';
 			?>
 
 
-			for (var k in scribbles) {
-				// use hasOwnProperty to filter out keys from the Object.prototype
-				if (scribbles.hasOwnProperty(k)) {
-					createScribbleDiv(k);
+			var arraykeys=[];
+			for(var k in scribbles) {
+				if (scribbles.hasOwnProperty(k)) { 
+					arraykeys.push(k);
 				}
-
 			}
+			arraykeys.sort();
+			arraykeys.reverse();
+			for(var i=0; i<arraykeys.length; i++) {
+				createScribbleDiv(arraykeys[i]);
+			}
+			//sorted = sortArrayByKeys(scribbles);
+			//scribbles.reverse();
 
+			// for (var k in sorted) {
+			// 	// use hasOwnProperty to filter out keys from the Object.prototype
+			// 	if (sorted.hasOwnProperty(k)) {
+			// 		createScribbleDiv(k);
+			// 	}
+			// }
 		}
 
 
@@ -117,9 +141,6 @@ require_once 'header.php';
 				// gallery.appendChild(document.createElement('br'));
 		}
 
-
-
-
 		$(window).scroll(function()
 		{
 			if($(window).scrollTop() == $(document).height() - $(window).height())
@@ -139,16 +160,23 @@ require_once 'header.php';
 								// show end 
 							}
 							else {
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										dates[k] =json.temp_dates[k];
-										users[k] = json.temp_users[k];
-										favorites[k] = json.temp_favorites[k];
-										favCount[k] = json.temp_favCount[k];
-										commentCount[k] = json.temp_commentCount[k];
-										createScribbleDiv(k);
+								var arraykeys=[];
+								for(var k in json.temp_scribbles) {
+									if (json.temp_scribbles.hasOwnProperty(k)) { 
+										arraykeys.push(k);
 									}
+								}
+								arraykeys.sort();
+								arraykeys.reverse();
+								for(var i=0; i<arraykeys.length; i++) {
+									var k = arraykeys[i];
+									scribbles[k] = json.temp_scribbles[k];
+									dates[k] =json.temp_dates[k];
+									users[k] = json.temp_users[k];
+									favorites[k] = json.temp_favorites[k];
+									favCount[k] = json.temp_favCount[k];
+									commentCount[k] = json.temp_commentCount[k];
+									createScribbleDiv(k);
 								}	
 							}
 						}
