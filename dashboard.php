@@ -23,24 +23,19 @@
 				</div>
 
 				<div id="navigation">
-						<ul class="topnav">
-							<li><?php echo '<span><a href="'.path.'/wall">WALL</a></span>' ?></li>
-							<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
-							<li>
-								<span><a href="#"><img src="#" width="20px" heigth="20px">&nbsp;Profile</a></span>
-								<ul class="subnav">
-									<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
-									<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
-								</ul>
-							</li>
-						</ul>
+					<ul class="topnav">
+						<li><?php echo '<span><a href="'.path.'/wall">WALL</a></span>' ?></li>
+						<li><?php echo '<span><a href="'.path.'/gallery">Gallery</a></span>' ?></li>
+						<li>
+							<span><a href="#"><img src="#" width="20px" heigth="20px">&nbsp;Profile</a></span>
+							<ul class="subnav">
+								<li><?php echo '<a href="'.path.'/profile">Go to Profile</a>' ?></li>
+								<li><?php echo '<a href="'.path.'/logout">Logout</a>' ?></li>
+							</ul>
+						</li>
+					</ul>
 				</div>
-
-
-
 			</div>
-
-
 				<div id="content">
 					<br>
 					<table border="0">

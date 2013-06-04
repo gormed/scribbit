@@ -81,12 +81,11 @@ include("process_login.php");
 			</form>
 			<?php 
 			echo '<br>'.$message;
-			?>
-			<br>
-			<br>			
-			<div style="font-family: 'Tahoma', sans-serif;">Don't have an account? <br>
+			?>			
+			<div style="font-family: 'Tahoma', sans-serif; font-size: small;">
 			<?php
-			echo '<a href="'.path.'/register">Create one here</a>!';
+			echo "Don't have an account? ".'<a href="'.path.'/register">Create one</a>!';
+			echo '<br><br>Or lost password? <a href="'.path.'/lost">Reset it</a>!';
 			?>
 			</div>
 			<br>

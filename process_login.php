@@ -7,7 +7,7 @@ if(isset($_POST['email'], $_POST['p'])) {
 	$email = $_POST['email'];
 	$password = $_POST['p']; // The hashed password.
 	if ($register) {
-		$message='<span style="color: #6f6">Registration successful, please log in!</span>';
+		$message='<div style="color: #6f6">Registration successful, please log in!</div>';
 	} else {
 		if(login($email, $password, $mysqli) == true) {
 			// Login success

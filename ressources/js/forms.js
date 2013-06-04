@@ -99,7 +99,7 @@ function checkValidUsername(username) {
 }
 
 function registerformhash(form) {
-	if ((passwordValidation(form) == 0) && checkEmailValid(form) && checkUsername(form)) {
+	if ((passwordValidation(form) == 0) && checkEmailValid(form) && checkValidUsername(form.username.value)) {
 		// Create a new element input, this will be out hashed passw ord field.
 		var p = document.createElement("input");
 		// Add the new element to our form.

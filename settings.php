@@ -17,6 +17,11 @@
 				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
 			<div id="content">
+				<div id="profilepic">
+					<div class="heading">Avatar</div>
+					<input class="update" type="button" value="Scribble Avatar" id="scribbleavatar">
+				</div>
+				<div class="horizontal"></div>
 				<div id="profile">
 					<div class="heading">Public Profile</div>
 					<div class="discription">Name<br>
@@ -30,6 +35,7 @@
 					</div>
 					<div class="discription">URL<br>
 						<input class="options" type="text" id="url">
+						<div id="changeprofileresult"></div>
 					</div>
 					<input class="update" type="button" value="Update Profile" id="updateprofile">
 				</div>
@@ -153,6 +159,7 @@
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 				console.log(xmlhttp.responseText);
+				$('#changeprofileresult').html(xmlhttp.responseText);
 			}
 		}
 		xmlhttp.open("POST",path+"/update_profile.php",true);
