@@ -1,10 +1,48 @@
-
-
 <?php
 	require_once '../db_login.php';
 	require_once '../functions.php';
 	require_once '../path.php';
 
+	sec_session_start();
+	$loggedIn = login_check($mysqli);	
+
+	if (!$loggedIn) {
+		exit();
+	}
+
+	function hasNeighbour($mysqli, $xcurr, $ycurr, $x, $y)
+	{
+		$sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1 ", ($xcurr + $x), ($ycurr + $y));
+		$result = $mysqli->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	function checkAllNeighbours($mysqli, $xcurr, $ycurr, $posx, $posy, $counter) {
+			// above
+		if (!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
+			$counter++;
+			$posx[$counter] = $xcurr;
+			$posy[$counter] = $ycurr + 1;
+			// below
+		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
+			$counter++;
+			$posx[$counter] = $xcurr;
+			$posy[$counter] = $ycurr - 1;
+			// right
+		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, 1, 0)) {
+			$counter++;
+			$posx[$counter] = $xcurr +1;
+			$posy[$counter] = $ycurr;
+			// left
+		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, -1, 0)) {
+			$counter++;
+			$posx[$counter] = $xcurr;
+			$posy[$counter] = $ycurr - 1;
+		}
+	}
 
 	if(isset($_POST['bl'], $_POST['br'],$_POST['tr'],$_POST['tl'])) {
 		$bl = $_POST['bl'];
@@ -18,18 +56,23 @@
 		$temp_positionsx = Array();
 		$temp_positionsy = Array();
 		$temp_map = Array();
+		$temp_empty = Array();
+		$counter = 0;
+
 		while ($row = $result->fetch_array()) {
 
 			$temp_scribbles[$row[0]] = '/scribbles/l/'.$row[1];
 			$temp_positionsx[$row[0]] = ''.$row[4];
 			$temp_positionsy[$row[0]] = ''.$row[5];
 			$temp_map[$row[4].''.$row[5]] = ''.$row[0];
+			checkAllNeighbours($mysqli, $row[4], $row[5], $temp_positionsx, $temp_positionsy, $counter);
 		}
-			$ret = Array(	"temp_scribbles" => $temp_scribbles,
-							"temp_positionsx" => $temp_positionsx,
-							"temp_positionsy" => $temp_positionsy,
-							"temp_map" => $temp_map
-					);
+		$ret = Array(	"temp_scribbles" => $temp_scribbles,
+						"temp_positionsx" => $temp_positionsx,
+						"temp_positionsy" => $temp_positionsy,
+						"temp_map" => $temp_map,
+						"temp_counter" => $counter
+				);
     
 		
 

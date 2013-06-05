@@ -19,15 +19,14 @@
 
 	$sql = sprintf("SELECT `favid`, `userid`, `scribbleid`, `datetime` FROM `favorites` WHERE `userid` = %d AND `scribbleid` = %d LIMIT 0, 1 ", $userid, $scribbleid);
 	$result = $mysqli->query($sql);
-
 	if ($result->num_rows > 0) {
 		// unfav
 		$sql = sprintf("DELETE FROM `favorites` WHERE `favid` = %d", $result->fetch_array()[0]);
-		$mysqli->query($sql);
+		echo $mysqli->query($sql);
 	} else {
 		// fav
 		$sql = sprintf("INSERT INTO `favorites` (`userid`, `scribbleid`, `datetime`) VALUES (%d,%d,'%s')",$userid, $scribbleid, $mysqldate);
-		$mysqli->query($sql);
+		echo $mysqli->query($sql);
 	}
 
 ?>

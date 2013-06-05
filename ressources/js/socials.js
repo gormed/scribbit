@@ -30,6 +30,7 @@ function favImage(scribbleid) {
 	xmlhttp.onreadystatechange=function() {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 			favToggle(scribbleid); //on success
+			console.log(xmlhttp.responseText);
 		}
 	}
 	xmlhttp.open("POST",path+"/fav_image.php",true);
@@ -74,6 +75,7 @@ function saveComment () {
 	xmlhttp.onreadystatechange=function() {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 			location.reload();
+			console.log(xmlhttp.responseText);
 			//document.getElementById("upload").innerHTML="Sent!" + "\n" + xmlhttp.responseText;
 		}
 	}

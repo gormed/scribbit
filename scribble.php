@@ -1,11 +1,66 @@
 <?php 
-require_once 'path.php'; require_once 'header.php';
-if (isset($_POST['parentid']) && isset($_POST['where'])) {
-	$where = $_POST['where'];
-	$parentid = $_POST['parentid'];
-} else {
-	header("location: ".path."/gallery");
-}
+	require_once 'path.php'; require_once 'header.php';
+
+	function isReserved($mysqli, $xpos, $ypos)
+	{
+		$sql = sprintf("SELECT `id`, `userid` FROM `reserved_map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1", $xpos, $ypos);
+		$result = $mysqli->query($sql);
+		if (isset($result->num_rows) && $result->num_rows > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	if (isset($_POST['parentid']) && isset($_POST['where'])) {
+		$where = $_POST['where'];
+		$parentid = $_POST['parentid'];
+		$userid = $_SESSION['user_id'];
+
+		$sql = sprintf("SELECT X(`position`), Y(`position`), `parentid` FROM `map` WHERE `scribbleid` = %d LIMIT 0, 1", $parentid);
+		$result = $mysqli->query($sql)->fetch_array();
+
+		$xparent = $result[0];
+		$yparent = $result[1];
+
+		switch ($where) {
+			//top
+			case '0':
+				$xpos = $xparent;
+				$ypos = $yparent + 1;
+				break;
+			//right
+			case '1':
+				$ypos = $yparent;
+				$xpos = $xparent + 1;
+				break;
+			//bottom
+			case '2':
+				$xpos = $xparent;
+				$ypos = $yparent - 1;
+				break;
+			//left
+			case '3':
+				$ypos = $yparent;
+				$xpos = $xparent - 1;
+				break;
+			
+			default:
+				
+				break;
+		}
+
+		if (!isReserved($mysqli, $xpos, $ypos)) {
+			$sql = sprintf("INSERT INTO `reserved_map`(`position`, `userid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d)", $xpos, $ypos, $userid);
+			$mysqli->query($sql);
+			echo "RESERVED THE TILE";
+		} else {
+			header("location: ".path."/scribbles/".$parentid);
+		}
+
+		
+	} else {
+		header("location: ".path."/gallery");
+	}
 
 ?>
 
@@ -65,8 +120,6 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 	{
 		return document.getElementById('wtPlugin');
 	}
-	  
-
 
 	//************************************************************************
 	function findPos(obj) 
@@ -84,10 +137,6 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		}
 		return {x:curleft, y:curtop};
 	}
-
-	
-	  
-
 
 	//************************************************************************
 	function onLoad()
@@ -171,14 +220,6 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 		canvas.onmousemove=null;
 	capturing = false; 
 	}
-
-	
-
-
-
-
-	
-
 	  
 
 	//************************************************************************

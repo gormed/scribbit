@@ -195,7 +195,6 @@
 	?>
 </div>
 <div class="topnav">
-
 	<div class="main"><?php echo '<span><a href="'.path.'/wall"><div id="wall"></div></a></span>' ?></div>
 	<div class="main"><?php echo '<span><a href="'.path.'/gallery"><div id="gallery"></div></a></span>' ?></div>
 </div>
