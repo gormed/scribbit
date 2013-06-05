@@ -74,7 +74,7 @@ require_once 'header.php';
 
 
 					/////////////////////////////
-					///////jQueryEvents/////////// 
+					///////jQueryEvents//////////
 					/////////////////////////////
 
 		$(document).ready(function() {
@@ -96,15 +96,34 @@ require_once 'header.php';
 						createScribble(positionsx[k], positionsy[k], k);
 					}	
 				}
+
+				
+				$(document).on("click", ".scribble", function(event){
+					console.log(event.target.id);
+					event.preventDefault();
+					var topOff = $(this).focus().offset().top, $w = $(window);
+					var leftOff = $(this).focus().offset().left, $w = $(window);
+					$w.scrollTop(topOff - ($w.height() / 2));
+					$w.scrollLeft(leftOff - ($w.width() / 2));
+				});
+			
 		})
 
 		
+
+
+
+	
+		
 		$(window).scroll(function()
 			{
+				// var centerX = $(this).offset().left() + $(this).width() / 2;
+				// var centerY = $(this).offset().top() + $(this).height() / 2;
+				// console.log("centerview: "+ centerX+", "+centerY);
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					console.log("scroll down");	
+
 					$('div#loadingImage').show();
 					$.ajax({
 						type: "POST",
@@ -134,9 +153,7 @@ require_once 'header.php';
 
 				// Scrollbar on Top
 				else if($(window).scrollTop() == 0){
-					var scrollY = topY;
 					// $('div#loadingImage').show();
-
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -151,10 +168,11 @@ require_once 'header.php';
 									//		
 								}
 								else {
-									addTopRow();
-									// $('html, body').animate({
-									// 	scrollTop: $("#cellMap").offset().top
-									// 	}, 2000);
+										var preHeight = $(window).height();
+										addTopRow();
+										$w = $(window);
+										$w.scrollTop($w.height() - preHeight);
+
 									for(var k in json.temp_scribbles){
 										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
 											scribbles[k] = json.temp_scribbles[k];
@@ -239,6 +257,8 @@ require_once 'header.php';
 
 			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 		}
+
+		
 
 
 		function createScribble(x, y, scrid){	
@@ -327,11 +347,9 @@ require_once 'header.php';
 			$("#divCanvas").width($("#divCanvas").width()+1890+'px');
 			for(var y = topY; y >=bottomY;y--){	
 				for(var x = leftX; x>leftX-9; x--){
-					console.log(x+" "+y);
 					createLeftMapCell(x,y);
 				}	
 			}
-			console.log("-------------------------");
 			leftX -= 8;
 		}
 
@@ -368,6 +386,9 @@ require_once 'header.php';
 		}
 		
 
+
+
+ 
 
 
 
