@@ -70,8 +70,8 @@
 		$ret = Array(	"temp_scribbles" => $temp_scribbles,
 						"temp_positionsx" => $temp_positionsx,
 						"temp_positionsy" => $temp_positionsy,
-						"temp_map" => $temp_map
-						"temp_empty" => $counter;
+						"temp_map" => $temp_map,
+						"temp_counter" => $counter
 				);
     
 		

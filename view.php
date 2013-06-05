@@ -9,6 +9,8 @@
 	$ycurr = $result[1];
 	$parentid = $result[2];
 
+
+
 	function hasNeighbour($mysqli, $xcurr, $ycurr, $x, $y)
 	{
 		$sql = sprintf("SELECT `scribbleid`, `parentid` FROM `map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1 ", ($xcurr + $x), ($ycurr + $y));

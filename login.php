@@ -89,6 +89,10 @@ include("process_login.php");
 			?>
 			</div>
 			<br>
+			<div style="font-family: 'Tahoma', sans-serif; font-size: small;">
+				By using our service you accept that we store cookies on your computer. Read why!
+			</div>
+			<br>
 		</div>
 	</div>
 </body>
