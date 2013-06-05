@@ -99,7 +99,7 @@ require_once 'header.php';
 
 				
 				$(document).on("click", ".scribble", function(event){
-					console.log(event.target.id);
+					console.log(event.target.id + " zoomlvl"+zoom);
 					event.preventDefault();
 					var topOff = $(this).focus().offset().top, $w = $(window);
 					var leftOff = $(this).focus().offset().left, $w = $(window);
