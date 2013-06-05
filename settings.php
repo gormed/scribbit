@@ -30,6 +30,7 @@
 					</div>
 					<div class="discription">URL<br>
 						<input class="options" type="text" id="url">
+						<div id="changeprofileresult"></div>
 					</div>
 					<input class="update" type="button" value="Update Profile" id="updateprofile">
 				</div>
@@ -153,6 +154,7 @@
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 				console.log(xmlhttp.responseText);
+				$('#changeprofileresult').html(xmlhttp.responseText);
 			}
 		}
 		xmlhttp.open("POST",path+"/update_profile.php",true);

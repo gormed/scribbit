@@ -86,21 +86,38 @@
 
 
 #clippingMask {
-	width:100;
+	width:100%;
 	height:100%;
 
 }
 .mapCell {
 	width: 210px;
 	height: 140px;
-	position: absolute;
 	background: #ffffff;
+	float:left;
+	display: inline-block;
 
 
 }
+.rightMapCell {
+	width: 210px;
+	height: 140px;
+	background: #ffffff;
+	float:left;
+	display: inline-block;
 
-.divCanvas {
-	height: 840px;
+
+}
+.scribble {
+	width: 210px;
+	height:140px;
+}
+
+
+
+#divCanvas {
+	width:5670px;
+	height: 2520px;	
 }
 
 }
