@@ -11,6 +11,7 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 
 <html>
 <head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Scribb'it - Scribble</title>
 <!--<script type="text/javascript" src="ressources/js/scribble.js"></script>-->
 <link rel="stylesheet" type="text/css" href="ressources/css/scribble.css">
@@ -33,6 +34,7 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
 <script type="text/javascript">
+
 <?php 
 	echo 'var parentid = '.$parentid.';';
 	echo 'var where = '.$where.';';
@@ -167,10 +169,13 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 	//console.log("MOUSE:UP");
 		var canvas = document.getElementById('canvas');
 		canvas.onmousemove=null;
-	capturing = false;
-
-
+	capturing = false; 
 	}
+
+	
+
+
+
 
 	
 
@@ -222,7 +227,7 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 				
 				//console.log("mousemove: cur: " + curX + "," + curY);
 
-				this.ctx.lineCap = 'round';
+				
 
 				//this.ctx.shadowBlur = 3;
   				//this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
@@ -241,7 +246,9 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 
 				//rot="red";
 				
-				
+				var farbe="black";
+				var brush="round";
+								
 				
 				
 
@@ -302,13 +309,24 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 </script>
 
 <script type="text/javascript">
+
+
+
+
 	var x;
 	var imgData;
+
+	var history = [];	
+	
+
+
+
 
 	function copy () {
 		var canvas = document.getElementById('canvas');
 		 this.ctx=canvas.getContext("2d");
 		 imgData=this.ctx.getImageData(0,0,960,640);
+		 history.push(imgData);
 		 
 	}
 
@@ -317,7 +335,8 @@ if (isset($_POST['parentid']) && isset($_POST['where'])) {
 	function fill () {
 		var canvas = document.getElementById('canvas');
 		 this.ctx=canvas.getContext("2d");
-		this.ctx.putImageData(imgData,0,0);
+		 
+		 this.ctx.putImageData(imgData,0,0);
 	}
 
 function setColor() {
@@ -358,6 +377,24 @@ function setColor3() {
 
 }
 
+function setColor4() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#FFFF00";
+	this.ctx.strokeStyle=farbe;
+
+}
+
+function setColor5() {
+	console.log("jau");
+
+	var canvas = document.getElementById('canvas');
+	var farbe="#FF00FF";
+	this.ctx.strokeStyle=farbe;
+
+}
+
 
 function rubber() {
 	console.log("jau");
@@ -367,6 +404,40 @@ function rubber() {
 	this.ctx.strokeStyle=farbe;
 
 }
+
+				var dicke=20;
+				var trans=1;
+
+
+function setShadow(){
+	var canvas = document.getElementById('canvas');
+	this.ctx.shadowBlur = 3;
+	this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  	this.ctx.shadowOffsetX = 3;
+  	this.ctx.shadowOffsetY = 6;
+}
+
+function setRound(){
+	var canvas = document.getElementById('canvas');
+	var brush = "round"
+	this.ctx.lineCap = brush;
+
+}
+
+function setBlock(){
+	var canvas = document.getElementById('canvas');
+	var brush ="square"
+	this.ctx.lineCap = brush;
+
+}
+
+function setSplit(){
+	var canvas = document.getElementById('canvas');
+	var brush ="butt"
+	this.ctx.lineCap = brush;
+
+}
+
 
  function showValueDicke(val){
  			
@@ -392,7 +463,7 @@ $('#canvas').disableSelection();
 
 </head>
 
-<body onselectstart="return false" onload="onLoad();"><!-->markieren verhindern<!-->
+<body onselectstart="return false" onload="onLoad();">
 
 	<button onclick="copy()">Copy</button>
 	<button onclick="fill()">fill</button>
@@ -421,33 +492,44 @@ $('#canvas').disableSelection();
 	<!--> <![endif]-->
 	<div id="site">
 		
-		<div id="tools" class="hidden">
+		<div id="tools" class="visible">
 			<div>
-				<div id="clear" title="Clear" onclick="clearCanvas();">clear</div><br>
-				
-					<div id="stepback" title="back" onclick="...();">back</div>
-					<div id="stepforward" title="forward" onclick="...();">for</div><br><br>
-					<div id="rubber" title="rubber" onclick="rubber();">rubber</div><br>
-				
+					<div id="blackbox">
+						<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
+						<div id="stepback" title="back" onclick="...();">back</div>
+						<div id="stepforward" title="forward" onclick="...();">for</div>
+						<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
+					</div>
+
 					<div>
 						<div id="color1">
 								<div id="cbox3" onclick="setColor3();"> </div>
 								<div id="cbox" onclick="setColor();"> </div>
 								<div id="cbox1" onclick="setColor1();"></div>
 								<div id="cbox2" onclick="setColor2();"></div>
+								<div id="cbox4" onclick="setColor4();"></div>
+								<div id="cbox5" onclick="setColor5();"></div>
 						</div>
-
-						<div id="brush" onclick="...();">brush</div>
 					</div>
+
+						<div id="shadow" onclick= "setShadow();">Schatten</div>
+						<div id="round" onclick= "setRound();">Rund</div>
+						<div id="block" onclick= "setBlock();">Eckig</div>
+						<div id="split" onclick= "setSplit();">Splitter</div>
+
+
+					
 
 				
 				<div id="bar">
-				<input title="width"  type="range" min="1" max="150" value="50" step="1" onChange="showValueDicke(this.value);" />
-						<input type ="text" id="resultDicke" value="" />
-				<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
-						<input type ="text" id="resultTrans" value="" />
-				</div>
-				<br>
+					<div>Größe</div>
+							<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
+									<input type ="text" id="resultDicke" value="" />
+					<div>Transparenz</div>
+							<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
+									<input type ="text" id="resultTrans" value="" />
+				</div><br>
+				
 
 				
 				
