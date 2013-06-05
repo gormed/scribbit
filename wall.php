@@ -74,7 +74,7 @@ require_once 'header.php';
 
 
 					/////////////////////////////
-					///////jQueryEvents/////////// 
+					///////jQueryEvents//////////
 					/////////////////////////////
 
 		$(document).ready(function() {
@@ -97,11 +97,19 @@ require_once 'header.php';
 					}	
 				}
 
-				$(".scribble").click(function(event){
-				console.log(event.target.id);
+				
+				$(document).on("click", ".scribble", function(event){
+					console.log(event.target.id);
+					event.preventDefault();
+					var topOff = $(this).focus().offset().top, $w = $(window);
+					var leftOff = $(this).focus().offset().left, $w = $(window);
+					$w.scrollTop(topOff - ($w.height() / 2));
+					$w.scrollLeft(leftOff - ($w.width() / 2));
+				});
 			
-			});
 		})
+
+		
 
 
 
@@ -160,10 +168,11 @@ require_once 'header.php';
 									//		
 								}
 								else {
-									addTopRow();
-									// $('html, body').animate({
-									//	scrollTop: $(".cellMap").offset().top
-									//	}, 2000);
+										var preHeight = $(window).height();
+										addTopRow();
+										$w = $(window);
+										$w.scrollTop($w.height() - preHeight);
+
 									for(var k in json.temp_scribbles){
 										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
 											scribbles[k] = json.temp_scribbles[k];
@@ -377,6 +386,9 @@ require_once 'header.php';
 		}
 		
 
+
+
+ 
 
 
 
