@@ -1,11 +1,9 @@
 <?php 
 
-define("HOST", "localhost");
-define("USER", "work_user");
-define("PASSWORD", "2DPcTE8uCa5TECJw");
-define("DATABASE", "secure_login");
+define("WORKUSER", "work_user");
+define("WORKPASSWORD", "2DPcTE8uCa5TECJw");
 
-$mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+$mysqli = new mysqli(HOST, WORKUSER, WORKPASSWORD, DATABASE);
 
 
 ?>

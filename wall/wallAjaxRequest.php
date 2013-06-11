@@ -57,6 +57,9 @@
 		$temp_positionsy = Array();
 		$temp_map = Array();
 		$temp_empty = Array();
+		$temp_commentCount = Array();
+		$temp_favorites = Array();
+		$temp_favoriteCount = Array();
 		$counter = 0;
 
 		while ($row = $result->fetch_array()) {
@@ -65,13 +68,33 @@
 			$temp_positionsx[$row[0]] = ''.$row[4];
 			$temp_positionsy[$row[0]] = ''.$row[5];
 			$temp_map[$row[4].''.$row[5]] = ''.$row[0];
+
+			// get comments for this scribble (could be more performant if JOIN for the comments table)
+			$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $scribbleid);
+			$result = $mysqli->query($sql);
+			$commentCount[$row[0]] = $result->num_rows;
+			// get if the scribble is your favorite and the whole fav count (same as above)
+			$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
+			$isFav = 'false';
+			$fav = $mysqli->query($sql);
+			if ($fav->num_rows > 0)
+				$isFav = 'true';
+			$favorites[$row[0]] = $isFav;
+
+			$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
+			$favoriteCount[$row[0]] = $mysqli->query($sql)->num_rows;
+
 			checkAllNeighbours($mysqli, $row[4], $row[5], $temp_positionsx, $temp_positionsy, $counter);
 		}
+
 		$ret = Array(	"temp_scribbles" => $temp_scribbles,
 						"temp_positionsx" => $temp_positionsx,
 						"temp_positionsy" => $temp_positionsy,
 						"temp_map" => $temp_map,
-						"temp_counter" => $counter
+						"temp_counter" => $counter,
+						"temp_favorites" => $temp_favorites,
+						"temp_favoriteCount" => $temp_favoriteCount,
+						"temp_commentCount" => $temp_commentCount
 				);
     
 		
