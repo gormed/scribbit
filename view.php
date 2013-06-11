@@ -170,6 +170,7 @@
 				input.value = where;
 				var form = document.getElementById('postscribble'); 
 				form.submit();
+				
 			}
 
 			function onLoad () {

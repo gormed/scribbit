@@ -1,5 +1,9 @@
 <?php 
-	require_once 'path.php'; require_once 'header.php';
+	$mysqli->close();
+	require_once 'db_work.php';
+	$loggedIn = login_check($mysqli);	
+
+	require_once 'bypass.php';
 
 	function timeTillNow($oldTime)
 	{
@@ -19,7 +23,7 @@
 			$userid = $row[1];
 			echo "time ".timeTillNow($time).PHP_EOL;
 			// time since entry bigger than 59 min
-			if (timeTillNow($time) > 59 || $userid == $_SESSION['user_id']) {
+			if (timeTillNow($time) > 60 || $userid == $_SESSION['user_id']) {
 				return false;
 			} else { 
 				return true;
@@ -69,6 +73,7 @@
 		$reserved = isReserved($mysqli, $xpos, $ypos);
 		if (!$reserved) {
 			echo "not reserved, reserving for user ".$userid.PHP_EOL;
+			// have you the right to access
 			$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid);
 			$res1 = $mysqli->query($sql);
 			$sql = sprintf("INSERT INTO `reserved_map`(`position`, `userid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d)", $xpos, $ypos, $userid);
