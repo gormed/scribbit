@@ -1,12 +1,29 @@
 <?php 
 	require_once 'path.php'; require_once 'header.php';
 
+	function timeTillNow($oldTime)
+	{
+		$now = time(); // or your date as well
+		$your_date = strtotime($oldTime);
+		$datediff = abs($now - $your_date);
+		return floor($datediff/(60)); // minutes
+	}
+
 	function isReserved($mysqli, $xpos, $ypos)
 	{
-		$sql = sprintf("SELECT `id`, `userid` FROM `reserved_map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1", $xpos, $ypos);
+		$sql = sprintf("SELECT `id`, `userid`, `time` FROM `reserved_map` WHERE X(`position`) = %d AND Y(`position`) = %d LIMIT 0, 1", $xpos, $ypos);
 		$result = $mysqli->query($sql);
+		$row = $result->fetch_array();
 		if (isset($result->num_rows) && $result->num_rows > 0) {
-			return true;
+			$time = $row[2];
+			$userid = $row[1];
+			echo "time ".timeTillNow($time).PHP_EOL;
+			// time since entry bigger than 59 min
+			if (timeTillNow($time) > 59 || $userid == $_SESSION['user_id']) {
+				return false;
+			} else { 
+				return true;
+			}
 		}
 		return false;
 	}
@@ -49,15 +66,18 @@
 				break;
 		}
 
-		if (!isReserved($mysqli, $xpos, $ypos)) {
+		$reserved = isReserved($mysqli, $xpos, $ypos);
+		if (!$reserved) {
+			echo "not reserved, reserving for user ".$userid.PHP_EOL;
+			$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid);
+			$res1 = $mysqli->query($sql);
 			$sql = sprintf("INSERT INTO `reserved_map`(`position`, `userid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d)", $xpos, $ypos, $userid);
-			$mysqli->query($sql);
-			echo "RESERVED THE TILE";
+			$res2 = $mysqli->query($sql);
+
+			echo "res1: ".$res1." res2: ".$res2;
 		} else {
 			header("location: ".path."/scribbles/".$parentid);
 		}
-
-		
 	} else {
 		header("location: ".path."/gallery");
 	}
