@@ -442,9 +442,11 @@ function rubber() {
 
 	var canvas = document.getElementById('canvas');
 	var farbe="#FFFFFF";
-	this.ctx.strokeStyle=farbe;
+	this.ctx.strokeStyle="#FFFFFF";
 
 }
+
+
 
 				var dicke=20;
 				var trans=1;
@@ -456,6 +458,7 @@ function setShadow(){
 	this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
   	this.ctx.shadowOffsetX = 3;
   	this.ctx.shadowOffsetY = 6;
+
 }
 
 function setRound(){
