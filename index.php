@@ -13,7 +13,7 @@ include 'header.php';
 		<meta name="description" content="Scribb'it is a collaborative tool 
 		for creating drawings and sketches in creative collaboration 
 		with friends, acquaintances and even strangers.">
-		<title>Scribb'it</title>
+		<title>scribbit</title>
 		<style type="text/css">
 
 			/* BODY */

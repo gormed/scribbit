@@ -38,6 +38,7 @@ if (array_key_exists($folder,$pages)
 
 	if ($loginRequired[$folder] == $loggedIn) {
 		include($pages[$folder]);
+		$_SESSION['views']++;
 		exit();
 	} else if (!$loggedIn) {
 		header('location: '.path.'/login');
