@@ -21,7 +21,7 @@
 		if (isset($result->num_rows) && $result->num_rows > 0) {
 			$time = $row[2];
 			$userid = $row[1];
-			echo "time ".timeTillNow($time).PHP_EOL;
+			//echo "time ".timeTillNow($time).PHP_EOL;
 			// time since entry bigger than 59 min
 			if (timeTillNow($time) > 60 || $userid == $_SESSION['user_id']) {
 				return false;
@@ -72,14 +72,14 @@
 
 		$reserved = isReserved($mysqli, $xpos, $ypos);
 		if (!$reserved) {
-			echo "not reserved, reserving for user ".$userid.PHP_EOL;
+			//echo "not reserved, reserving for user ".$userid.PHP_EOL;
 			// have you the right to access
 			$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid);
 			$res1 = $mysqli->query($sql);
 			$sql = sprintf("INSERT INTO `reserved_map`(`position`, `userid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d)", $xpos, $ypos, $userid);
 			$res2 = $mysqli->query($sql);
 
-			echo "res1: ".$res1." res2: ".$res2;
+			//echo "res1: ".$res1." res2: ".$res2;
 		} else {
 			header("location: ".path."/scribbles/".$parentid);
 		}

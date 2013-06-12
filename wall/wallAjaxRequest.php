@@ -70,7 +70,7 @@
 			$temp_map[$row[4].''.$row[5]] = ''.$row[0];
 
 			// get comments for this scribble (could be more performant if JOIN for the comments table)
-			$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $scribbleid);
+			$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $row[0]);
 			$result = $mysqli->query($sql);
 			$commentCount[$row[0]] = $result->num_rows;
 			// get if the scribble is your favorite and the whole fav count (same as above)
