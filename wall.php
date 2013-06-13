@@ -99,14 +99,49 @@ require_once 'header.php';
 
 				
 				$(document).on("click", ".scribble", function(event){
-					console.log(event.target.id + " zoomlvl"+zoom);
+					console.log("click "+ event.target.id + " zoomlvl"+zoom);
 					event.preventDefault();
 					var topOff = $(this).focus().offset().top, $w = $(window);
 					var leftOff = $(this).focus().offset().left, $w = $(window);
 					$w.scrollTop(topOff - ($w.height() / 2));
-					$w.scrollLeft(leftOff - ($w.width() / 2));
+					$w.scrollLeft(leftOff - ($w.width()  / 2));
+
+					$(this).stop().animate({
+						
+						
+						
+						}, 1000, function() {
+							// Animation complete.
+					});
+					
 				});
 			
+				$(document).on("mouseenter", ".scribble", function(event){
+							console.log("mouseenter "+ event.target.id + " zoomlvl"+zoom);
+					event.preventDefault();
+					$(this).stop().animate({
+						opacity: 1
+						
+						
+						}, 1000, function() {
+							// Animation complete.
+					});
+				});
+
+				$(document).on("mouseleave", ".scribble", function(event){
+							console.log("mouseleave "+ event.target.id + " zoomlvl"+zoom);
+					event.preventDefault();
+
+					$(this).stop().animate({
+						opacity: 0.75
+						
+						
+						}, 1000, function() {
+							// Animation complete.
+					});
+				});
+
+x
 		})
 
 		
@@ -258,7 +293,9 @@ require_once 'header.php';
 			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 		}
 
-		
+		function scrollToPosition(x,y){
+
+		}
 
 
 		function createScribble(x, y, scrid){	
@@ -268,6 +305,7 @@ require_once 'header.php';
 				// rel: 'external',
 				// text: 'Go to Google!'
 			}).addClass('scribble'
+			).data("scribbleid", scrid
 			).css({
 				'background-image': 'url('+root+scribbles[scrid]+')'
 			}).appendTo('#mapCell'+x+'_'+y);				
@@ -483,12 +521,17 @@ require_once 'header.php';
 	</head>
 
 	<body> 
+		<div id="leftProcessBar" class="rotating"></div>
+			<div id="rightProcessBar" class="rotating"></div>
+			<div id="topProcessBar" class="rotating"></div>
+			<div id="bottomProcessBar" class="rotating"></div>
 		<div id="site">
 			<div id="header">
 				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>	
+
 			<div id="clippingMask">	
-				<div id="loadingImage">Loading</div>
+			
 				<div id="divCanvas"></div>
 			</div>
 		</div>

@@ -66,7 +66,9 @@
 	
 }*/
 
-
+body {
+	overflow:auto;
+}
 
 .table {
     display: table;
@@ -111,6 +113,7 @@
 .scribble {
 	width: 210px;
 	height:140px;
+	opacity: 0.75;
 }
 
 
@@ -120,4 +123,52 @@
 	height: 2520px;	
 }
 
+#leftProcessBar {
+	position: absolute;
+	float: left;
+	top:50%;
+	left:0px;
+    width: 32px;
+    height: 32px;
+    background: url('../img/ico/color_wheel.png');
+}
+
+#rightProcessBar {
+	position: absolute;
+	top:50%;
+	right:0px;
+    width: 32px;
+    height: 32px;
+    background: url('../img/ico/color_wheel.png');
+}
+
+#topProcessBar {
+	position: absolute;
+	top:0px;
+	left:50%;
+	width: 32px;
+    height: 32px;
+    background: url('../img/ico/color_wheel.png');
+}
+
+#bottomProcessBar {
+	position: absolute;
+	bottom:0px;
+	left:50%;
+    width: 32px;
+    height: 32px;
+    background: url('../img/ico/color_wheel.png');
+}
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    -webkit-animation: rotating 2s linear infinite;
 }
