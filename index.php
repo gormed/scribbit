@@ -8,12 +8,12 @@ include 'header.php';
 	<head>
 		<meta name="keywords" content="scribbit, share, collaborate, paint, scribble">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<meta http-equiv="cach-control" content="private">
+		<meta http-equiv="cache-control" content="private">
 		<meta name="robots" content="all">
 		<meta name="description" content="Scribb'it is a collaborative tool 
 		for creating drawings and sketches in creative collaboration 
 		with friends, acquaintances and even strangers.">
-		<title>Scribb'it</title>
+		<title>scribbit</title>
 		<style type="text/css">
 
 			/* BODY */

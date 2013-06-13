@@ -38,11 +38,16 @@ if (array_key_exists($folder,$pages)
 
 	if ($loginRequired[$folder] == $loggedIn) {
 		include($pages[$folder]);
+		track($mysqli, $folder);
 		exit();
 	} else if (!$loggedIn) {
 		header('location: '.path.'/login');
+		exit();
 	} else {
+
+		track($mysqli, "wall");
 		header('location: '.path.'/wall');
+		exit();
 	}
 }
 
@@ -55,6 +60,8 @@ if (isset($rqst) && $loggedIn) {
 	$isFriend = true;
 
 	if ($friendid == $_SESSION['user_id']) {
+
+		track($mysqli, "profile");
 		header('location:'.path.'/profile');
 		exit();
 	} else {

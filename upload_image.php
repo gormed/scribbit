@@ -1,5 +1,8 @@
 <?php
 	require_once 'db_login.php';
+	$mysqli->close();
+	require_once 'db_work.php';
+
 	require_once 'functions.php';
 	require_once 'path.php';
 	
@@ -10,6 +13,8 @@
 	if (!$loggedIn) {
 		exit();
 	}
+
+
 
 	function base64url_decode($base64url)
 	{
@@ -139,6 +144,10 @@
 	
 	$sql = sprintf("INSERT INTO `map` (`position`, `scribbleid`, `parentid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d, %d)", $xpos, $ypos, $scribbleid, $parentid);
 	$result = $mysqli->query($sql);
+
+	$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid);
+	$mysqli->query($sql);
+
 	echo "Done! ".$result->num_rows;
 
 ?>

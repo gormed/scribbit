@@ -32,7 +32,7 @@ function login($email, $password, $mysqli) {
 		 } else {
 		 if($db_password == $password) { // Check if the password in the database matches the password the user submitted. 
 			// Password is correct!
-			$user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
+			$user_browser = $_SERVER['REMOTE_ADDR']; // Get the user-agent string of the user.
 
 			$user_id = preg_replace("/[^0-9]+/", "", $user_id); // XSS protection as we might print this value
 			$_SESSION['user_id'] = $user_id; 
@@ -40,16 +40,22 @@ function login($email, $password, $mysqli) {
 			$_SESSION['username'] = $username;
 			$_SESSION['login_string'] = hash('sha512', $password.$user_browser);
 			$_SESSION['views'] = 1;
-			$_SESSION['ip'] = $_SERVER['SERVER_ADDR'];
+			$views = $_SESSION['views'];
+			$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+			$from = hash('sha512', $_SESSION['ip']);
+			$browser = hash('hash512', $user_browser);
 			// log last login time
 			$now = time();
 			$mysqldate = date( 'Y-m-d H:i:s', $now );
 			$sql = sprintf("SELECT `userid`, `datetime` FROM `login_time` WHERE `userid` = %d LIMIT 0, 30 ", $user_id);
 			$result = $mysqli->query($sql);
+
 			if ($result->num_rows == 0) {
-				$sql = sprintf("INSERT INTO `login_time`(`userid`, `datetime`) VALUES (%d,'%s')",$user_id, $mysqldate);
+				$sql = sprintf("INSERT INTO `login_time`(`userid`, `datetime`, `from`, `views`, `browser`) VALUES (%d,'%s', '%s', %d, '%s')",
+					$user_id, $mysqldate, $from, $views, $browser);
 			} else {
-				$sql = sprintf("UPDATE `secure_login`.`login_time` SET `datetime` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", $mysqldate, $user_id);
+				$sql = sprintf("UPDATE `secure_login`.`login_time` SET `datetime` = '%s', `from` = '%s', `views` = %d, `browser` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", 
+					$mysqldate, $from, $views, $browser, $user_id);
 			}
 			
 			$mysqli->query($sql);
@@ -99,7 +105,7 @@ function login_check($mysqli) {
 	 $login_string = $_SESSION['login_string'];
 	 $username = $_SESSION['username'];
  
-	 $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
+	 $user_ip = $_SERVER['REMOTE_ADDR']; // Get the user-agent string of the user.
  
 	 if ($stmt = $mysqli->prepare("SELECT password FROM members WHERE id = ? LIMIT 1")) { 
 		$stmt->bind_param('i', $user_id); // Bind "$user_id" to parameter.
@@ -109,7 +115,7 @@ function login_check($mysqli) {
 		if($stmt->num_rows == 1) { // If the user exists
 		   $stmt->bind_result($password); // get variables from result.
 		   $stmt->fetch();
-		   $login_check = hash('sha512', $password.$user_browser);
+		   $login_check = hash('sha512', $password.$user_ip);
 		   if($login_check == $login_string) {
 			  // Logged In!!!!
 			  return true;
@@ -129,6 +135,14 @@ function login_check($mysqli) {
 	 // Not logged in
 	 return false;
    }
+}
+
+function track($mysqli, $folder)
+{
+	$lastpage = path."/".$folder;
+	$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d, `lastpage` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", 
+				$_SESSION['views']++, $lastpage, $_SESSION['user_id']);
+	$mysqli->query($sql);
 }
 
 ?>
