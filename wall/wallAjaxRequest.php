@@ -24,23 +24,23 @@
 			// above
 		if (!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
 			$counter++;
-			$posx[$counter] = $xcurr;
-			$posy[$counter] = $ycurr + 1;
+			$posx[$counter] = ''.$xcurr;
+			$posy[$counter] = ''.($ycurr + 1);
 			// below
 		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
 			$counter++;
-			$posx[$counter] = $xcurr;
-			$posy[$counter] = $ycurr - 1;
+			$posx[$counter] = ''.$xcurr;
+			$posy[$counter] = ''.($ycurr - 1);
 			// right
 		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, 1, 0)) {
 			$counter++;
-			$posx[$counter] = $xcurr +1;
-			$posy[$counter] = $ycurr;
+			$posx[$counter] = ''.($xcurr +1);
+			$posy[$counter] = ''.$ycurr;
 			// left
 		} else if (!hasNeighbour($mysqli, $xcurr, $ycurr, -1, 0)) {
 			$counter++;
-			$posx[$counter] = $xcurr;
-			$posy[$counter] = $ycurr - 1;
+			$posx[$counter] = ''.$xcurr;
+			$posy[$counter] = ''.($ycurr - 1);
 		}
 	}
 
@@ -71,18 +71,17 @@
 
 			// get comments for this scribble (could be more performant if JOIN for the comments table)
 			$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $row[0]);
-			$result = $mysqli->query($sql);
-			$commentCount[$row[0]] = $result->num_rows;
+			$temp_commentCount[$row[0]] = ''.$mysqli->query($sql)->num_rows;
 			// get if the scribble is your favorite and the whole fav count (same as above)
 			$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
 			$isFav = 'false';
 			$fav = $mysqli->query($sql);
 			if ($fav->num_rows > 0)
 				$isFav = 'true';
-			$favorites[$row[0]] = $isFav;
+			$temp_favorites[$row[0]] = ''.$isFav;
 
 			$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
-			$favoriteCount[$row[0]] = $mysqli->query($sql)->num_rows;
+			$temp_favoriteCount[$row[0]] = ''.$mysqli->query($sql)->num_rows;
 
 			checkAllNeighbours($mysqli, $row[4], $row[5], $temp_positionsx, $temp_positionsy, $counter);
 		}
