@@ -3,8 +3,8 @@
 	margin-left:10px;
 	margin-top:10px;
 	background:white;
-	width: 210px;
-	height:140px;
+	width: 300px;
+	height:200px;
 	box-shadow: 0px 0px 10px #333;
 }
 
@@ -12,7 +12,7 @@
 	background: transparent;
 	color:transparent;
 	margin-top:75px;
-	width: 200px;
+	width: 300px;
 	height: 50px;/*
 	word-spacing: 30px;*/
 	font-size: 1.2em;
@@ -40,7 +40,7 @@
 }
 
 .initem:hover{
-	width: 200px;
+	width: 300px;
 	height:50px;
 	background-color: #385a8f;
 	color: white;

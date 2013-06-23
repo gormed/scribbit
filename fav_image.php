@@ -1,4 +1,6 @@
 <?php
+	require_once 'db_login.php';
+	$mysqli->close();
 	require_once 'db_work.php';
 	require_once 'functions.php';
 	require_once 'path.php';

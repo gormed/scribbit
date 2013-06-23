@@ -89,6 +89,7 @@ require_once 'header.php';
 			for(var i=0; i<arraykeys.length; i++) {
 				createScribbleDiv(arraykeys[i]);
 			}
+			adjustContent();
 			//sorted = sortArrayByKeys(scribbles);
 			//scribbles.reverse();
 
@@ -140,6 +141,18 @@ require_once 'header.php';
 				// gallery.appendChild(document.createElement('br'));
 				// gallery.appendChild(document.createElement('br'));
 		}
+
+		function adjustContent() {
+			var windowwidth = $(window).width();
+			var itemwidth = parseInt($(".item").css("width"));
+			var itemmargin = parseInt($(".item").css("margin-left"));
+			var items = Math.floor(windowwidth / (itemwidth+itemmargin));
+			var itemsize = items * itemwidth + (items) * itemmargin;
+			var margin = Math.floor((windowwidth - itemsize) * 0.5);
+			$("#content").css({'margin-left': margin+"px"});
+		}
+
+		$(window).resize( function() { adjustContent(); } );
 
 		$(window).scroll(function()
 		{

@@ -3,7 +3,7 @@
 
 @media screen and (max-width: 700px) {
 
-	div#searchicon:hover {
+/*	div#searchicon:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
 	}
 	div#searchicon {
@@ -19,7 +19,7 @@
 	}
 	div#mainsearchbar {
 		opacity: 0.0;
-	}
+	}*/
 
 	#friends:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/frieB.png'; ?>);
@@ -93,7 +93,7 @@
 } 
 
 @media screen and (min-width: 701px) {
-	div#searchicon:hover {
+/*	div#searchicon:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
 	}
 	div#searchicon {
@@ -109,7 +109,7 @@
 	}
 	div#mainsearchbar {
 		opacity: 0.0;
-	}
+	}*/
 
 	#friends:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/frieB.png'; ?>);
@@ -199,7 +199,9 @@
 	<div class="main"><?php echo '<span><a href="'.path.'/gallery"><div id="gallery"></div></a></span>' ?></div>
 </div>
 
-<?php include docroot.'/'.path.'/searchbar.php'; ?>
+<?php 
+//include docroot.'/'.path.'/searchbar.php'; 
+?>
 
 <div id="profilenav">
 	<div class="profilelogout"><?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?></div>
