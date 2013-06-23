@@ -235,6 +235,7 @@
 				font-size: 100%;
 				font-family: 'Tahoma', sans-serif; 
 				left:0%;
+				overflow: auto;
 			}
 			div#site {
 				margin-left: -8px;
