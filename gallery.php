@@ -31,16 +31,18 @@ require_once 'header.php';
 		var capturing = false;
 		var scribbleCount = 0;
 
-		function sortArrayByKeys(inputarray) {
+		function sort(array, iteratefunc) {
 			var arraykeys=[];
-			for(var k in inputarray) {arraykeys.push(k);}
+			for(var k in array) {
+				if (array.hasOwnProperty(k)) { 
+					arraykeys.push(k);
+				}
+			}
 			arraykeys.sort();
 			arraykeys.reverse();
-			var outputarray=[];
 			for(var i=0; i<arraykeys.length; i++) {
-				outputarray[arraykeys[i]]=inputarray[arraykeys[i]];
+				iteratefunc(arraykeys[i]);
 			}
-			return outputarray;
 		}
 
 		function init () {
@@ -60,10 +62,10 @@ require_once 'header.php';
 					$user = $answer->fetch_array();
 					echo 'users['.$row[0]."] = '".$user[1]."'; ";
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
-					$isFav = 'false';
+					$isFav = 0;
 					$fav = $mysqli->query($sql);
 					if ($fav->num_rows > 0) {
-						$isFav = 'true';
+						$isFav = 1;
 					}
 					echo 'favorites['.$row[0]."] = ".$isFav."; ";
 
@@ -77,18 +79,9 @@ require_once 'header.php';
 				}
 			?>
 
-
-			var arraykeys=[];
-			for(var k in scribbles) {
-				if (scribbles.hasOwnProperty(k)) { 
-					arraykeys.push(k);
-				}
-			}
-			arraykeys.sort();
-			arraykeys.reverse();
-			for(var i=0; i<arraykeys.length; i++) {
-				createScribbleDiv(arraykeys[i]);
-			}
+			sort(scribbles, function(k) {
+				createScribbleDiv(k);
+			});
 			adjustContent();
 			//sorted = sortArrayByKeys(scribbles);
 			//scribbles.reverse();
@@ -124,7 +117,7 @@ require_once 'header.php';
 				temp.setAttribute('class', 'initem');
 				temp.setAttribute('id', 'div_'+k);
 				var fav; 
-				if (favorites[k]) {
+				if (parseInt(favorites[k]) == 1) {
 					fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
 				} else {
 					fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
@@ -173,16 +166,7 @@ require_once 'header.php';
 								// show end 
 							}
 							else {
-								var arraykeys=[];
-								for(var k in json.temp_scribbles) {
-									if (json.temp_scribbles.hasOwnProperty(k)) { 
-										arraykeys.push(k);
-									}
-								}
-								arraykeys.sort();
-								arraykeys.reverse();
-								for(var i=0; i<arraykeys.length; i++) {
-									var k = arraykeys[i];
+								sort(json.temp_scribbles, function(k) {
 									scribbles[k] = json.temp_scribbles[k];
 									dates[k] =json.temp_dates[k];
 									users[k] = json.temp_users[k];
@@ -190,7 +174,7 @@ require_once 'header.php';
 									favCount[k] = json.temp_favCount[k];
 									commentCount[k] = json.temp_commentCount[k];
 									createScribbleDiv(k);
-								}	
+								});
 							}
 						}
 					});

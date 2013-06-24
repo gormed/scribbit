@@ -19,7 +19,21 @@ require_once 'header.php';
 		var scribbles = {};
 		var dates = {};
 		var favorites = {};
-		
+
+		function sort(array, iteratefunc) {
+			var arraykeys=[];
+			for(var k in array) {
+				if (array.hasOwnProperty(k)) { 
+					arraykeys.push(k);
+				}
+			}
+			arraykeys.sort();
+			arraykeys.reverse();
+			for(var i=0; i<arraykeys.length; i++) {
+				iteratefunc(arraykeys[i]);
+			}
+		}
+
 		function loadSingleFav(id, name, date, imgpath) {
 			var element = document.createElement('div');
 			element.setAttribute('class','item');
@@ -65,13 +79,11 @@ require_once 'header.php';
 			var temp;
 			var img;
 
-			for (var k in favorites) {
-				// use hasOwnProperty to filter out keys from the Object.prototype
-				if (favorites.hasOwnProperty(k)) {
-					var element = loadSingleFav(k, favorites[k], dates[k], scribbles[k]);
-					gallery.appendChild(element);
-				}
-			}
+			sort(favorites, function(k) {
+				var gallery = document.getElementById('content');
+				var element = loadSingleFav(k, favorites[k], dates[k], scribbles[k]);
+				gallery.appendChild(element);
+			})
 
 			adjustContent();
 
