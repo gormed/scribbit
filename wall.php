@@ -141,25 +141,16 @@ require_once 'header.php';
 					});
 				});
 
-x
+
 		})
 
 		
-
-
-
-	
-		
 		$(window).scroll(function()
 			{
-				// var centerX = $(this).offset().left() + $(this).width() / 2;
-				// var centerY = $(this).offset().top() + $(this).height() / 2;
-				// console.log("centerview: "+ centerX+", "+centerY);
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-
-					$('div#loadingImage').show();
+					$('div#bottomProcessBar').show();
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -169,6 +160,7 @@ x
 								tl: leftX+' '+(bottomY-1) 
 							},
 						success: function(data){
+								$('div#bottomProcessBar').hide();
 								var json = $.parseJSON(data);
 								if($.isEmptyObject(json.temp_scribbles)){
 
@@ -188,7 +180,7 @@ x
 
 				// Scrollbar on Top
 				else if($(window).scrollTop() == 0){
-					// $('div#loadingImage').show();
+					$('div#topProcessBar').show();
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -198,22 +190,20 @@ x
 								tl: leftX+' '+(topY+7) 
 							},
 						success: function(data){
+								$('div#topProcessBar').hide();
 								var json = $.parseJSON(data);
 								if($.isEmptyObject(json.temp_scribbles)){
 									//		
 								}
 								else {
-										var preHeight = $(window).height();
 										addTopRow();
-										$w = $(window);
-										$w.scrollTop($w.height() - preHeight);
-
-									for(var k in json.temp_scribbles){
-										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-											scribbles[k] = json.temp_scribbles[k];
-											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-										}
-									}	
+										$(window).scrollTop($(window).scrollTop()+(6*$(".mapCell").height()));
+										for(var k in json.temp_scribbles){
+											if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+												scribbles[k] = json.temp_scribbles[k];
+												createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+											}
+										}	
 								}
 							}
 						});
@@ -223,7 +213,7 @@ x
 				// Scrollbar Left
 				else if($(window).scrollLeft() == 0){
 					
-					$('div#loadingImage').show();
+					$('div#leftProcessBar').show();
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -233,12 +223,14 @@ x
 								tl: (leftX-10)+' '+topY 
 							},
 						success: function(data){
+								$('div#leftProcessBar').hide();
 								var json = $.parseJSON(data);
 								if($.isEmptyObject(json.temp_scribbles)){
 
 								}
 								else {
 									addLeftColumn();
+									$(window).scrollLeft($(window).scrollLeft()+(9*$(".mapCell").width()));
 									for(var k in json.temp_scribbles){
 										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
 											scribbles[k] = json.temp_scribbles[k];
@@ -253,7 +245,7 @@ x
 				// Scrollbar Right
 				else if($(window).scrollLeft() == $(document).width() - $(window).width()){
 						
-					$('div#loadingImage').show();
+					$('div#rightProcessBar').show();
 					$.ajax({
 						type: "POST",
 						url: "wallAjaxRequest.php",
@@ -263,6 +255,7 @@ x
 								tl: (rightX+1)+' '+topY 
 							},
 						success: function(data){
+								$('div#rightProcessBar').hide();
 								var json = $.parseJSON(data);
 								if($.isEmptyObject(json.temp_scribbles)){
 
