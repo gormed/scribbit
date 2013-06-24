@@ -124,39 +124,43 @@ body {
 }
 
 #leftProcessBar {
-	position: absolute;
+	position: fixed;
+	display:none;
 	float: left;
 	top:50%;
-	left:0px;
-    width: 32px;
-    height: 32px;
+	left:10px;
+    width: 16px;
+    height: 16px;
     background: url('../img/ico/color_wheel.png');
 }
 
 #rightProcessBar {
-	position: absolute;
+	position: fixed;
+	display:none;
 	top:50%;
-	right:0px;
-    width: 32px;
-    height: 32px;
+	right:10px;
+    width: 16px;
+    height: 16px;
     background: url('../img/ico/color_wheel.png');
 }
 
 #topProcessBar {
-	position: absolute;
-	top:0px;
+	position: fixed;
+	display:none;
+	top:60px;
 	left:50%;
-	width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
     background: url('../img/ico/color_wheel.png');
 }
 
 #bottomProcessBar {
-	position: absolute;
-	bottom:0px;
+	position: fixed;
+	display:none;
+	bottom:10px;
 	left:50%;
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
     background: url('../img/ico/color_wheel.png');
 }
 
