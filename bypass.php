@@ -39,7 +39,7 @@ if (isset($_GET['start'])) {
 
 		if ($loginRequired[$folder] == $loggedIn) {
 			include($pages[$folder]);
-			track($mysqli, $folder);
+			//track($mysqli, $folder);
 			exit();
 		} else if (!$loggedIn) {
 			header('location: '.path.'/login');
@@ -62,7 +62,7 @@ if (isset($_GET['start'])) {
 
 		if ($friendid == $_SESSION['user_id']) {
 
-			track($mysqli, "profile");
+			//track($mysqli, "profile");
 			header('location:'.path.'/profile');
 			exit();
 		} else {

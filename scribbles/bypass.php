@@ -15,7 +15,7 @@ if ($rqst->num_rows > 0 && $loggedIn) {
 	$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE `id` = %d", $fromuser);
 	$fromname = $mysqli->query($sql)->fetch_array()[1];
 	$fromdate = $entry[3];
-	track($mysqli, "scribble/".$scribbleid);
+	//track($mysqli, "scribble/".$scribbleid);
 	include (docroot.path.'/view.php');
 	$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d WHERE `login_time`.`userid` = %d LIMIT 1 ", 
 					$_SESSION['views']++, $_SESSION['user_id']);
