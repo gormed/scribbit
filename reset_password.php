@@ -29,8 +29,8 @@
 		}
 		$res = $mysqli->query($sql);
 		sendResetmail($user[0], $email, $user[1], $freetoken);
-		echo '<div style="color: #2CAC00">Successful!</div>';
-	}
+		echo '<div class="success">Successful!</div>';
+	} else { echo '<div class="error">Email not registered!</div>'; }
 
 	function sendResetmail($userid, $email, $username, $token)
 	{
