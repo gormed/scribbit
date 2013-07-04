@@ -1,14 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
+<?php 
+require_once 'header.php';
+ ?>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">
+		<?php require_once 'intern_header.php'; ?>
 		<link rel="stylesheet" type="text/css" href="ressources/css/settings.css">
-		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
-		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
-		<script type="text/javascript" src="ressources/js/forms.js"></script>
-		<script type="text/javascript" src="ressources/js/sha512.js"></script>
 		<title>Scribbit - Profile</title>
 	</head>
 	<body>
@@ -82,6 +80,7 @@
 	</body>
 </html>
 
+<?php require_once 'intern_scripts.php'; ?>
 <script type="text/javascript">
 	<?php 
 		echo "var userid = ".$_SESSION['user_id'].";".PHP_EOL; 
