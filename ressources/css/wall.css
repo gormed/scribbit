@@ -149,7 +149,7 @@ div#viewOverlay {
 	box-shadow: 0px 0px 10px #111;
 }
 #rightneightbour {
-	width: 10%;
+	width: 0;
 	height: 420px;
 	float: left;
 	background-position: left;
@@ -166,7 +166,7 @@ div#viewOverlay {
 	box-shadow: 0px 0px 10px #111;
 }
 #leftneightbour {
-	width: 10%;
+	width: 0;
 	height: 420px;
 	float: left;
 	background-position: right;
@@ -177,15 +177,16 @@ div#viewOverlay {
 div#picture {
 	
 	box-shadow: 0px 0px 10px #333;
-	float: left;
+	margin:100px auto;
 	/*border: 1px solid black;*/
-	height: 420px; width: 80%;
+	height: 420px; width: 610px;
 	background-size: 100% 100%;
 	background-color: white;
 	z-index: 100; 
 }
 
 #painthorz {
+	display:none;
 	background-color: #7600C9;
 	text-align: center;
 	width: 80%;
@@ -197,6 +198,7 @@ div#picture {
 }
 
 #paintvert {
+	display:none;
 	background-color: #7600C9;
 	text-align: center;
 	width: 100px;

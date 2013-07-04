@@ -82,6 +82,11 @@ function getCommentCount($mysqli, $scribbleid)
 	var canvases ={};
 	var topY, bottomY, leftX, rightX;
 	var mapCells = {};
+	var ajaxRight = true;
+	var ajaxLeft = true;
+	var ajaxTop = true;
+	var ajaxBottom = true;
+
 		// var lastX, curX, lastY, curY;
 
 		<?php 
@@ -113,7 +118,7 @@ function getCommentCount($mysqli, $scribbleid)
 			$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `scribbles`.`userid`, `scribbles`.`creation`, X(`map`.`position`), Y(`map`.`position`) FROM `scribbles`, `map` WHERE `scribbles`.`scribbleid` = `map`.`scribbleid` AND MBRContains(GeomFromText('Polygon((%s, %s, %s, %s, %s))'), `map`.`position`) = 1 LIMIT 0, 486 ", $bl, $br, $tr, $tl, $bl);
 			$result = $mysqli->query($sql);
 			while ($row = $result->fetch_array()) {
-				echo 'scribbles['.$row[0]."] = '/scribbles/l/".$row[1]."'; ";
+				echo 'scribbles['.$row[0]."] = '".$row[1]."'; ";
 					// echo 'scribDates['.$row[0]."] = '".($row[3])."'; ";
 				echo 'positionsx['.$row[0]."] = '".($row[4])."'; ";
 				echo 'positionsy['.$row[0]."] = '".($row[5])."'; ";
@@ -166,7 +171,7 @@ function getCommentCount($mysqli, $scribbleid)
 					var topOff = $(this).focus().offset().top;
 					var leftOff = $(this).focus().offset().left;
 					currentScribble = $(this).focus();
-					console.log(currentScribble.data());
+					loadPictures();
 
 					$('html, body').stop().animate({
 						scrollTop : topOff -(($(window).height()-140) / 2),
@@ -177,7 +182,7 @@ function getCommentCount($mysqli, $scribbleid)
 								opacity : 1
 								
 							}, 300, function() {
-									$("#divCanvas").hide();
+									
 								});
 						});
 					
@@ -186,16 +191,10 @@ function getCommentCount($mysqli, $scribbleid)
 				$(document).on("dblclick", "#picture", function(event){
 					
 					event.preventDefault();
-					var topOff = $(this).focus().offset().top;
-					var leftOff = $(this).focus().offset().left;
 
-					$("#divCanvas").show();
 					
-					$('html, body').stop().animate({
-						scrollTop : topOff -(($(window).height()-140) / 2),
-						scrollLeft : leftOff -(($(window).width()-210) / 2)				
-					}, 300, function() {
-
+					
+				
 						$('#viewOverlay').show().stop().animate({
 									opacity : 0
 									
@@ -204,7 +203,7 @@ function getCommentCount($mysqli, $scribbleid)
 									});
 					
 						});
-					});
+				
 				
 				$(document).on("mouseenter", ".scribble", function(event){
 					
@@ -284,148 +283,156 @@ $(window).scroll(function()
 				// Scrollbar on Bottom
 				if($(window).scrollTop() == $(document).height() - $(window).height())
 				{
-					$('div#bottomProcessBar').show();
-					$.ajax({
-						type: "POST",
-						url: "wallAjaxRequest.php",
-						data: {	bl: leftX+' '+(bottomY-7), 
-						br: rightX+' '+(bottomY-7),
-						tr: rightX+' '+(bottomY-1), 
-						tl: leftX+' '+(bottomY-1) 
-					},
-					success: function(data){
-						$('div#bottomProcessBar').hide();
-						if($.isEmptyObject(data)){
-							
-						}
-						else{
-							var json = $.parseJSON(data);
-							if($.isEmptyObject(json.temp_scribbles)){
+					
+					if(ajaxBottom){
+						$('div#bottomProcessBar').show();
+						$.ajax({
+							type: "POST",
+							url: "wallAjaxRequest.php",
+							data: {	bl: leftX+' '+(bottomY-7), 
+							br: rightX+' '+(bottomY-7),
+							tr: rightX+' '+(bottomY-1), 
+							tl: leftX+' '+(bottomY-1) 
+						},
+						success: function(data){
+							$('div#bottomProcessBar').hide();
+							if($.isEmptyObject(data)){
+								ajaxBottom = false;
+							}
+							else{
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
 
-							}
-							else {
-								addBottomRow();
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+								}
+								else {
+									addBottomRow();
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						}
-					}
-				});
+					});
+				}
 				}
 
 				// Scrollbar on Top
-				else if($(window).scrollTop() < 10){
-					$('div#topProcessBar').show();
-					$.ajax({
-						type: "POST",
-						url: "wallAjaxRequest.php",
-						data: {	bl: leftX+' '+(topY+1), 
-						br: rightX+' '+(topY+1),
-						tr: rightX+' '+(topY+7), 
-						tl: leftX+' '+(topY+7) 
-					},
-					success: function(data){
-						$('div#topProcessBar').hide();
-						if($.isEmptyObject(data)){
-
-						}
-						else{
-							var json = $.parseJSON(data);
-							if($.isEmptyObject(json.temp_scribbles)){
-								
+				else if($(window).scrollTop() == 0){
+					
+					if(ajaxTop){
+						$('div#topProcessBar').show();
+						$.ajax({
+							type: "POST",
+							url: "wallAjaxRequest.php",
+							data: {	bl: leftX+' '+(topY+1), 
+							br: rightX+' '+(topY+1),
+							tr: rightX+' '+(topY+7), 
+							tl: leftX+' '+(topY+7) 
+						},
+						success: function(data){
+							$('div#topProcessBar').hide();
+							if($.isEmptyObject(data)){
+								ajaxTop =false;
 							}
-							else {
-								addTopRow();
-								$(window).scrollTop($(window).scrollTop()+(6*$(".mapCell").height()));
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+							else{
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
+									
+								}
+								else {
+									addTopRow();
+									$(window).scrollTop($(window).scrollTop()+(6*$(".mapCell").height()));
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						}
+					});
 					}
-				});
-
 
 				}
 
 				// Scrollbar Left
-				else if($(window).scrollLeft() < 10){
-					
-					$('div#leftProcessBar').show();
-					$.ajax({
-						type: "POST",
-						url: "wallAjaxRequest.php",
-						data: {	bl: (leftX-10)+' '+bottomY, 
-						br: (leftX-1)+' '+bottomY,
-						tr: (leftX-1)+' '+topY, 
-						tl: (leftX-10)+' '+topY 
-					},
-					success: function(data){
-						$('div#leftProcessBar').hide();
-						if($.isEmptyObject(data)){
-							
-						}
-						else{
-							var json = $.parseJSON(data);
-							if($.isEmptyObject(json.temp_scribbles)){
+				else if($(window).scrollLeft() == 0){
+					if(ajaxLeft){
+						$('div#leftProcessBar').show();
+						$.ajax({
+							type: "POST",
+							url: "wallAjaxRequest.php",
+							data: {	bl: (leftX-10)+' '+bottomY, 
+							br: (leftX-1)+' '+bottomY,
+							tr: (leftX-1)+' '+topY, 
+							tl: (leftX-10)+' '+topY 
+						},
+						success: function(data){
+							$('div#leftProcessBar').hide();
+							if($.isEmptyObject(data)){
+								ajaxLeft=false;
+							}
+							else{
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
 
-							}
-							else {
-								addLeftColumn();
-								$(window).scrollLeft($(window).scrollLeft()+(9*$(".mapCell").width()));
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+								}
+								else {
+									addLeftColumn();
+									$(window).scrollLeft($(window).scrollLeft()+(9*$(".mapCell").width()));
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						}
+					});
 					}
-				});
 				}
 
 				// Scrollbar Right
 				else if($(window).scrollLeft() == $(document).width() - $(window).width()){
 
-					$('div#rightProcessBar').show();
-					$.ajax({
-						type: "POST",
-						url: "wallAjaxRequest.php",
-						data: {	bl: (rightX+1)+' '+bottomY, 
-						br: (rightX+10)+' '+bottomY,
-						tr: (rightX+10)+' '+topY, 
-						tl: (rightX+1)+' '+topY 
-					},
-					success: function(data){
-						$('div#rightProcessBar').hide();
-						if($.isEmptyObject(data)){
-							
-						}
-						else{
-							var json = $.parseJSON(data);
-							if($.isEmptyObject(json.temp_scribbles)){
+					if(ajaxRight){
+						$('div#rightProcessBar').show();
+						$.ajax({
+							type: "POST",
+							url: "wallAjaxRequest.php",
+							data: {	bl: (rightX+1)+' '+bottomY, 
+							br: (rightX+10)+' '+bottomY,
+							tr: (rightX+10)+' '+topY, 
+							tl: (rightX+1)+' '+topY 
+						},
+						success: function(data){
+							$('div#rightProcessBar').hide();
+							if($.isEmptyObject(data)){
+								ajaxRight = false;
+							}
+							else{
+								var json = $.parseJSON(data);
+								if($.isEmptyObject(json.temp_scribbles)){
 
-							}
-							else {
-								addRightColumn();
-								for(var k in json.temp_scribbles){
-									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-										scribbles[k] = json.temp_scribbles[k];
-										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-									}
-								}	
+								}
+								else {
+									addRightColumn();
+									for(var k in json.temp_scribbles){
+										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+											scribbles[k] = json.temp_scribbles[k];
+											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+										}
+									}	
+								}
 							}
 						}
+					});
 					}
-				});
 				}
 			})
 
@@ -455,7 +462,7 @@ function createScribble(x, y, scrid){
 			}).addClass('scribble'
 			).data("scribbleid", scrid
 			).css({
-				'background-image': 'url('+root+scribbles[scrid]+')'
+				'background-image': 'url('+root+'/scribbles/l/'+scribbles[scrid]+')'
 			}).appendTo('#mapCell'+x+'_'+y);				
 		}
 
@@ -674,7 +681,7 @@ function createScribble(x, y, scrid){
 				$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `scribbles`.`userid`, `scribbles`.`creation`, X(`map`.`position`), Y(`map`.`position`) FROM `scribbles`, `map` WHERE `scribbles`.`scribbleid` = `map`.`scribbleid` AND MBRContains(GeomFromText('Polygon((%s, %s, %s, %s, %s))'), `map`.`position`) = 1 LIMIT 0, 9 ", $bl, $tl, $tr, $br, $bl);
 				$result = $mysqli->query($sql);
 				while ($row = $result->fetch_array()) {
-					echo 'scribbles['.$row[0]."] = '/scribbles/h/".$row[1]."'; ";
+					echo 'scribbles['.$row[0]."] = '/scribbles/".$row[1]."'; ";
 					echo 'scribDates['.$row[0]."] = '".($row[3])."'; ";
 					echo 'positionsx['.$row[0]."] = '".($row[4])."'; ";
 					echo 'positionsy['.$row[0]."] = '".($row[5])."'; ";
@@ -760,10 +767,44 @@ function createScribble(x, y, scrid){
 				
 			}
 
+			function wallSelectRequest(){
+				$.ajax({
+							type: "POST",
+							url: "../wallSelectRequest.php",
+							data: {	scribbleid: currentScribble.data("scribbleid")
+							
+						},
+						success: function(data){
+						if($.isEmptyObject(data)){
+								
+							}
+							else{
+								var json = $.parseJSON(data);
+								
+							
+								console.log(i+" "+json.neighbours[1]);
+								for(var i = 0; i < json.neighbours.size;i++){
+										
+											neighbours[i] = json.neighbours[1];
+											console.log(i+" "+neighbours[i]);
+										
+								}	
+							}
+						}
+					});
+			}
+			function loadPictures(){
+				wallSelectRequest();
+				$('#topneightbour').css("background-image", "url(" + root + '/scribbles/h/' + neighbours[2]+")");
+				
+				$('#picture').data("scribbleid", currentScribble.data("scribbleid")
+					).css("background-image", "url(" + root  +'/scribbles/h/'+ scribbles[currentScribble.data("scribbleid")]+")");
+			}
+
 			function onLoad () {
 				loadCanvas();
 				loadComments();
-				loadScribbles();
+				//loadScribbles();
 
 				var form = document.getElementById('postscribble'); 
 				var p = document.createElement("input");
@@ -810,36 +851,20 @@ function createScribble(x, y, scrid){
 				<div id="viewOverlay">
 					<div class="table" >
 						<div class="row">
-							<div class="corner"></div>
+							
 							<div class="cell">
-								<?php
-								if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, 1)) {
-									$where = 0;
-									echo '<div id="painthorz" onclick="submitWhere('.$where.');">(paint here)</div>';
-								} else {
-								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
-									$neighbour = getNeightbour($mysqli, $xcurr, $ycurr+1);
-									echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="topneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
 
-								}
-								?>
+								<div id="painthorz" onclick="submitWhere(0)">(paint here)</div>
+
 							</div>
-							<div class="corner"></div>
+							
 						</div>
 						<div class="row" id="wrapper">
 							
 							<div class="cell">
-								<?php
-								if(!hasNeighbour($mysqli, $xcurr, $ycurr, -1, 0)) {
-									$where = 3;
-									echo '<div id="paintvert" onclick="submitWhere('.$where.');">(paint here)</div>';
-								} else {
-								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
-									$neighbour = getNeightbour($mysqli, $xcurr-1, $ycurr);
-									echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="leftneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
-
-								}
-								?>
+								
+								<div id="paintvert" onclick="submitWhere(3)">(paint here)</div>
+								
 								
 							</div>
 
@@ -860,36 +885,20 @@ function createScribble(x, y, scrid){
 							</div>
 
 							<div class="cell">
-								<?php
-								if(!hasNeighbour($mysqli, $xcurr, $ycurr, 1, 0)) {
-									$where = 1;
-									echo '<div id="paintvert" onclick="submitWhere('.$where.');">(paint here)</div>';
-								} else {
-								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
-									$neighbour = getNeightbour($mysqli, $xcurr+1, $ycurr);
-									echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="rightneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
-
-								}
-								?>
+								<div id="paintvert" onclick="submitWhere(1)">(paint here)</div>
+								
 							</div>
 
 						</div>
 						<div class="row">
-							<div class="corner"></div>
+							
 							<div class="cell">
-								<?php
-								if(!hasNeighbour($mysqli, $xcurr, $ycurr, 0, -1)) {
-									$where = 2;
-									echo '<div id="painthorz" onclick="submitWhere('.$where.');">(paint here)</div>';
-								} else {
-								// `map`.`scribbleid`, `scribbles`.`path`, `scribbles`.`creation`, `members`.`username`
-									$neighbour = getNeightbour($mysqli, $xcurr, $ycurr-1);
-									echo '<a href="'.path.'/scribbles/'.$neighbour[0].'"><div id="bottomneightbour" onclick="gotoNeighbour('.$neighbour[0].');" style="background-image: url('.root.'/scribbles/h/'.$neighbour[1].')"></div></a>';
+								
 
-								}
-								?>
+								<div id="painthorz" onclick="submitWhere(2)">(paint here)</div>
+								
 							</div>
-							<div class="corner"></div>
+							
 						</div>
 					</div>
 					
