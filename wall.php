@@ -48,7 +48,7 @@ function getCommentCount($mysqli, $scribbleid)
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 
-	<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/headerSearch.css">'; ?>
+	<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/main.css">'; ?>
 	<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/wall.css">'; ?>
 	<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
 	<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
@@ -619,7 +619,7 @@ function createScribble(x, y, scrid){
 				// $('#topneightbour').css("background-image", "url(" + root + '/scribbles/h/' + neighbours[2]+")");
 				
 				$('#picture').data("scribbleid", currentScribble.data("scribbleid")
-					).css("background-image", "url(" + root  +'/scribbles/h/'+ scribbles[currentScribble.data("scribbleid")]+")");
+					).css("background-image", "url(" + path  +'/scribbles/h/'+ scribbles[currentScribble.data("scribbleid")]+")");
 			}
 
 			function onLoad () {

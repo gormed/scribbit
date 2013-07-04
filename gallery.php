@@ -177,7 +177,10 @@ function createScribbleDiv(k){
 									scribbles[k] = json.temp_scribbles[k];
 									dates[k] =json.temp_dates[k];
 									users[k] = json.temp_users[k];
-									favorites[k] = json.temp_favorites[k];
+									if (json.temp_favorites[k] == 'true')
+										favorites[k] = true;
+									else
+										favorites[k] = false;
 									favCount[k] = json.temp_favCount[k];
 									commentCount[k] = json.temp_commentCount[k];
 									createScribbleDiv(k);
