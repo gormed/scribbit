@@ -34,17 +34,15 @@ include("process_login.php");
 			<form action="login" method="post" name="login_form" id="login_form">
 				<div class="descriptive">Email</div>
 				<?php
-				echo '<input type="text" value="', $email, '" name="username" id="username"/><br>';
+				echo '<input type="text" value="" placeholder="', $email, '"  name="username" id="username"/><br>';
 				?>
 				<div class="descriptive">Password</div>
-				<input type="password" name="password" id="password"/><br>
+				<input type="password" placeholder="Password" name="password" id="password"/><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<?php 
-			echo '<br>'.$message;
-			?>			
-
-			<br>
+			echo $message;
+			?>
 			<div class="terms">
 				By using our service you accept<br> 
 				that we store cookies on your computer. <br>

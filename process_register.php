@@ -22,9 +22,9 @@ $emails = $mysqli->query($query);
 //echo $email, " ", $username, " ", $result->num_rows;
 if (isset($username) && isset($password) && isset($email) && isset($randomSalt)) {
 	if($usernames->num_rows > 0) {
-		$nameTaken = '<div style="color: #f66">Username already taken!</div>';
+		$nameTaken = '<div class="error">Username already taken!</div>';
 	} else if($emails->num_rows > 0) {
-		$mailTaken = '<div style="color: #f66">Email already registered!</div>';
+		$mailTaken = '<div class="error">Email already registered!</div>';
 	} else {
 		// Add your insert to database script here. 
 		// Make sure you use prepared statements!
@@ -47,7 +47,7 @@ if (isset($username) && isset($password) && isset($email) && isset($randomSalt))
 		} 
 	}
 } else {
-	$error = '<center style="color: #f66">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
+	$error = '<center class="error">There was an error in the registration process. <br>We are sorry for any inconvienience!</center>';
 }
 
 ?>
