@@ -579,185 +579,6 @@ function createScribble(x, y, scrid){
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-			// //************************************************************************
-			// function mousedown(evt)
-			// {
-			// //console.log("MOUSE:DOWN");
-
-			//	// Non-IE browsers will use evt
-			//	var ev = evt || window.event;
-
-			//	var canvas = document.getElementById('canvas');
-			//	canvas.onmousemove=mousemove;
-
-			//	lastX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
-			//	lastY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
-
-			//	capturing = inCanvasBounds(lastX, lastY);
-
-			//	// Register click immediately
-			//	mousemove(evt);
-			// }
-
-
-			// //************************************************************************
-			// // posX and posY are assumed relative to canvas boundaries.
-			// // Returns true if posX and posY are contained within canvas boundaries.
-			// function inCanvasBounds( posX, posY )
-			// {
-			//	var left = 0;
-			// var top = 0;
-			//	var right = canvasSize.width;
-			// var bottom = canvasSize.height;
-
-			// return ( posX >= left && posX <= right && 
-			//	posY >= top && posY <= bottom);
-			// }
-
-			// function mousemove(evt) {
-
-			//		// Non-IE browsers will use evt
-			//		var ev = evt || window.event;
-
-			//		var penAPI = plugin().penAPI;	
-			//		var canvas = document.getElementById('canvas');
-			//		var pressure = 0.0;
-
-			//		if (penAPI){
-			//			pressure = penAPI.pressure;
-			//		}
-			//		else {
-			//			pressure = 1.0;
-			//		}
-
-			//		//console.log("pressure: " + pressure);
-
-			//		curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
-			//		curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
-
-			//		capturing = inCanvasBounds(curX, curY);
-
-			//		if (capturing && pressure > 0.0)
-			//		{
-			//			if (canvas.getContext)
-			//			{
-			//				var ctx = canvas.getContext("2d");
-			//				ctx.beginPath();
-			//				ctx.moveTo(lastX, lastY);
-			//				ctx.lineTo(curX, curY);
-			//				ctx.lineWidth = 25.0 * pressure;
-			//				ctx.strokeStyle = "rgba(128, 0, 0, 1.0)";
-			//				$("canvas").translateCanvas({
-			//					translateX: curX, translateY: curY
-			//				})
-			//				// MOVE ON CANVAS !!!
-			//			}
-
-			//			ctx.stroke();
-			//		}
-			//		lastX = curX;
-			//		lastY = curY;
-			// }
-
-
-			function loadScribbles (argument) {
-				<?php
-				$bl = ($xcurr-1.5).' '.($ycurr-1.5);
-				$tl = ($xcurr-1.5).' '.($ycurr+1.5);
-				$tr = ($xcurr+1.5).' '.($ycurr+1.5);
-				$br = ($xcurr+1.5).' '.($ycurr-1.5);
-
-				$sql = sprintf("SELECT `scribbles`.`scribbleid`, `scribbles`.`path`, `scribbles`.`userid`, `scribbles`.`creation`, X(`map`.`position`), Y(`map`.`position`) FROM `scribbles`, `map` WHERE `scribbles`.`scribbleid` = `map`.`scribbleid` AND MBRContains(GeomFromText('Polygon((%s, %s, %s, %s, %s))'), `map`.`position`) = 1 LIMIT 0, 9 ", $bl, $tl, $tr, $br, $bl);
-				$result = $mysqli->query($sql);
-				while ($row = $result->fetch_array()) {
-					echo 'scribbles['.$row[0]."] = '/scribbles/".$row[1]."'; ";
-					echo 'scribDates['.$row[0]."] = '".($row[3])."'; ";
-					echo 'positionsx['.$row[0]."] = '".($row[4])."'; ";
-					echo 'positionsy['.$row[0]."] = '".($row[5])."'; ";
-					echo 'map['.$row[4].$row[5]."] = '".$row[0]."'; ";
-
-					$sql = sprintf("SELECT `id`, `username` FROM `members` WHERE (id = %d) LIMIT 1", $row[2]);
-					$answer = $mysqli->query($sql);
-					$user = $answer->fetch_array();
-					echo 'users['.$row[0]."] = '".$user[1]."'; ";
-					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
-					$isFav = 'false';
-					$fav = $mysqli->query($sql);
-					if ($fav->num_rows > 0) {
-						$isFav = 'true';
-					}
-					echo 'favorites['.$row[0]."] = ".$isFav."; ";
-
-					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d ", $row[0]);
-					$favcount = $mysqli->query($sql);
-					echo 'favCount['.$row[0]."] = ".$favcount->num_rows.";".PHP_EOL;
-
-					$sql = sprintf("SELECT `commentid`, `scribbleid` FROM `comments` WHERE `scribbleid` = %d", $row[0]);
-					$commentcount = $mysqli->query($sql)->num_rows;
-					echo 'commentCount['.$row[0]."] = ".$commentcount.";".PHP_EOL;
-				}
-				?>
-				
-			}
-
-			function loadComments() {
-				<?php 
-
-				$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $scribbleid);
-				$result = $mysqli->query($sql);
-				echo 'var commentCount = '.$result->num_rows.';'.PHP_EOL;
-				while ($row = $result->fetch_array()) {
-					echo 'comments['.$row[0]."] = '".$row[3]."';";
-					echo 'dates['.$row[0]."] = '".$row[2]."';";
-					echo 'usernames['.$row[0]."] = '".$row[1]."';".PHP_EOL;
-				}
-				
-				?>
-				var commentlist = document.getElementById('commentholder');
-				commentlist.setAttribute('style', 'width: '+((180*commentCount)+40)+'px;')
-				commentlist.appendChild(document.createElement('br'));
-				var element;
-
-				for (var k in comments) {
-					// use hasOwnProperty to filter out keys from the Object.prototype
-					if (comments.hasOwnProperty(k)) {
-						element = document.createElement('div');
-						element.setAttribute('class','item');
-						element.setAttribute('style', 'background-image: url("' + root+comments[k] + '"); background-size: 100% 100%;');
-						
-						temp = document.createElement('div');
-						temp.setAttribute('class', 'initem');
-						temp.setAttribute('id', 'div_'+k);
-						temp.innerHTML = '<span><a href="'+path+'/'+usernames[k]+'">'+ usernames[k] +'</a> '+'</span>'+
-						'<br><span style="font-size: 0.6em">'+dates[k]+'</span>';
-
-						element.appendChild(temp); 
-						commentlist.appendChild(element);
-					}
-				}
-			}
-
-			// 0 topScrib;
-			// 1 bottomScrib;
-			// 2 leftScrib;
-			// 3 rightScrib;
-			var neighbours = {};
-
-			function loadNeighbours() {
-				
-			}
-
 			function submitWhere(where) {
 
 				var input = document.getElementById('where'); 
@@ -794,17 +615,14 @@ function createScribble(x, y, scrid){
 					});
 			}
 			function loadPictures(){
-				wallSelectRequest();
-				$('#topneightbour').css("background-image", "url(" + root + '/scribbles/h/' + neighbours[2]+")");
+				// wallSelectRequest();
+				// $('#topneightbour').css("background-image", "url(" + root + '/scribbles/h/' + neighbours[2]+")");
 				
 				$('#picture').data("scribbleid", currentScribble.data("scribbleid")
 					).css("background-image", "url(" + root  +'/scribbles/h/'+ scribbles[currentScribble.data("scribbleid")]+")");
 			}
 
 			function onLoad () {
-				loadCanvas();
-				loadComments();
-				//loadScribbles();
 
 				var form = document.getElementById('postscribble'); 
 				var p = document.createElement("input");
@@ -869,19 +687,7 @@ function createScribble(x, y, scrid){
 							</div>
 
 							<div id="picture">
-								<?php 
-								$viewFavCount = getFavoriteCount($mysqli, $scribbleid);
-								$viewCmtCount = getCommentCount($mysqli, $scribbleid);
-								$userlink = '<a href="'.path.'/'.$fromname.'">'.$fromname.'</a> <br> ';
-								$imgdate = $fromdate.'<br>';
-								$favs = '<a href="#unfav"><img id="fav_'.$scribbleid.'" src="'.path.
-								'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('.$scribbleid.');">';
-
-								$icon = '<span style="float: right; margin-right: 40px;"><a href="#comments" onclick="showComments();">'.
-								'<img src="'.path.'/ressources/img/ico/comment.png" width="16" height="16">'.$viewCmtCount.'</a>'.$favs.
-								'<span id="count_'.$scribbleid.'">'.$viewFavCount.'</a></span>';
-								echo '<div id="from">'.$userlink.$imgdate.$icon.'</div>'; 
-								?>
+								
 							</div>
 
 							<div class="cell">
