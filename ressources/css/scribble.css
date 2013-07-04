@@ -74,6 +74,13 @@ div#show {
 	background-color: #6f6;
 	float: left;
 }
+div#closescribble {
+	width: 7em;
+	padding: 1px;
+	text-align: center;
+	background-color: #f00;
+	float: left;
+}
 
 canvas#canvas {
 	width: 960px;
@@ -289,7 +296,6 @@ canvas#canvas {
 	width: 60px;
 	height: 60px;
 	background-color: #708090;
-	
 	position: absolute;
 	left: 0px;
 	top: 70px;
