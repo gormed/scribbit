@@ -108,24 +108,24 @@ require_once 'header.php';
 
 				
 				
-				$(document).on("click", ".scribble", function(event){
+				$(document).on("dblclick", ".scribble", function(event){
 					
 					event.preventDefault();
-					// var topOff = $(this).focus().offset().top, $w = $(window);
-					// var leftOff = $(this).focus().offset().left, $w = $(window);
+					 var topOff = $(this).focus().offset().top;
+					 var leftOff = $(this).focus().offset().left;
 					// $w.scrollTop(topOff - ($w.height() / 2));
 					// $w.scrollLeft(leftOff - ($w.width()  / 2));
 
-					$(this).stop().animate({
+					$('html, body').stop().animate({
+						scrollTop : topOff -(($(window).height()-140) / 2),
+						scrollLeft : leftOff -(($(window).width()-210) / 2)
 						
-						
-						
-					}, 1000, function() {
+					}, 300, function() {
 							// Animation complete.
 						});
 					
-				});
-
+					});
+			
 				$(document).on("mouseenter", ".scribble", function(event){
 					
 					event.preventDefault();
