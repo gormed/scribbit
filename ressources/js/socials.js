@@ -3,7 +3,7 @@
 //************************************************************************
 function favToggle(scribbleid) {
 	favorites[scribbleid] = !favorites[scribbleid];
-	if (parseInt(favorites[scribbleid]) == 0)
+	if (favorites[scribbleid])
 		favCount[scribbleid]++;
 	else 
 		favCount[scribbleid]--;
