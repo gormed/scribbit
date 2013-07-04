@@ -148,7 +148,12 @@ div#content {
 	font-family: 'Tahoma', sans-serif; 
 	font-size: small;
 }
-
+.options {
+	width: 200px;
+	height: 20px;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
 .assist {
 	margin: 0px;
 	font-family: 'Tahoma', sans-serif; 

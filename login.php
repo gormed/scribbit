@@ -14,7 +14,7 @@ include("process_login.php");
 <head>
 	<?php include 'extern_styles.php'; ?>
 	<?php include 'extern_meta.php'; ?>
-	<title>Login Please</title>
+	<title>scribbit - Login Please</title>
 	<?php include 'extern_scripts.php'; ?>
 </head>
 <body>

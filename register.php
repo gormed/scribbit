@@ -12,7 +12,7 @@ $email = '';
 <head>
 	<?php include 'extern_styles.php'; ?>
 	<?php include 'extern_meta.php'; ?>
-	<title>Register Page</title>
+	<title>scribbit - Register Page</title>
 	<?php include 'extern_scripts.php'; ?>
 
 </head>
