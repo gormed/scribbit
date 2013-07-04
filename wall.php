@@ -123,7 +123,7 @@ require_once 'header.php';
 						opacity: 1
 						
 						
-						}, 1000, function() {
+						}, 300, function() {
 							// Animation complete.
 					});
 				});
@@ -136,7 +136,7 @@ require_once 'header.php';
 						opacity: 0.75
 						
 						
-						}, 1000, function() {
+						}, 300, function() {
 							// Animation complete.
 					});
 				});
