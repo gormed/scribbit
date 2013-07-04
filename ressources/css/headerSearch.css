@@ -265,13 +265,6 @@
 	div#logo {
 		display:inline;
 		float:left;
-		font-size: 45px; 
-		width: 50px;
-		height: 80px;
-		font-weight: bold;
-		text-align: center;
-		background-color: #444;
-
 	}
 	div#logo a:link {
 		color: white; text-decoration: none;
@@ -360,21 +353,23 @@
 	}
 
 	div#profilenav {
-		display: block;
-	}
+		margin-top: 10px;
+		margin-left: 800px;
+		float: left;	
+}
 
 	div#profileicons {
 	}
 
 	div#profileline {
-		position: absolute;
-		right: 26px;
+	
+		
 		top: 2px;
-		font-size: small;
+		font-size: medium;
 	}
 
 	div#profileline img {
-		vertical-align: bottom;
+		
 	}
 
 	div#profilenav a:visited {
