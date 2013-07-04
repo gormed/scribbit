@@ -131,6 +131,20 @@
 				return link;
 			}
 
+			function sort(array, iteratefunc) {
+				var arraykeys=[];
+				for(var k in array) {
+					if (array.hasOwnProperty(k)) { 
+						arraykeys.push(k);
+					}
+				}
+				arraykeys.sort();
+				arraykeys.reverse();
+				for(var i=0; i<arraykeys.length; i++) {
+					iteratefunc(arraykeys[i]);
+				}
+			}
+
 			function loadFavs (content) {
 				content.appendChild(document.createElement('br'));
 				var profitem;
@@ -141,17 +155,14 @@
 
 				var holder = document.createElement('div');
 				holder.setAttribute('class', 'holder');
+				holder.setAttribute('id', 'favsholder');
 				horizontalbar.appendChild(holder);
-				
-				for (var k in favPath) {
-					// use hasOwnProperty to filter out keys from the Object.prototype
-					if (favPath.hasOwnProperty(k)) {
 
-						profitem = loadSingleItem(k, favNames[k], favDates[k], favPath[k]);
-
-						holder.appendChild(profitem);
-					}
-				}
+				sort(favPath, function(k) {
+					var holder = document.getElementById('favsholder');
+					var profitem = loadSingleItem(k, favNames[k], favDates[k], favPath[k]);
+					holder.appendChild(profitem);
+				});
 			}
 
 			function loadOwn (content) {
@@ -164,17 +175,14 @@
 
 				var holder = document.createElement('div');
 				holder.setAttribute('class', 'holder');
+				holder.setAttribute('id', 'ownholder');
 				horizontalbar.appendChild(holder);
 
-				var profitem;
-				
-				for (var k in ownPath) {
-					// use hasOwnProperty to filter out keys from the Object.prototype
-					if (ownPath.hasOwnProperty(k)) {
-						profitem = loadSingleItem(k, '', ownDates[k], ownPath[k]);
-						holder.appendChild(profitem);
-					}
-				}
+				sort(ownPath, function(k) {
+					var holder = document.getElementById('ownholder');
+					var profitem = loadSingleItem(k, '', ownDates[k], ownPath[k]);
+					holder.appendChild(profitem);
+				});
 			}
 
 			function loadFriends (content) {
@@ -186,17 +194,14 @@
 
 				var holder = document.createElement('div');
 				holder.setAttribute('class', 'holder');
+				holder.setAttribute('id', 'friendsholder');
 				horizontalbar.appendChild(holder);
 
-				var profitem;
-				
-				for (var k in friendPath) {
-					// use hasOwnProperty to filter out keys from the Object.prototype
-					if (friendPath.hasOwnProperty(k)) {
-						profitem = loadSingleItem(k, friendNames[k], friendDates[k], friendPath[k]);
-						holder.appendChild(profitem);
-					}
-				}
+				sort(friendPath, function(k) {
+					var holder = document.getElementById('friendsholder');
+					var profitem = loadSingleItem(k, friendNames[k], friendDates[k], friendPath[k]);
+					holder.appendChild(profitem);
+				});
 			}
 
 			function loadScribbles () {
@@ -268,6 +273,8 @@
 				}
 				loadOwn(content);
 
+				adjustContent();
+
 				content.appendChild(document.createElement('br'));
 			}
 
@@ -329,6 +336,17 @@
 				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				xmlhttp.send("friendid="+friendid+"&remove=1");
 			}
+
+			function adjustContent() {
+				var windowwidth = $(window).width();
+				var profinfo = parseInt($("#profile").css("width")) + 20;
+				var profinfomargin = parseInt($("#profile").css("margin-left"));
+				var width = Math.floor(windowwidth - (profinfo + profinfomargin));
+				$("#content").css({'width': width+"px"});
+			}
+
+			$(window).resize( function() { adjustContent(); } );
+
 		</script>
 	</head>
 

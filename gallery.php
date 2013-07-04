@@ -31,16 +31,18 @@ require_once 'header.php';
 		var capturing = false;
 		var scribbleCount = 0;
 
-		function sortArrayByKeys(inputarray) {
+		function sort(array, iteratefunc) {
 			var arraykeys=[];
-			for(var k in inputarray) {arraykeys.push(k);}
+			for(var k in array) {
+				if (array.hasOwnProperty(k)) { 
+					arraykeys.push(k);
+				}
+			}
 			arraykeys.sort();
 			arraykeys.reverse();
-			var outputarray=[];
 			for(var i=0; i<arraykeys.length; i++) {
-				outputarray[arraykeys[i]]=inputarray[arraykeys[i]];
+				iteratefunc(arraykeys[i]);
 			}
-			return outputarray;
 		}
 
 		function init () {
@@ -77,18 +79,10 @@ require_once 'header.php';
 				}
 			?>
 
-
-			var arraykeys=[];
-			for(var k in scribbles) {
-				if (scribbles.hasOwnProperty(k)) { 
-					arraykeys.push(k);
-				}
-			}
-			arraykeys.sort();
-			arraykeys.reverse();
-			for(var i=0; i<arraykeys.length; i++) {
-				createScribbleDiv(arraykeys[i]);
-			}
+			sort(scribbles, function(k) {
+				createScribbleDiv(k);
+			});
+			adjustContent();
 			//sorted = sortArrayByKeys(scribbles);
 			//scribbles.reverse();
 
@@ -123,7 +117,7 @@ require_once 'header.php';
 				temp.setAttribute('class', 'initem');
 				temp.setAttribute('id', 'div_'+k);
 				var fav; 
-				if (favorites[k]) {
+				if (parseInt(favorites[k]) == 1) {
 					fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
 				} else {
 					fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';
@@ -140,6 +134,18 @@ require_once 'header.php';
 				// gallery.appendChild(document.createElement('br'));
 				// gallery.appendChild(document.createElement('br'));
 		}
+
+		function adjustContent() {
+			var windowwidth = $(window).width();
+			var itemwidth = parseInt($(".item").css("width"));
+			var itemmargin = parseInt($(".item").css("margin-left"));
+			var items = Math.floor(windowwidth / (itemwidth+itemmargin));
+			var itemsize = items * itemwidth + (items) * itemmargin;
+			var margin = Math.floor((windowwidth - itemsize) * 0.5);
+			$("#content").css({'margin-left': margin+"px"});
+		}
+
+		$(window).resize( function() { adjustContent(); } );
 
 		$(window).scroll(function()
 		{
@@ -160,16 +166,7 @@ require_once 'header.php';
 								// show end 
 							}
 							else {
-								var arraykeys=[];
-								for(var k in json.temp_scribbles) {
-									if (json.temp_scribbles.hasOwnProperty(k)) { 
-										arraykeys.push(k);
-									}
-								}
-								arraykeys.sort();
-								arraykeys.reverse();
-								for(var i=0; i<arraykeys.length; i++) {
-									var k = arraykeys[i];
+								sort(json.temp_scribbles, function(k) {
 									scribbles[k] = json.temp_scribbles[k];
 									dates[k] =json.temp_dates[k];
 									users[k] = json.temp_users[k];
@@ -177,7 +174,7 @@ require_once 'header.php';
 									favCount[k] = json.temp_favCount[k];
 									commentCount[k] = json.temp_commentCount[k];
 									createScribbleDiv(k);
-								}	
+								});
 							}
 						}
 					});
@@ -190,7 +187,6 @@ require_once 'header.php';
 			<div id="site">
 				
 				<div id="header">
-					
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>
 
