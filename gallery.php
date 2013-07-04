@@ -62,10 +62,10 @@ require_once 'header.php';
 					$user = $answer->fetch_array();
 					echo 'users['.$row[0]."] = '".$user[1]."'; ";
 					$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
-					$isFav = 0;
+					$isFav = 'false';
 					$fav = $mysqli->query($sql);
 					if ($fav->num_rows > 0) {
-						$isFav = 1;
+						$isFav = 'true';
 					}
 					echo 'favorites['.$row[0]."] = ".$isFav."; ";
 
