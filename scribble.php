@@ -1,55 +1,6 @@
-<style type="text/css">
-#round{
-	background-image: url(<?php echo path.'/ressources/img/brush/brushkreis.png'; ?>);
-	background-size: 100% 100%;
-}
-
-
-#round:hover {
-	background-image: url(<?php echo path.'/ressources/img/brush/brushkreishover.png'; ?>);
-}
-
-
-#block{
-	background-image: url(<?php echo path.'/ressources/img/brush/brushviereck.png'; ?>);
-	background-size: 100% 100%;
-}
-
-
-#block:hover {
-	background-image: url(<?php echo path.'/ressources/img/brush/brushviereckhover.png'; ?>);
-}
-
-
-#split{
-	background-image: url(<?php echo path.'/ressources/img/brush/brushsplit.png'; ?>);
-	background-size: 100% 100%;
-}
-
-
-#split:hover {
-	background-image: url(<?php echo path.'/ressources/img/brush/brushsplithover.png'; ?>);
-}
-
-
-#shadow{
-	background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?>);
-	background-size: 100% 100%;
-}
-
-
-#shadow:hover {
-	background-image: url(<?php echo path.'/ressources/img/brush/brushshadowhover.png'; ?>);
-}
-
-
-</style>
-
-
-
-
 
 <?php 
+
 $mysqli->close();
 require_once 'db_work.php';
 $loggedIn = login_check($mysqli);	
@@ -71,10 +22,8 @@ function timeTillNow($oldTime)
 		$row = $result->fetch_array();
 		if (isset($result->num_rows) && $result->num_rows > 0) {
 			$time = $row[2];
-			$userid = $row[1];
-			//echo "time ".timeTillNow($time).PHP_EOL;
-			// time since entry bigger than 59 min
-			if (timeTillNow($time) > 60 || $userid == $_SESSION['user_id']) {
+			$userid = $row[1]; //echo "time ".timeTillNow($time).PHP_EOL;
+			if (timeTillNow($time) > 60 || $userid == $_SESSION['user_id']) { // time since entry bigger than 59 min
 				return false;
 			} else { 
 				return true;
@@ -95,27 +44,27 @@ function timeTillNow($oldTime)
 		$yparent = $result[1];
 
 		switch ($where) {
-			//top
+					//top
 			case '0':
 			$xpos = $xparent;
 			$ypos = $yparent + 1;
 			break;
-			//right
+					//right
 			case '1':
 			$ypos = $yparent;
 			$xpos = $xparent + 1;
 			break;
-			//bottom
+					//bottom
 			case '2':
 			$xpos = $xparent;
 			$ypos = $yparent - 1;
 			break;
-			//left
+					//left
 			case '3':
 			$ypos = $yparent;
 			$xpos = $xparent - 1;
 			break;
-			
+
 			default:
 
 			break;
@@ -123,14 +72,10 @@ function timeTillNow($oldTime)
 
 		$reserved = isReserved($mysqli, $xpos, $ypos);
 		if (!$reserved) {
-			//echo "not reserved, reserving for user ".$userid.PHP_EOL;
-			// have you the right to access
-			$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid);
+			$sql = sprintf("DELETE FROM `reserved_map` WHERE `userid` = %d", $userid); // have you the right to access
 			$res1 = $mysqli->query($sql);
 			$sql = sprintf("INSERT INTO `reserved_map`(`position`, `userid`) VALUES (GEOMFROMTEXT('POINT(%d %d)', 0 ), %d)", $xpos, $ypos, $userid);
 			$res2 = $mysqli->query($sql);
-
-			//echo "res1: ".$res1." res2: ".$res2;
 		} else {
 			header("location: ".path."/scribbles/".$parentid);
 		}
@@ -147,6 +92,49 @@ function timeTillNow($oldTime)
 		<!--<script type="text/javascript" src="ressources/js/scribble.js"></script>-->
 		<link rel="stylesheet" type="text/css" href="ressources/css/scribble.css">
 		<style type="text/css">
+		#round {
+			background-image: url(<?php echo path.'/ressources/img/brush/brushkreis.png'; ?>);
+			background-size: 100% 100%;
+		}
+
+
+		#round:hover {
+			background-image: url(<?php echo path.'/ressources/img/brush/brushkreishover.png'; ?>);
+		}
+
+
+		#block{
+			background-image: url(<?php echo path.'/ressources/img/brush/brushviereck.png'; ?>);
+			background-size: 100% 100%;
+		}
+
+
+		#block:hover {
+			background-image: url(<?php echo path.'/ressources/img/brush/brushviereckhover.png'; ?>);
+		}
+
+
+		#split{
+			background-image: url(<?php echo path.'/ressources/img/brush/brushsplit.png'; ?>);
+			background-size: 100% 100%;
+		}
+
+
+		#split:hover {
+			background-image: url(<?php echo path.'/ressources/img/brush/brushsplithover.png'; ?>);
+		}
+
+
+		#shadow{
+			background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?>);
+			background-size: 100% 100%;
+		}
+
+
+		#shadow:hover {
+			background-image: url(<?php echo path.'/ressources/img/brush/brushshadowhover.png'; ?>);
+		}
+
 		div#cut1 {
 			float: left;
 			margin: 3px;
@@ -157,15 +145,90 @@ function timeTillNow($oldTime)
 			border-color: #666;
 		}
 		</style>
-		<script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
-		<script type="text/javascript">
 
-		<?php 
-		echo 'var parentid = '.$parentid.';';
-		echo 'var where = '.$where.';';
-		?>
+	</head>
 
-		</script>
+	<body onselectstart="return false" onload="onLoad();">
+
+	<!-- 
+	***************************************************************** 
+	 Embed the WacomTabletPlugin object.
+	 To avoid plugin selection on page, size and position are adjusted 
+	 so as to "tuck it under" canvas. 
+	***************************************************************** 
+-->
+
+	<!--[if IE]>
+
+	<object id='wtPlugin' classid='CLSID:092dfa86-5807-5a94-bf3b-5a53ba9e5308' WIDTH=1 HEIGHT=1 style="position:absolute; left:100px; top:100px">
+	</object>
+
+	<![endif]--><!--[if !IE]> <-->
+
+	<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:0px; top:0px">
+		<!-- <param name="onload" value="pluginLoaded" /> -->
+	</object>
+
+	
+	<!--> <![endif]-->
+
+	<div id="content" class="contentnospace">
+		<div id="closescribble" onclick="closescribble();"> x </div>
+		<div id="show" onclick="show();"> - </div>
+		<div id="upload"></div>
+	</div>
+
+	<div id="site">
+		<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
+		
+
+		<div id="tools">
+			<div  class="visible">
+
+
+
+				<div id="blackbox">
+					<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
+					<div id="copy" title="copy" onclick="copy();">copy</div>
+					<div id="paste" title="paste" onclick="fill();">paste</div>
+					<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
+				</div>
+
+				<div id="color">
+					<div id="cbox3" onclick="setColor3();"></div>
+					<div id="cbox" onclick="setColor();"></div>
+					<div id="cbox1" onclick="setColor1();"></div>
+					<div id="cbox2" onclick="setColor2();"></div>
+					<div id="cbox4" onclick="setColor4();"></div>
+					<div id="cbox5" onclick="setColor5();"></div>
+				</div>
+
+				<div id="brushes">
+					<div id="shadow" onclick= "setShadow();"></div>
+					<div id="round" onclick= "setRound();"></div>
+					<div id="block" onclick= "setBlock();"></div>
+					<div id="split" onclick= "setSplit();"></div>
+				</div>	
+
+				<div id="bar">
+					<div>Größe</div>
+					<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
+					<input type ="text" id="resultDicke" value="" />
+					<div>Transparenz</div>
+					<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
+					<input type ="text" id="resultTrans" value="" />
+				</div><br>
+				
+				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
+
 <!-- 
 **************************************************************************
 *    Scribble app using javascript Canvas object with WebTabletPlugin.
@@ -177,12 +240,19 @@ function timeTillNow($oldTime)
 *************************************************************************** 
 -->
 
-<script>
+<script type="text/javascript">
 
-var canvasPos = {x:0.0, y:0.0};
-var canvasSize = {width:960, height:640};
-var lastX = 0.0;
-var lastY = 0.0;
+	<?php 
+	echo 'var parentid = '.$parentid.';';
+	echo 'var where = '.$where.';';
+	echo 'var path = '.path.';';
+
+	?>
+
+	var canvasPos = {x:0.0, y:0.0};
+	var canvasSize = {width:960, height:640};
+	var lastX = 0.0;
+	var lastY = 0.0;
 	var capturing = false;	// tracks in/out of canvas context
 	var ctx ;
 	//************************************************************************
@@ -231,14 +301,16 @@ var lastY = 0.0;
 	}
 
 	//************************************************************************
-	function clearCanvas() {
+	function clearCanvas() 
+	{
 		var context = document.getElementById('canvas').getContext("2d");
 		var imageData = context.clearRect(0,0,960,640);
 	}
 
 
 	//************************************************************************
-	function saveImage () {
+	function saveImage () 
+	{
 		
 		var xmlhttp;
 		var canvas = document.getElementById('canvas');
@@ -258,6 +330,11 @@ var lastY = 0.0;
 		xmlhttp.open("POST","upload_image.php",true);
 		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		xmlhttp.send("data=" + img + "&where=" + where +"&parentid="+parentid );
+	}
+
+	function closescribble() 
+	{
+		window.location.href = "wall";
 	}
 
 	//************************************************************************
@@ -404,8 +481,7 @@ lastY = curY;
 			posY >= top && posY <= bottom);
 	}
 	//************************************************************************
-	</script>
-	<script type="text/javascript">
+
 	function show () {
 		var tools = document.getElementById('tools');
 		var content = document.getElementById('content');
@@ -417,9 +493,6 @@ lastY = curY;
 			content.className = "contentnospace";
 		}
 	}
-	</script>
-
-	<script type="text/javascript">
 
 
 
@@ -569,107 +642,3 @@ lastY = curY;
 
 
 	</script>
-
-
-
-
-
-
-</head>
-
-<body onselectstart="return false" onload="onLoad();">
-
-	
-	
-	
-
-	<!-- 
-	***************************************************************** 
-	 Embed the WacomTabletPlugin object.
-	 To avoid plugin selection on page, size and position are adjusted 
-	 so as to "tuck it under" canvas. 
-	***************************************************************** 
--->
-
-	<!--[if IE]>
-
-	<object id='wtPlugin' classid='CLSID:092dfa86-5807-5a94-bf3b-5a53ba9e5308' WIDTH=1 HEIGHT=1 style="position:absolute; left:100px; top:100px">
-	</object>
-
-	<![endif]--><!--[if !IE]> <-->
-
-	<object id="wtPlugin" type="application/x-wacomtabletplugin" WIDTH=1 HEIGHT=1 style="position:absolute; left:0px; top:0px">
-		<!-- <param name="onload" value="pluginLoaded" /> -->
-	</object>
-
-	
-	<!--> <![endif]-->
-
-
-
-
-	<div id="content" class="contentnospace">
-		<div id="show" onclick="show();">Show/Hide</div>
-		<div id="upload"></div>
-	</div>
-
-
-
-
-	<div id="site">
-		<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
-		
-
-		<div id="tools">
-			<div  class="visible">
-
-
-
-				<div id="blackbox">
-					<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
-					<div id="copy" title="copy" onclick="copy();">copy</div>
-					<div id="paste" title="paste" onclick="fill();">paste</div>
-					<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
-				</div>
-
-				<div id="color">
-					<div id="cbox3" onclick="setColor3();"></div>
-					<div id="cbox" onclick="setColor();"></div>
-					<div id="cbox1" onclick="setColor1();"></div>
-					<div id="cbox2" onclick="setColor2();"></div>
-					<div id="cbox4" onclick="setColor4();"></div>
-					<div id="cbox5" onclick="setColor5();"></div>
-				</div>
-
-				<div id="brushes">
-					<div id="shadow" onclick= "setShadow();"></div>
-					<div id="round" onclick= "setRound();"></div>
-					<div id="block" onclick= "setBlock();"></div>
-					<div id="split" onclick= "setSplit();"></div>
-				</div>	
-
-
-
-				
-				<div id="bar">
-					<div>Größe</div>
-					<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
-					<input type ="text" id="resultDicke" value="" />
-					<div>Transparenz</div>
-					<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
-					<input type ="text" id="resultTrans" value="" />
-				</div><br>
-				
-				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
-
-			</div>
-		</div>
-	</div>
-
-
-	
-
-
-
-</body>
-</html>
