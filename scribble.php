@@ -242,17 +242,17 @@ function timeTillNow($oldTime)
 
 <script type="text/javascript">
 
-	<?php 
-	echo 'var parentid = '.$parentid.';';
-	echo 'var where = '.$where.';';
-	echo 'var path = '.path.';';
+<?php 
+echo 'var parentid = '.$parentid.';';
+echo 'var where = '.$where.';';
+echo 'var path = "'.path.'";';
 
-	?>
+?>
 
-	var canvasPos = {x:0.0, y:0.0};
-	var canvasSize = {width:960, height:640};
-	var lastX = 0.0;
-	var lastY = 0.0;
+var canvasPos = {x:0.0, y:0.0};
+var canvasSize = {width:960, height:640};
+var lastX = 0.0;
+var lastY = 0.0;
 	var capturing = false;	// tracks in/out of canvas context
 	var ctx ;
 	//************************************************************************
@@ -334,7 +334,7 @@ function timeTillNow($oldTime)
 
 	function closescribble() 
 	{
-		window.location.href = "wall";
+		window.location.href = path + "/wall";
 	}
 
 	//************************************************************************
@@ -374,8 +374,6 @@ function timeTillNow($oldTime)
 	{
 		if (!capturing)
 			return;
-	//console.log("MOUSE:MOVE");
-
 		// Non-IE browsers will use evt
 		var ev = evt || window.event;
 
@@ -395,50 +393,23 @@ function timeTillNow($oldTime)
 			pressure = 0.25;
 			isEraser = false;
 		}
-
-	//console.log("pressure: " + pressure);
-
-	curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
-	curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
-	
-
-	capturing = inCanvasBounds(curX, curY);
-
-	if (capturing && pressure > 0.0)
-	{
-		if (canvas.getContext)
-		{		
-			this.ctx = canvas.getContext("2d");
-			this.ctx.beginPath();
-			this.ctx.moveTo(lastX, lastY);
-			this.ctx.lineTo(curX, curY);
-
-				//console.log("mousemove: cur: " + curX + "," + curY);
-
-				
-
-				//this.ctx.shadowBlur = 3;
-  				//this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-  				//this.ctx.shadowOffsetX = 3;
-  				//this.ctx.shadowOffsetY = 6;
+		curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
+		curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
 
 
+		capturing = inCanvasBounds(curX, curY);
 
+		if (capturing && pressure > 0.0)
+		{
+			if (canvas.getContext)
+			{		
+				this.ctx = canvas.getContext("2d");
+				this.ctx.beginPath();
+				this.ctx.moveTo(lastX, lastY);
+				this.ctx.lineTo(curX, curY);
 
-				//var farbe= [];
-				//farbe[0]="green";
-				//farbe[1]="blue";
-				//farbe[2]="red";
-				//farbe[3]="grey";
-				//farbe[4]="black";
-
-				//rot="red";
-				
 				var farbe="black";
-				var brush="round";
-
-				
-				
+				var brush="round";			
 
 				if (isEraser == true) 
 				{
@@ -448,24 +419,18 @@ function timeTillNow($oldTime)
 				}
 				else 
 				{	
-					
-
 					this.ctx.lineWidth =dicke * pressure;
 					this.ctx.globalAlpha =trans;
-
-
 				}
+				this.ctx.stroke();
+				var tempImg =this.ctx.getImageData(0,0,960,640);
+			}
+		}
 
-		//console.log("ctx.lineWidth: " + ctx.lineWidth);
-		this.ctx.stroke();
-		var tempImg =this.ctx.getImageData(0,0,960,640);
+		lastX = curX;
+		lastY = curY;
+
 	}
-}
-
-lastX = curX;
-lastY = curY;
-
-}
 
 	//************************************************************************
 	// posX and posY are assumed relative to canvas boundaries.

@@ -68,14 +68,14 @@ div#publish {
 }
 
 div#show {
-	width: 7em;
+	width: 16px;
 	padding: 1px;
 	text-align: center;
 	background-color: #6f6;
 	float: left;
 }
 div#closescribble {
-	width: 7em;
+	width: 16px;
 	padding: 1px;
 	text-align: center;
 	background-color: #f00;
