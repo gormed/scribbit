@@ -74,6 +74,13 @@ div#show {
 	background-color: #6f6;
 	float: left;
 }
+div#closescribble {
+	width: 7em;
+	padding: 1px;
+	text-align: center;
+	background-color: #f00;
+	float: left;
+}
 
 canvas#canvas {
 	width: 960px;
@@ -231,7 +238,7 @@ canvas#canvas {
 #cbox4{
 	width: 40px;
 	height: 40px;
-	background-color: FFFF00;
+	background-color: #FFFF00;
 	float: left;
 }
 
@@ -246,7 +253,7 @@ canvas#canvas {
 #cbox5{
 	width: 40px;
 	height: 40px;
-	background-color: FF00FF;
+	background-color: #FF00FF;
 	float: left;
 }
 
