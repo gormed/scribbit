@@ -1,5 +1,25 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
 	"http://www.w3.org/TR/html4/strict.dtd">
+
+<style type="text/css">
+	#friendstag{
+		background-image: url(<?php echo path.'/ressources/img/friends.png'; ?>);
+		background-size: 100% 100%;
+}
+
+	#myowntag{
+		background-image: url(<?php echo path.'/ressources/img/myown.png'; ?>);
+		background-size: 100% 100%;
+}
+
+	#favouritestag{
+		background-image: url(<?php echo path.'/ressources/img/favourites.png'; ?>);
+		background-size: 100% 100%;
+}
+
+</style>
+
+
 <?php 
 	require_once 'header.php';
 
@@ -355,6 +375,11 @@
 			<div id="header">
 				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
+
+			<div id="friendstag"></div>
+			<div id="myowntag"></div>
+			<div id="favouritestag"></div>
+
 			<div id="profile">
 				<br>
 				<div id="profilepic"></div>
