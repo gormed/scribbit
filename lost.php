@@ -21,7 +21,7 @@ include 'header.php';
 				<br>
 				<form action="reset" method="post" name="resetpw_form">
 					<div class="descriptive">Email<br>
-						<input class="options" type="text" id="email">
+						<input class="options" type="text" id="email" placeholder="your@email.com">
 						<div id="resetpasswordresult"></div>
 					</div>
 					<div class="assist">

@@ -17,6 +17,8 @@
 		if ($result->num_rows > 0) {
 			return true;
 		}
+		// $user_browser = $_SERVER['REMOTE_ADDR']; // Get the user-agent string of the user.
+
 		return false;
 	}
 

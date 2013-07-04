@@ -5,7 +5,7 @@
 */
 
 @media screen and (max-width: 700px) {
-	
+
 	/* Custom scrollbar for webkit aka chrome & co */
 	::-webkit-scrollbar {
 		width: 4px;
@@ -37,14 +37,12 @@
 		background-color: #E0E0E0;
 		font-size: 100%;
 		font-family: 'Tahoma', sans-serif; 
-		left:0%;
 		margin: 0px;
+		/*Hady: overflow:scroll;*/
 	}
 	div#site {
 		display:block;
-		width:100%;
-		top:50%;
-		left:50%;
+		width: 0 auto;
 	}
 
 	/*HEADER inculdes navigation*/
@@ -54,23 +52,15 @@
 		position:fixed;
 		float:left;
 		width:100%;
-		height:40px;
+		height:70px;
 		color: white;
-		background-color: #385a8f;
-		box-shadow: 0px 0px 20px #111;
-				z-index: 2;
+		background-color: transparent;
+		z-index: 2;
 	}
 
 	div#logo {
-		opacity: 0;
 		display:inline;
 		float:left;
-		width: 0px;
-		height: 00px;
-		font-weight: bold;
-		text-align: center;
-		background-color: #444;
-
 	}
 	div#logo a:link {
 		color: white; text-decoration: none;
@@ -91,11 +81,10 @@
 	/*Searchbar*/
 
 	div.searchbar {
-
 		display: inline-block;
 		float:left;
-		font-size: smaller;
-		width: 300px;
+		font-size: 100%;
+		width:340px;
 		height: 100%;
 		color: #fff;
 		/*background: #4e80cc;*/
@@ -109,7 +98,7 @@
 	}
 
 	div.searchbar input.searchtext {
-		width: 300px;
+		width: 330px;
 		height:16px;
 	}
 	/* NAVIGATION */
@@ -128,26 +117,45 @@
 		/*float: right;
 		width: 250px;*/
 		/*background: #222;*/
-		/*margin-left: 15px;*/
 
 		/*background: url(topnav_bg.gif) repeat-x;*/
 	}
 
 	.topnav div {
-		padding-right: 5px;
 		/*position: relative; --Declare X and Y axis base for sub navigation--*/
 	}
 
 	.main {
 		float: left;
-		margin-left: 15px;
+		margin-left: 10px;
+	}
+	.left {
+		float:left;
+		width:320px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 15px 0;
+	}
+	.right {
+		float:right;
+		margin-top: 4px;
+		width: 370px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 15px 0 0 15px;
 	}
 	.social {
 		float: right;
-		margin-left: 15px;
+		margin-left: 5px;
 	}
 	.profilelogout {
-		float:right; margin-left: 10px; margin-right: 5px;
+		float:right; 
 	}
 
 	.topnav a {
@@ -160,25 +168,21 @@
 	}
 
 	div#profilenav {
-		float: right;
-		width: 100%;
-		background-color: #385a8f;
-		vertical-align: bottom;
-		padding-bottom: 4px;
-	}
+}
 
 	div#profileicons {
-		float: right;
 	}
 
 	div#profileline {
-		padding-left: 5px;
-		float: right;
 		font-size: small;
+		vertical-align: text-bottom;
+		text-align: right;
+		margin-top: 20px;
+		float: right;
 	}
 
 	div#profileline img {
-		vertical-align: bottom;
+		
 	}
 
 	div#profilenav a:visited {
@@ -255,23 +259,15 @@
 		position:fixed;
 		float:left;
 		width:100%;
-		height:80px;
+		height:70px;
 		color: white;
-		background-color: #385a8f;
-		box-shadow: 0px 0px 20px #111;
+		background-color: transparent;
 		z-index: 2;
 	}
 
 	div#logo {
 		display:inline;
 		float:left;
-		font-size: 45px; 
-		width: 50px;
-		height: 80px;
-		font-weight: bold;
-		text-align: center;
-		background-color: #444;
-
 	}
 	div#logo a:link {
 		color: white; text-decoration: none;
@@ -328,23 +324,41 @@
 		/*float: right;
 		width: 250px;*/
 		/*background: #222;*/
-		margin-left: 15px;
 
 		/*background: url(topnav_bg.gif) repeat-x;*/
 	}
 
 	.topnav div {
-		padding-right: 5px;
 		/*position: relative; --Declare X and Y axis base for sub navigation--*/
 	}
 
 	.main {
 		float: left;
-		margin-left: 15px;
+		margin-left: 10px;
+	}
+	.left {
+		float:left;
+		width:320px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 15px 0;
+	}
+	.right {
+		float:right;
+		width: 370px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 0 15px;
 	}
 	.social {
 		float: right;
-		margin-left: 10px;
+		margin-left: 5px;
 	}
 	.profilelogout {
 		float:right; 
@@ -360,21 +374,21 @@
 	}
 
 	div#profilenav {
-		display: block;
-	}
+}
 
 	div#profileicons {
 	}
 
 	div#profileline {
-		position: absolute;
-		right: 26px;
-		top: 2px;
 		font-size: small;
+		vertical-align: text-bottom;
+		text-align: right;
+		margin-top: 20px;
+		float: right;
 	}
 
 	div#profileline img {
-		vertical-align: bottom;
+		
 	}
 
 	div#profilenav a:visited {

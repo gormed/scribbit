@@ -6,8 +6,8 @@ require_once 'path.php';
 if(isset($_POST['username'], $_POST['p'])) {
 	$email = $_POST['username'];
 	$password = $_POST['p']; // The hashed password.
-	if ($register) {
-		$message='<div style="color: #6f6">Registration successful, please log in!</div>';
+	if (isset($register) && $register) {
+		$message='<div class="success">Registration successful, please log in!</div>';
 	} else {
 		if(login($email, $password, $mysqli) == true) {
 			// Login success
@@ -19,7 +19,7 @@ if(isset($_POST['username'], $_POST['p'])) {
 		} else {
 			// Login failed
 			//header(sprintf("location:./login.php?error=1&email=%s", $email));
-			$message='<span style="color: #f66">Error logging in!</span>';
+			$message='<span class="error">Error logging in!</span>';
 		}
 	}
 } else { 

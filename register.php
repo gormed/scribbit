@@ -37,7 +37,7 @@ $email = '';
 				<table>
 					<tr>
 						<td></td>
-						<td><div class="descriptive">Artistname</div><input type="text" name="artistname" id="artistname" size="22" onblur="checkUsername(this.form.artistname)"/></td>
+						<td><div class="descriptive">Artistname</div><input type="text" name="artistname" id="artistname" placeholder="Picasso" size="22" onblur="checkUsername(this.form.artistname)"/></td>
 						<td id="validName" >
 							<?php if (isset($nameTaken)) { echo $nameTaken; } ?>
 						</td>
@@ -46,7 +46,7 @@ $email = '';
 						<td></td>
 						<td><div class="descriptive">Email</div>
 							<?php
-							echo '<input type="text" value="', $email, '" name="email" id="email" size="22" onblur="checkEmail(this.form)"/><br>';
+							echo '<input type="text" placeholder="'.$email.'" name="email" id="email" value="" size="22" onblur="checkEmail(this.form)"/><br>';
 							?>
 						</td>
 						<td id="validEmail" size="20em">
@@ -55,12 +55,12 @@ $email = '';
 					</tr>
 					<tr>
 						<td></td>
-						<td><div class="descriptive">Password</div><input type="password" name="password" id="password" size="22"/></td>
+						<td><div class="descriptive">Password</div><input type="password" placeholder="Password" name="password" id="password" size="22"/></td>
 						<td id="validpw"></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><div class="descriptive">Confirm Password</div><input type="password" name="confirm_password" id="confirm_password" size="22" onblur="checkPasswordStrength(this.form)"/></td>
+						<td><div class="descriptive">Confirm Password</div><input type="password" placeholder="and again" name="confirm_password" id="confirm_password" size="22" onblur="checkPasswordStrength(this.form)"/></td>
 					</tr>
 				</table>
 				<input type="button" value="Register" onclick="registerformhash(this.form);" />
