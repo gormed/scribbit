@@ -1,3 +1,54 @@
+<style type="text/css">
+#round{
+background-image: url(<?php echo path.'/ressources/img/brush/brushkreis.png'; ?>);
+		background-size: 100% 100%;
+}
+
+
+#round:hover {
+		background-image: url(<?php echo path.'/ressources/img/brush/brushkreishover.png'; ?>);
+	}
+
+
+#block{
+background-image: url(<?php echo path.'/ressources/img/brush/brushviereck.png'; ?>);
+		background-size: 100% 100%;
+}
+
+
+#block:hover {
+		background-image: url(<?php echo path.'/ressources/img/brush/brushviereckhover.png'; ?>);
+	}
+
+
+#split{
+background-image: url(<?php echo path.'/ressources/img/brush/brushsplit.png'; ?>);
+		background-size: 100% 100%;
+}
+
+
+#split:hover {
+		background-image: url(<?php echo path.'/ressources/img/brush/brushsplithover.png'; ?>);
+	}
+
+
+#shadow{
+background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?>);
+		background-size: 100% 100%;
+}
+
+
+#shadow:hover {
+		background-image: url(<?php echo path.'/ressources/img/brush/brushshadowhover.png'; ?>);
+	}
+
+
+</style>
+
+
+
+
+
 <?php 
 	$mysqli->close();
 	require_once 'db_work.php';
@@ -534,8 +585,8 @@ $('#canvas').disableSelection();
 
 <body onselectstart="return false" onload="onLoad();">
 
-	<button onclick="copy()">Copy</button>
-	<button onclick="fill()">fill</button>
+	
+	
 	
 
 	<!-- 
@@ -559,70 +610,73 @@ $('#canvas').disableSelection();
 
 	
 	<!--> <![endif]-->
+
+
+
+
+<div id="content" class="contentnospace">
+							<div id="show" onclick="show();">Show/Hide</div>
+							<div id="share">
+							Share: <input type="text" size="30" value="http://scribbit.com/7ezebU6">
+						</div>
+							<div id="upload"></div>
+</div>
+
+
+
+
 	<div id="site">
+			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		
-		<div id="tools" class="visible">
-			<div>
+
+		<div id="tools">
+		<div  class="visible">
+
+						
+			
 					<div id="blackbox">
 						<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
-						<div id="stepback" title="back" onclick="...();">back</div>
-						<div id="stepforward" title="forward" onclick="...();">for</div>
+						<div id="copy" title="copy" onclick="copy();">copy</div>
+						<div id="paste" title="paste" onclick="fill();">paste</div>
 						<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
 					</div>
 
-					<div>
-						<div id="color1">
-								<div id="cbox3" onclick="setColor3();"> </div>
-								<div id="cbox" onclick="setColor();"> </div>
-								<div id="cbox1" onclick="setColor1();"></div>
-								<div id="cbox2" onclick="setColor2();"></div>
-								<div id="cbox4" onclick="setColor4();"></div>
-								<div id="cbox5" onclick="setColor5();"></div>
-						</div>
+					<div id="color">
+						<div id="cbox3" onclick="setColor3();"></div>
+						<div id="cbox" onclick="setColor();"></div>
+						<div id="cbox1" onclick="setColor1();"></div>
+						<div id="cbox2" onclick="setColor2();"></div>
+						<div id="cbox4" onclick="setColor4();"></div>
+						<div id="cbox5" onclick="setColor5();"></div>
 					</div>
 
-						<div id="shadow" onclick= "setShadow();">Schatten</div>
-						<div id="round" onclick= "setRound();">Rund</div>
-						<div id="block" onclick= "setBlock();">Eckig</div>
-						<div id="split" onclick= "setSplit();">Splitter</div>
-
+					<div id="brushes">
+						<div id="shadow" onclick= "setShadow();"></div>
+						<div id="round" onclick= "setRound();"></div>
+						<div id="block" onclick= "setBlock();"></div>
+						<div id="split" onclick= "setSplit();"></div>
+					</div>	
 
 					
 
 				
-				<div id="bar">
-					<div>Größe</div>
-							<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
-									<input type ="text" id="resultDicke" value="" />
-					<div>Transparenz</div>
-							<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
-									<input type ="text" id="resultTrans" value="" />
-				</div><br>
+					<div id="bar">
+						<div>Größe</div>
+						<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
+						<input type ="text" id="resultDicke" value="" />
+						<div>Transparenz</div>
+						<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
+						<input type ="text" id="resultTrans" value="" />
+					</div><br>
 				
-
-				
-				
-				
-				
-
-
 				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
 
-			</div>
-		</div>
-
-		
-
-
-		<div id="content" class="contentnospace">
-			<div id="show" onclick="show();">Show/Hide</div>
-			<div id="share">
-				Share: <input type="text" size="30" value="http://scribbit.com/7ezebU6">
-			</div>
-			<div id="upload"></div>
-			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		</div>
 	</div>
+</div>
+		
+
+	
 
 
 

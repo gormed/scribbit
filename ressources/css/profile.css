@@ -146,3 +146,28 @@ div#addFriend:hover {
 	font-size: 0.9em;
 	font-variant: small-caps;	
 }
+
+
+#friendstag{
+	width:40px; 
+	height:150px;
+	position: absolute;
+	left:160px; 
+	top:90px;
+}
+
+#myowntag{
+	width:40px; 
+	height:150px;
+	position: absolute;
+	left:160px; 
+	top:460px;
+}
+
+#favouritestag{
+	width:40px; 
+	height:150px;
+	position: absolute;
+	left:160px; 
+	top:280px;
+}
