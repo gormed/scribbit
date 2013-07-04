@@ -142,7 +142,7 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<?php require_once 'intern_header.php'; ?>
 <title>Scribb'it - Scribble</title>
 <!--<script type="text/javascript" src="ressources/js/scribble.js"></script>-->
 <link rel="stylesheet" type="text/css" href="ressources/css/scribble.css">
@@ -157,12 +157,6 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 		border-color: #666;
 	}
 </style>
-
-
-
-<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
-<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/scribble.js"></script>'; ?>
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
 <script type="text/javascript">
 

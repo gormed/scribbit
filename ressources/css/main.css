@@ -1,219 +1,412 @@
-/* BODY */
+/*
+=============================================================
+=					LOW RESOLUTIONS
+=============================================================
+*/
 
-body {
-	color: black; 
-	background-color: #ddf;
-	font-size: 100.01%;
-	font-family: 'Tahoma', sans-serif; 
-	left:0%;
-}
-div#site {
-	display:block;
-	width:100%;
-	top:50%;
-	left:50%;
-}
-div#logo {
-	display:inline;
-	float:left;
-	font-size: 80px; 
-	width: 100px;
-	height: 100px;
-	font-weight: bold;
-	text-align: center;
-	background-color: #444;
-	border: 5px;
-	border-color: black;
+@media screen and (max-width: 700px) {
 
-}
-div#logo a:link {
-	color: white; text-decoration: none;
-}
+	/* Custom scrollbar for webkit aka chrome & co */
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+	 
+	/* Track */
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); 
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	}
+	 
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+		background: rgba(220,100,50,0.8); 
+		-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.5); 
+	}
+	::-webkit-scrollbar-thumb:window-inactive {
+		background: rgba(200,50,25,0.4); 
+	}
 
-div#logo a:visited {
-	color: white; text-decoration: none;
-}
+	/* BODY */
 
-div#logo a:hover {
-	color: black; font-weight: bold; text-decoration: none;
-}
+	body {
+		color: black; 
+		background-color: #E0E0E0;
+		font-size: 100%;
+		font-family: 'Tahoma', sans-serif; 
+		margin: 0px;
+		/*Hady: overflow:scroll;*/
+	}
+	div#site {
+		display:block;
+		width: 0 auto;
+	}
 
-div#logo a:active {
-	color: white; font-weight: bold; text-decoration: none;
-}
+	/*HEADER inculdes navigation*/
 
-/*HEADER inculdes navigation*/
+	div#header {
+		display:block;
+		position:fixed;
+		float:left;
+		width:100%;
+		height:70px;
+		color: white;
+		background-color: transparent;
+		z-index: 2;
+	}
 
-div#header {
-	display:block;
-	float:left;
-	width:100%;
-	height:100px;
-	background-color: #385a8f;
-}
+	div#logo {
+		display:inline;
+		float:left;
+	}
+	div#logo a:link {
+		color: white; text-decoration: none;
+	}
 
-/* NAVIGATION */
+	div#logo a:visited {
+		color: white; text-decoration: none;
+	}
 
-div#navigation {
-	display:inline;
-	float: right;
-	width:80%;
-	height:80px;
-	font-size: 100%;
-	padding-top: 20px;
+	div#logo a:hover {
+		color: black; font-weight: bolder; text-decoration: none;
+	}
 
-}
+	div#logo a:active {
+		color: white; font-weight: bolder; text-decoration: none;
+	}
 
-/*div#navigation span {
-	display:inline;
-	margin-top: 100px;
-	margin-right:1%;
+	/*Searchbar*/
 
-	width: 10%;
-	min-width: 8%;
-}
-
-div#navigation a {
-	padding: 1em;
-	font-weight: bold;
-	text-align: right;
-}
-
-div#navigation a:link {
-	color: black; background-color: #eee;
-}
-
-div#navigation a:visited {
-	color: #222; background-color: #eee;
-}
-
-div#navigation a:hover {
-	color: black; background-color: white;
-}
-
-div#navigation a:active {
-	color: white; background-color: gray;
-}*/
-
-/*CONTENT*/
-
-div#content {
-	display: block;
-	float:right;
-	width: 70%;
-	padding: 10 10 10 10;
-	background-color: #88f;
-
-	
-}
-
-div#content h1 {
-	font-size: 1.5em;
-	margin: 0 0 1em;
-}
-
-div#content h2 {
-	font-size: 1.2em;
-	margin: 0 0 1em;
-}
-
-div#content p {
-	font-size: 1em;
-	margin: 1em 0;
-}
-
-
-
-/*Searchbar*/
-div.searchbar {
-	display: block;
-	float:left;
-	font-size: 80%;
-	width:100%;
-	height: 60px;
+	div.searchbar {
+		display: inline-block;
+		float:left;
+		font-size: 100%;
+		width:340px;
+		height: 100%;
 		color: #fff;
-	background: #4e80cc;
-}
-div.searchbar ul {
-	list-style:none;
-	margin-left: 25%;
-}
-div.searchbar ul li{
- position: relative;
-	display:inline;
-	height: 100%;
-}
-div.searchbar ul li input.searchtext {
-	width: 30%;
-	height:80%;
+		/*background: #4e80cc;*/
+	}
+
+	div.searchbar div{
+		top: 2px; left: 0px;
+		position: relative;
+		display:inline;
+		height: auto;
+	}
+
+	div.searchbar input.searchtext {
+		width: 330px;
+		height:16px;
+	}
+	/* NAVIGATION */
+
+	div#navigation {
+		float: right;
+		width:30%;
+		height:50px;
+
+	}
+
+	/* MENU*/
+
+	.topnav {
+		/*margin-left: 40%;*/
+		/*float: right;
+		width: 250px;*/
+		/*background: #222;*/
+
+		/*background: url(topnav_bg.gif) repeat-x;*/
+	}
+
+	.topnav div {
+		/*position: relative; --Declare X and Y axis base for sub navigation--*/
+	}
+
+	.main {
+		float: left;
+		margin-left: 10px;
+	}
+	.left {
+		float:left;
+		width:320px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 15px 0;
+	}
+	.right {
+		float:right;
+		margin-top: 4px;
+		width: 370px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 15px 0 0 15px;
+	}
+	.social {
+		float: right;
+		margin-left: 5px;
+	}
+	.profilelogout {
+		float:right; 
+	}
+
+	.topnav a {
+		color: #fff;
+		text-decoration: none;
+	}
+	.topnav a:hover {
+		color:#bbb;
+	/*	border-top: 1px solid #252525; /*--Create bevel effect--*/
+	}
+
+	div#profilenav {
 }
 
-/*DROPDOWN MENU*/
+	div#profileicons {
+	}
 
-ul.topnav {
-	list-style: none;
-	padding: 0 0;	
-	margin-left: 40%;
-	float: right;
-	width: 80%;
-	/*background: #222;*/
-	font-size: 120%;
-	/*background: url(topnav_bg.gif) repeat-x;*/
-}
-ul.topnav li {
-	width: 20%;
-	float: left;
-	padding: 0 15px 0 0;
-	position: relative; /*--Declare X and Y axis base for sub navigation--*/
-}
-ul.topnav li a{
-	padding: 10px 5px;
-	height: 100%;
-	color: #fff;
-	display: block;
-	text-decoration: none;
-	float: left;
-}
-ul.topnav li a:hover{
-	color:#bbb;
-/*	border-top: 1px solid #252525; /*--Create bevel effect--*/
-}
-ul.topnav li span { /*--Drop down trigger styles--*/
-	height: 100%;
-	float: left;
-	/*background: url(subnav_btn.gif) no-repeat center top;*/
-}
-ul.topnav li span.subhover {
-	background-position: center bottom; 
-	cursor: pointer;
-	} /*--Hover effect for trigger--*/
-ul.topnav li ul.subnav {
-	list-style: none;
-	position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
-	left: 0; top: 35px;
-	background: #333;
-	margin: 0; padding: 0;
-	display: none;
-	float: left;
-	width: 170px;
-	border: 1px solid #111;
-}
-ul.topnav li ul.subnav li{
-	margin: 0; padding: 0;
-	border-top: 1px solid #252525; /*--Create bevel effect--*/
-	border-bottom: 1px solid #444; /*--Create bevel effect--*/
-	clear: both;
-	width: 170px;
+	div#profileline {
+		font-size: small;
+		vertical-align: text-bottom;
+		text-align: right;
+		margin-top: 20px;
+		float: right;
+	}
+
+	div#profileline img {
+		
+	}
+
+	div#profilenav a:visited {
+		text-decoration: none;
+		color: white;
+		font-weight: lighter;
+	}
+
+	div#profilenav a:link {
+		text-decoration: none;
+		color: white;
+		font-weight: lighter;
+	}
+
+	div#profilenav a:hover {
+		text-decoration: none;
+		color: white;
+		font-weight: bold;
+	}
 }
 
-html ul.topnav li ul.subnav li a {
-	float: left;
-	width: 145px;
-	/*background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;*/
-	padding-left: 20px;
-}
-html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
-	background: #222;
+
+/*
+=============================================================
+=					HIGH RESOLUTIONS
+=============================================================
+*/
+
+@media screen and (min-width: 701px) {
+
+	/* Custom scrollbar for webkit aka chrome & co */
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
+	 
+	/* Track */
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); 
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	}
+	 
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+		background: rgba(220,100,50,0.8); 
+		-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.5); 
+	}
+	::-webkit-scrollbar-thumb:window-inactive {
+		background: rgba(200,50,25,0.4); 
+	}
+
+	/* BODY */
+
+	body {
+		color: black; 
+		background-color: #E0E0E0;
+		font-size: 100%;
+		font-family: 'Tahoma', sans-serif; 
+		margin: 0px;
+		/*Hady: overflow:scroll;*/
+	}
+	div#site {
+		display:block;
+		width: 0 auto;
+	}
+
+	/*HEADER inculdes navigation*/
+
+	div#header {
+		display:block;
+		position:fixed;
+		float:left;
+		width:100%;
+		height:70px;
+		color: white;
+		background-color: transparent;
+		z-index: 2;
+	}
+
+	div#logo {
+		display:inline;
+		float:left;
+	}
+	div#logo a:link {
+		color: white; text-decoration: none;
+	}
+
+	div#logo a:visited {
+		color: white; text-decoration: none;
+	}
+
+	div#logo a:hover {
+		color: black; font-weight: bolder; text-decoration: none;
+	}
+
+	div#logo a:active {
+		color: white; font-weight: bolder; text-decoration: none;
+	}
+
+	/*Searchbar*/
+
+	div.searchbar {
+		display: inline-block;
+		float:left;
+		font-size: 100%;
+		width:340px;
+		height: 100%;
+		color: #fff;
+		/*background: #4e80cc;*/
+	}
+
+	div.searchbar div{
+		top: 2px; left: 0px;
+		position: relative;
+		display:inline;
+		height: auto;
+	}
+
+	div.searchbar input.searchtext {
+		width: 330px;
+		height:16px;
+	}
+	/* NAVIGATION */
+
+	div#navigation {
+		float: right;
+		width:30%;
+		height:50px;
+
+	}
+
+	/* MENU*/
+
+	.topnav {
+		/*margin-left: 40%;*/
+		/*float: right;
+		width: 250px;*/
+		/*background: #222;*/
+
+		/*background: url(topnav_bg.gif) repeat-x;*/
+	}
+
+	.topnav div {
+		/*position: relative; --Declare X and Y axis base for sub navigation--*/
+	}
+
+	.main {
+		float: left;
+		margin-left: 10px;
+	}
+	.left {
+		float:left;
+		width:320px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 15px 0;
+	}
+	.right {
+		float:right;
+		width: 370px;
+		height:70px;
+		color: white;
+		background-color: #385a8f;
+		box-shadow: 0px 0px 20px #111;
+		z-index: 2;
+		border-radius: 0 0 0 15px;
+	}
+	.social {
+		float: right;
+		margin-left: 5px;
+	}
+	.profilelogout {
+		float:right; 
+	}
+
+	.topnav a {
+		color: #fff;
+		text-decoration: none;
+	}
+	.topnav a:hover {
+		color:#bbb;
+	/*	border-top: 1px solid #252525; /*--Create bevel effect--*/
+	}
+
+	div#profilenav {
 }
 
+	div#profileicons {
+	}
+
+	div#profileline {
+		font-size: small;
+		vertical-align: text-bottom;
+		text-align: right;
+		margin-top: 20px;
+		float: right;
+	}
+
+	div#profileline img {
+		
+	}
+
+	div#profilenav a:visited {
+		text-decoration: none;
+		color: white;
+		font-weight: lighter;
+	}
+
+	div#profilenav a:link {
+		text-decoration: none;
+		color: white;
+		font-weight: lighter;
+	}
+
+	div#profilenav a:hover {
+		text-decoration: none;
+		color: white;
+		font-weight: bold;
+	}
+}
 

@@ -5,13 +5,27 @@ require_once 'header.php';
  ?>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">
+		<?php require_once 'intern_header.php'; ?>
 		<link rel="stylesheet" type="text/css" href="ressources/css/friends.css">
-		<script type="text/javascript" src="ressources/js/jQuery2.js"></script>
-		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
 		<title>Scribbit - Friends</title>
-		<script type="text/javascript">
+		
+	</head>
+
+	<body onload="loadFriends();">
+		<div id="site">
+			<div id="header">
+				<?php include docroot.'/'.path.'/topnav.php'; ?>
+			</div>
+
+			<div id="content">
+
+			</div>
+		</div>
+	</body>
+</html>
+
+<?php require_once 'intern_scripts.php'; ?>
+<script type="text/javascript">
 		<?php 
 		echo "var path = '".path."';";
 		echo "var root = '".root."';"; 
@@ -90,17 +104,3 @@ require_once 'header.php';
 		$(window).resize( function() { adjustContent(); } );
 
 		</script>
-	</head>
-
-	<body onload="loadFriends();">
-		<div id="site">
-			<div id="header">
-				<?php include docroot.'/'.path.'/topnav.php'; ?>
-			</div>
-
-			<div id="content">
-
-			</div>
-		</div>
-	</body>
-</html>
