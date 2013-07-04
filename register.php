@@ -46,7 +46,7 @@ $email = '';
 						<td></td>
 						<td><div class="descriptive">Email</div>
 							<?php
-							echo '<input type="text" placeholder="', $email, '" name="email" id="email" value="" size="22" onblur="checkEmail(this.form)"/><br>';
+							echo '<input type="text" placeholder="'.$email.'" name="email" id="email" value="" size="22" onblur="checkEmail(this.form)"/><br>';
 							?>
 						</td>
 						<td id="validEmail" size="20em">

@@ -17,7 +17,7 @@
 				<?php include docroot.'/'.path.'/topnav.php'; ?>
 			</div>
 			<div id="content">
-				<div id="profilepic">
+				<div id="profilepicture">
 					<div class="heading">Avatar</div>
 					<input class="update" type="button" value="Scribble Avatar" id="scribbleavatar">
 				</div>

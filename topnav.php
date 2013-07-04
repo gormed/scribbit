@@ -1,8 +1,5 @@
 
 <style type="text/css">
-
-
-
 /*	div#searchicon:hover {
 		background-image: url(<?php echo path.'/ressources/img/ico/lupeB.png'; ?>);
 	}
@@ -19,149 +16,142 @@
 	}
 	div#mainsearchbar {
 		opacity: 0.0;
-	}*/
+		}*/
 
-	#friends:hover {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/friendshover.png'; ?>);
-	}
+		#friends:hover {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/friendshover.png'; ?>);
+		}
 
-	#friends {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/friends.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
-	}
+		#friends {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/friends.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
+		}
 
-	#favorites:hover {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/favshover.png'; ?>);
-	}
+		#favorites:hover {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/favshover.png'; ?>);
+		}
 
-	#favorites {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/favs.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
-	}
+		#favorites {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/favs.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
+		}
 
-	#gallery:hover {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/galleryhover.png'; ?>);
-	}
+		#gallery:hover {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/galleryhover.png'; ?>);
+		}
 
-	#gallery {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/gallery.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
+		#gallery {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/gallery.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
 
-	}
+		}
 
-	#wall:hover { 
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/wallhover.png'; ?>);
-	}
+		#wall:hover { 
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/wallhover.png'; ?>);
+		}
 
-	#wall { 
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/wall.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
-	
-	}
+		#wall { 
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/wall.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
 
-	#logout:hover { 
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/tuerzuhover.png'; ?>);
-	}
+		}
 
-	#logout { 
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/tuerzu.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
-	}
+		#logout:hover { 
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/tuerzuhover.png'; ?>);
+		}
 
-	#settings { 
-		background-image: url(<?php echo path.'/ressources/img/scribbitIcon/einstellungen.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 60px;
-		margin-top: 10px;
+		#logout { 
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/tuerzu.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
+		}
 
-	}
-	#settings:hover {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/einstellungenhover.png'; ?>);
-	}
+		#settings { 
+			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/einstellungen.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 60px;
+			margin-top: 5px;
 
-	.homelogo { 
-		background-image: url(<?php echo path.'/ressources/img/schriftzug.png'; ?>);
-		background-size: 100% 100%;
-		height: 60px;
-		width: 170px;
-		margin-top: 10px;
+		}
+		#settings:hover {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/einstellungenhover.png'; ?>);
+		}
 
-	}
-	.homelogo:hover {
-		background-image: url(<?php echo path.'/ressources/img/schriftzughover.png'; ?>);
-	}
+		.homelogo { 
+			background-image: url(<?php echo path.'/ressources/img/schriftzug.png'; ?>);
+			background-size: 100% 100%;
+			height: 60px;
+			width: 170px;
+			margin-top: 5px;
 
-	#profilepic{
+		}
+		.homelogo:hover {
+			background-image: url(<?php echo path.'/ressources/img/schriftzughover.png'; ?>);
+		}
+
+		#profilepic{
 			background-image: url(<?php echo path.'/ressources/img/scribbitIcon/profilepic.png'; ?>);
 			width:60px; 
 			height:60px;
-			margin-top: 10px;
-			float: left;
+			margin-top: 5px;
+			float: right;
 		}
 
-	#profilepic:hover {
-		background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/profilepichover.png'; ?>);
-	}
-
-
- </style>
-
-
-<div id="logo" class="homelogo">
-	<?php
-	echo '<a href="'.path.'/"></a>';
-	?>
-</div>
-<div class="topnav">
-	<div class="main"><?php echo '<span><a href="'.path.'/wall"><div id="wall"></div></a></span>' ?></div>
-	<div class="main"><?php echo '<span><a href="'.path.'/gallery"><div id="gallery"></div></a></span>' ?></div>
-	<div id="profilenav">
-	
-	<?php 
-		echo '<div id="profileline">';
-		if ($loggedIn) {
-			echo ' Hello<br> <a href="'.path.'/profile">'.$_SESSION['username'].'</a>!';
-		} else {
-
+		#profilepic:hover {
+			background-image: url(<?php echo path.'/ressources/img/scribbitIconhover/profilepichover.png'; ?>);
 		}
-		echo '</div>';
-	?>
-	
 
-</div>
-
-<?php 
-//include docroot.'/'.path.'/searchbar.php'; 
-?>
+		</style>
 
 
-	<div class="profilelogout">
-		<?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?>
-	</div>
-	<div id="profileicons">
-	<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
-		<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
-	<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
-	<div id="profilepic"></div>
 
+		<div class="topnav">
+			<div class="left">
+				<div id="logo" class="homelogo">
+					<?php
+					echo '<a href="'.path.'/"></a>';
+					?>
+				</div>
+				<div class="main"><?php echo '<span><a href="'.path.'/wall"><div id="wall"></div></a></span>' ?></div>
+				<div class="main"><?php echo '<span><a href="'.path.'/gallery"><div id="gallery"></div></a></span>' ?></div>
+			</div>
+			<div class="right">
+				<div class="profilelogout">
+					<?php echo '<span><a href="'.path.'/logout"><div id="logout"></div></a></span>'; ?>
+				</div>
+				<div id="profileicons">
+					<div class="social"><?php echo '<span><a href="'.path.'/settings"><div id="settings"></div></a></span>' ?></div>
+					<div class="social"><?php echo '<span><a href="'.path.'/friends"><div id="friends"></div></a></span>' ?></div>
+					<div class="social"><?php echo '<span><a href="'.path.'/favorites"><div id="favorites"></div></a></span>' ?></div>
+				</div>
+				<div id="profilepic"></div>
+				<div id="profilenav">
+					
+					<?php 
+					echo '<div id="profileline">';
+					if ($loggedIn) {
+						echo ' Hello<br> <a href="'.path.'/profile">'.$_SESSION['username'].'</a>!';
+					} else {
 
-	</div>
-	
-
-</div>
+					}
+					echo '</div>';
+					?>
+					
+				</div>
+			</div>
+		</div>
