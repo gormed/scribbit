@@ -17,6 +17,8 @@
 		if ($result->num_rows > 0) {
 			return true;
 		}
+		// $user_browser = $_SERVER['REMOTE_ADDR']; // Get the user-agent string of the user.
+
 		return false;
 	}
 
@@ -71,7 +73,12 @@
 
 			// get comments for this scribble (could be more performant if JOIN for the comments table)
 			$sql = sprintf("SELECT `comments`.`commentid`, `members`.`username`, `comments`.`datetime`, `comments`.`path` FROM `comments`, `members` WHERE `comments`.`scribbleid` = %d AND `comments`.`userid` = `members`.`id` ORDER BY `datetime` DESC LIMIT 0, 40", $row[0]);
+<<<<<<< HEAD
 			$temp_commentCount[$row[0]] = ''.$mysqli->query($sql)->num_rows;
+=======
+			$result = $mysqli->query($sql);
+			$commentCount[$row[0]] = $result->num_rows;
+>>>>>>> 67c0c0d... added track functionality for page views and current site;
 			// get if the scribble is your favorite and the whole fav count (same as above)
 			$sql = sprintf("SELECT `favid`, `userid`, `scribbleid` FROM `favorites` WHERE `scribbleid` = %d AND `userid` = %d", $row[0], (int)$_SESSION['user_id']);
 			$isFav = 'false';

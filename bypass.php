@@ -61,7 +61,6 @@ if (isset($_GET['start'])) {
 		$isFriend = true;
 
 		if ($friendid == $_SESSION['user_id']) {
-
 			track($mysqli, "profile");
 			header('location:'.path.'/profile');
 			exit();
