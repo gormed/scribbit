@@ -29,14 +29,14 @@ if ($result->num_rows > 0 && $loggedIn) {
 	$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d WHERE `login_time`.`userid` = %d LIMIT 1 ", 
 				$_SESSION['views']++, $_SESSION['user_id']);
 	$mysqli->query($sql);
-	track($mysqli, "wall/".$scribbleid);
+	//track($mysqli, "wall/".$scribbleid);
 	include (docroot.path.'/wall.php');
 	exit();
 } elseif ($loggedIn)  {
 	$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d WHERE `login_time`.`userid` = %d LIMIT 1 ", 
 				$_SESSION['views']++, $_SESSION['user_id']);
 	$mysqli->query($sql);
-	track($mysqli, "wall");
+	//track($mysqli, "wall");
 	include (docroot.path.'/wall.php');
 	exit();
 } else {
