@@ -215,25 +215,30 @@ $(window).scroll(function()
 					},
 					success: function(data){
 						$('div#bottomProcessBar').hide();
-						var json = $.parseJSON(data);
-						if($.isEmptyObject(json.temp_scribbles)){
-
+						if($.isEmptyObject(data)){
+						
 						}
-						else {
-							addBottomRow();
-							for(var k in json.temp_scribbles){
-								if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-									scribbles[k] = json.temp_scribbles[k];
-									createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-								}
-							}	
+						else{
+								var json = $.parseJSON(data);
+							if($.isEmptyObject(json.temp_scribbles)){
+
+							}
+							else {
+								addBottomRow();
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+									}
+								}	
+							}
 						}
 					}
 				});
 				}
 
 				// Scrollbar on Top
-				else if($(window).scrollTop() == 0){
+				else if($(window).scrollTop() < 10){
 					$('div#topProcessBar').show();
 					$.ajax({
 						type: "POST",
@@ -245,27 +250,33 @@ $(window).scroll(function()
 					},
 					success: function(data){
 						$('div#topProcessBar').hide();
-						var json = $.parseJSON(data);
-						if($.isEmptyObject(json.temp_scribbles)){
-									//		
-								}
-								else {
-									addTopRow();
-									$(window).scrollTop($(window).scrollTop()+(6*$(".mapCell").height()));
-									for(var k in json.temp_scribbles){
-										if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-											scribbles[k] = json.temp_scribbles[k];
-											createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-										}
-									}	
+						if($.isEmptyObject(data)){
+
+						}
+						else{
+							var json = $.parseJSON(data);
+							if($.isEmptyObject(json.temp_scribbles)){
+									
+							}
+							else {
+										addTopRow();
+										$(window).scrollTop($(window).scrollTop()+(6*$(".mapCell").height()));
+										for(var k in json.temp_scribbles){
+											if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+												scribbles[k] = json.temp_scribbles[k];
+												createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+											}
+										}	
+									}
 								}
 							}
 						});
 
+
 				}
 
 				// Scrollbar Left
-				else if($(window).scrollLeft() == 0){
+				else if($(window).scrollLeft() < 10){
 					
 					$('div#leftProcessBar').show();
 					$.ajax({
@@ -278,19 +289,24 @@ $(window).scroll(function()
 					},
 					success: function(data){
 						$('div#leftProcessBar').hide();
-						var json = $.parseJSON(data);
-						if($.isEmptyObject(json.temp_scribbles)){
-
+						if($.isEmptyObject(data)){
+						
 						}
-						else {
-							addLeftColumn();
-							$(window).scrollLeft($(window).scrollLeft()+(9*$(".mapCell").width()));
-							for(var k in json.temp_scribbles){
-								if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-									scribbles[k] = json.temp_scribbles[k];
-									createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-								}
-							}	
+						else{
+							var json = $.parseJSON(data);
+							if($.isEmptyObject(json.temp_scribbles)){
+
+							}
+							else {
+								addLeftColumn();
+								$(window).scrollLeft($(window).scrollLeft()+(9*$(".mapCell").width()));
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+									}
+								}	
+							}
 						}
 					}
 				});
@@ -310,18 +326,23 @@ $(window).scroll(function()
 					},
 					success: function(data){
 						$('div#rightProcessBar').hide();
-						var json = $.parseJSON(data);
-						if($.isEmptyObject(json.temp_scribbles)){
-
+						if($.isEmptyObject(data)){
+						
 						}
-						else {
-							addRightColumn();
-							for(var k in json.temp_scribbles){
-								if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
-									scribbles[k] = json.temp_scribbles[k];
-									createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
-								}
-							}	
+						else{
+							var json = $.parseJSON(data);
+							if($.isEmptyObject(json.temp_scribbles)){
+
+							}
+							else {
+								addRightColumn();
+								for(var k in json.temp_scribbles){
+									if (json.temp_scribbles.hasOwnProperty(k) && scribbles[k] == null){
+										scribbles[k] = json.temp_scribbles[k];
+										createScribble(json.temp_positionsx[k], json.temp_positionsy[k], k);
+									}
+								}	
+							}
 						}
 					}
 				});
