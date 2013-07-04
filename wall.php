@@ -77,7 +77,7 @@ function getCommentCount($mysqli, $scribbleid)
 	var temp_positionsx = {};
 	var temp_positionsy = {};
 	var temp_map={};
-
+	var currentScribble;
 	var canvasPos ={};
 	var canvases ={};
 	var topY, bottomY, leftX, rightX;
@@ -165,6 +165,8 @@ function getCommentCount($mysqli, $scribbleid)
 					event.preventDefault();
 					var topOff = $(this).focus().offset().top;
 					var leftOff = $(this).focus().offset().left;
+					currentScribble = $(this).focus();
+					console.log(currentScribble.data());
 
 					$('html, body').stop().animate({
 						scrollTop : topOff -(($(window).height()-140) / 2),
@@ -186,6 +188,7 @@ function getCommentCount($mysqli, $scribbleid)
 					event.preventDefault();
 					var topOff = $(this).focus().offset().top;
 					var leftOff = $(this).focus().offset().left;
+
 					$("#divCanvas").show();
 					
 					$('html, body').stop().animate({
