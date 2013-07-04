@@ -12,88 +12,65 @@ include("process_login.php");
 	"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>Login Please</title>
-	<script type="text/javascript" src="ressources/js/sha512.js"></script>
-	<script type="text/javascript" src="ressources/js/forms.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
-	<style type="text/css">
-
-		body {
-			color: black; background-color: #E0E0E0;
-			font-size: 100.00%;
-			font-family: Tahoma,sans-serif;
-			margin: 0; padding: 0em;
-		}
-
-		div#site {
-			background-color: #696969;
-			text-align: left;    /* Seiteninhalt wieder links ausrichten */
-			margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
-			width: 640px;
-		}
-
-		div#logo {
-			color: black;
-			font-family: 'Tahoma', sans-serif;
-			font-size: 2em; 
-			letter-spacing:0.4em; 
-			word-spacing:0.4em;
-			padding-top: 2em;
-			padding-bottom: 1em;
-			padding-left: 1em;
-			font-weight: bold;
-		}
-
-	</style>
-	<script type="text/javascript">
-
-		$(document).ready(function() {
-			
-		});
-
-		function onEnter(event) {
-			if (event.keyCode == 13) {
-				var email = document.getElementById('email');
-				var pw = document.getElementById('password');
-				if (email.value != "" && pw.value != "") {
-					formhash(document.getElementById('login_form'));
-				}
-			}
-		}
-		document.onkeypress = onEnter;
-	</script>
+	<?php include 'extern_styles.php'; ?>
+	<?php include 'extern_meta.php'; ?>
+	<title>scribbit - Login Please</title>
+	<?php include 'extern_scripts.php'; ?>
 </head>
 <body>
 	<div id="site">
 
-		<div id="logo" align="center">
-			<div style="font-size:medium">Login<br>to<br></div>Scribb'it!
+		<div id="logo">
+			Login to<br>Scribb'it!
 		</div>
-
 		<div align="center">
-			<form action="login" method="post" name="login_form" id="login_form">
+			<div class="assist">
 				<?php
-				echo '<input type="text" value="', $email, '" name="email" id="email" style="margin:10px; border-radius: 18px;"/><br>';
+				echo "Don't have an account? ".'<a href="'.path.'/register">Create one</a>!';
+				echo '<br>Or lost password? <a href="'.path.'/lost">Reset it</a>!';
 				?>
-				<input type="password" name="password" id="password" style="margin:10px; border-radius: 18px;"/><br>
+			</div>
+			<br>
+			<form action="login" method="post" name="login_form" id="login_form">
+				<div class="descriptive">Email</div>
+				<?php
+				echo '<input type="text" value="', $email, '" name="username" id="username"/><br>';
+				?>
+				<div class="descriptive">Password</div>
+				<input type="password" name="password" id="password"/><br>
 				<input type="button" value="Login" onclick="formhash(this.form);" />
 			</form>
 			<?php 
 			echo '<br>'.$message;
 			?>			
-			<div style="font-family: 'Tahoma', sans-serif; font-size: small;">
-			<?php
-			echo "Don't have an account? ".'<a href="'.path.'/register">Create one</a>!';
-			echo '<br><br>Or lost password? <a href="'.path.'/lost">Reset it</a>!';
-			?>
-			</div>
+
 			<br>
-			<div style="font-family: 'Tahoma', sans-serif; font-size: small;">
-				By using our service you accept that we store cookies on your computer. Read why!
+			<div class="terms">
+				By using our service you accept<br> 
+				that we store cookies on your computer. <br>
+				Read why!
 			</div>
 			<br>
 		</div>
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+});
+
+function onEnter(event) {
+	if (event.keyCode == 13) {
+		var email = document.getElementById('username');
+		var pw = document.getElementById('password');
+		if (email.value != "" && pw.value != "") {
+			formhash(document.getElementById('login_form'));
+		}
+	}
+}
+
+document.onkeypress = onEnter;
+
+</script>

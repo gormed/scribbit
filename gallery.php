@@ -187,7 +187,6 @@ require_once 'header.php';
 			<div id="site">
 				
 				<div id="header">
-					
 					<?php include docroot.'/'.path.'/topnav.php'; ?>
 				</div>
 
