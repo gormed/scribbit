@@ -117,7 +117,7 @@ require_once 'header.php';
 				temp.setAttribute('class', 'initem');
 				temp.setAttribute('id', 'div_'+k);
 				var fav; 
-				if (parseInt(favorites[k]) == 1) {
+				if (favorites[k]) {
 					fav = '<a href="#unfav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/star.png" width="16" height="16" onclick="favImage('+k+');">';
 				} else {
 					fav = '<a href="#fav"><img id="fav_'+k+'" src="'+path+'/ressources/img/ico/unstar.png" width="16" height="16" onclick="favImage('+k+');">';

@@ -41,13 +41,13 @@ function checkPasswordStrength(form) {
 
 	if (passwordValidation(form) == 1) {
 		validPassword.innerHTML = "Insecure password";
-		validPassword.style.color = "#f66";
+		validPassword.setAttribute("class", "error");
 	} else if (passwordValidation(form) == 2) {
 		validPassword.innerHTML = "The passwords does not match!";
-		validPassword.style.color = "#f66";
+		validPassword.setAttribute("class", "error");
 	} else {
-		validPassword.innerHTML = "Valid password!"
-		validPassword.style.color = "#6f6";
+		validPassword.innerHTML = "Valid password!";
+		validPassword.setAttribute("class", "success");
 	}
 }
 
@@ -56,10 +56,10 @@ function checkEmail (form) {
 
 	if (checkEmailValid(form)) {
 		validEmail.innerHTML = "Valid email!"
-		validEmail.style.color = "#6f6";
+		validEmail.setAttribute("class", "success");
 	} else {
 		validEmail.innerHTML = "Incorrect email!";
-		validEmail.style.color = "#f66";
+		validEmail.setAttribute("class", "error");
 	}	
 }
 

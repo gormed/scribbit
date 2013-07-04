@@ -74,6 +74,18 @@ body {
 	text-decoration: overline;
 }
 
+.error {
+	color: #f66;
+	font-size: smaller;
+	font-weight: bold;
+}
+
+.success {
+	color: #6f6;
+	font-size: smaller;
+	font-weight: bold;
+}
+
 
 div#logo {
 	color: black;
