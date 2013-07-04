@@ -139,10 +139,12 @@ function login_check($mysqli) {
 
 function track($mysqli, $folder)
 {
-	$lastpage = path."/".$folder;
-	$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d, `lastpage` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", 
-				$_SESSION['views']++, $lastpage, $_SESSION['user_id']);
-	$mysqli->query($sql);
+	if (login_check($mysqli)) {
+		$lastpage = path."/".$folder;
+		$sql = sprintf("UPDATE `secure_login`.`login_time` SET `views` = %d, `lastpage` = '%s' WHERE `login_time`.`userid` = %d LIMIT 1 ", 
+					$_SESSION['views']++, $lastpage, $_SESSION['user_id']);
+		$mysqli->query($sql);
+	}
 }
 
 ?>

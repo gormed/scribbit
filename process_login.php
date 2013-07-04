@@ -3,8 +3,8 @@ require_once 'db_login.php';
 require_once 'functions.php';
 require_once 'path.php';
 
-if(isset($_POST['email'], $_POST['p'])) {
-	$email = $_POST['email'];
+if(isset($_POST['username'], $_POST['p'])) {
+	$email = $_POST['username'];
 	$password = $_POST['p']; // The hashed password.
 	if ($register) {
 		$message='<div style="color: #6f6">Registration successful, please log in!</div>';
