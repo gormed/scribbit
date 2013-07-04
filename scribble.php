@@ -1,46 +1,46 @@
 <style type="text/css">
 #round{
-background-image: url(<?php echo path.'/ressources/img/brush/brushkreis.png'; ?>);
-		background-size: 100% 100%;
+	background-image: url(<?php echo path.'/ressources/img/brush/brushkreis.png'; ?>);
+	background-size: 100% 100%;
 }
 
 
 #round:hover {
-		background-image: url(<?php echo path.'/ressources/img/brush/brushkreishover.png'; ?>);
-	}
+	background-image: url(<?php echo path.'/ressources/img/brush/brushkreishover.png'; ?>);
+}
 
 
 #block{
-background-image: url(<?php echo path.'/ressources/img/brush/brushviereck.png'; ?>);
-		background-size: 100% 100%;
+	background-image: url(<?php echo path.'/ressources/img/brush/brushviereck.png'; ?>);
+	background-size: 100% 100%;
 }
 
 
 #block:hover {
-		background-image: url(<?php echo path.'/ressources/img/brush/brushviereckhover.png'; ?>);
-	}
+	background-image: url(<?php echo path.'/ressources/img/brush/brushviereckhover.png'; ?>);
+}
 
 
 #split{
-background-image: url(<?php echo path.'/ressources/img/brush/brushsplit.png'; ?>);
-		background-size: 100% 100%;
+	background-image: url(<?php echo path.'/ressources/img/brush/brushsplit.png'; ?>);
+	background-size: 100% 100%;
 }
 
 
 #split:hover {
-		background-image: url(<?php echo path.'/ressources/img/brush/brushsplithover.png'; ?>);
-	}
+	background-image: url(<?php echo path.'/ressources/img/brush/brushsplithover.png'; ?>);
+}
 
 
 #shadow{
-background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?>);
-		background-size: 100% 100%;
+	background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?>);
+	background-size: 100% 100%;
 }
 
 
 #shadow:hover {
-		background-image: url(<?php echo path.'/ressources/img/brush/brushshadowhover.png'; ?>);
-	}
+	background-image: url(<?php echo path.'/ressources/img/brush/brushshadowhover.png'; ?>);
+}
 
 
 </style>
@@ -50,14 +50,14 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 
 
 <?php 
-	$mysqli->close();
-	require_once 'db_work.php';
-	$loggedIn = login_check($mysqli);	
+$mysqli->close();
+require_once 'db_work.php';
+$loggedIn = login_check($mysqli);	
 
-	require_once 'bypass.php';
+require_once 'bypass.php';
 
-	function timeTillNow($oldTime)
-	{
+function timeTillNow($oldTime)
+{
 		$now = time(); // or your date as well
 		$your_date = strtotime($oldTime);
 		$datediff = abs($now - $your_date);
@@ -97,28 +97,28 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 		switch ($where) {
 			//top
 			case '0':
-				$xpos = $xparent;
-				$ypos = $yparent + 1;
-				break;
+			$xpos = $xparent;
+			$ypos = $yparent + 1;
+			break;
 			//right
 			case '1':
-				$ypos = $yparent;
-				$xpos = $xparent + 1;
-				break;
+			$ypos = $yparent;
+			$xpos = $xparent + 1;
+			break;
 			//bottom
 			case '2':
-				$xpos = $xparent;
-				$ypos = $yparent - 1;
-				break;
+			$xpos = $xparent;
+			$ypos = $yparent - 1;
+			break;
 			//left
 			case '3':
-				$ypos = $yparent;
-				$xpos = $xparent - 1;
-				break;
+			$ypos = $yparent;
+			$xpos = $xparent - 1;
+			break;
 			
 			default:
-				
-				break;
+
+			break;
 		}
 
 		$reserved = isReserved($mysqli, $xpos, $ypos);
@@ -138,34 +138,34 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 		header("location: ".path."/gallery");
 	}
 
-?>
+	?>
 
-<html>
-<head>
-	<?php require_once 'intern_header.php'; ?>
-<title>Scribb'it - Scribble</title>
-<!--<script type="text/javascript" src="ressources/js/scribble.js"></script>-->
-<link rel="stylesheet" type="text/css" href="ressources/css/scribble.css">
-<style type="text/css">
-	div#cut1 {
-		float: left;
-		margin: 3px;
-		margin-top: 5px;
-		background-image: url(<?php echo '"'.path.'/ressources/img/cuts.png"'; ?>);
-		width: 24px; height: 24px;
-		border: 1px solid;
-		border-color: #666;
-	}
-</style>
-<script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
-<script type="text/javascript">
+	<html>
+	<head>
+		<?php require_once 'intern_header.php'; ?>
+		<title>Scribb'it - Scribble</title>
+		<!--<script type="text/javascript" src="ressources/js/scribble.js"></script>-->
+		<link rel="stylesheet" type="text/css" href="ressources/css/scribble.css">
+		<style type="text/css">
+		div#cut1 {
+			float: left;
+			margin: 3px;
+			margin-top: 5px;
+			background-image: url(<?php echo '"'.path.'/ressources/img/cuts.png"'; ?>);
+			width: 24px; height: 24px;
+			border: 1px solid;
+			border-color: #666;
+		}
+		</style>
+		<script type="text/javascript" src="https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js"></script>
+		<script type="text/javascript">
 
-<?php 
-	echo 'var parentid = '.$parentid.';';
-	echo 'var where = '.$where.';';
-?>
+		<?php 
+		echo 'var parentid = '.$parentid.';';
+		echo 'var where = '.$where.';';
+		?>
 
-</script>
+		</script>
 <!-- 
 **************************************************************************
 *    Scribble app using javascript Canvas object with WebTabletPlugin.
@@ -177,12 +177,12 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 *************************************************************************** 
 -->
 
-    <script>
-    
-	var canvasPos = {x:0.0, y:0.0};
-	var canvasSize = {width:960, height:640};
-	var lastX = 0.0;
-	var lastY = 0.0;
+<script>
+
+var canvasPos = {x:0.0, y:0.0};
+var canvasSize = {width:960, height:640};
+var lastX = 0.0;
+var lastY = 0.0;
 	var capturing = false;	// tracks in/out of canvas context
 	var ctx ;
 	//************************************************************************
@@ -227,9 +227,9 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 	//************************************************************************
 	function pluginLoaded()
 	{
-	alert("PluginLoaded");
+		alert("PluginLoaded");
 	}
-	  
+
 	//************************************************************************
 	function clearCanvas() {
 		var context = document.getElementById('canvas').getContext("2d");
@@ -281,16 +281,16 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 	}
 
 
-	  
+
 	//************************************************************************
 	function mouseup()
 	{
 	//console.log("MOUSE:UP");
-		var canvas = document.getElementById('canvas');
-		canvas.onmousemove=null;
+	var canvas = document.getElementById('canvas');
+	canvas.onmousemove=null;
 	capturing = false; 
-	}
-	  
+}
+
 
 	//************************************************************************
 	function mousemove(evt)
@@ -320,7 +320,7 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 		}
 
 	//console.log("pressure: " + pressure);
-		
+
 	curX = (ev.pageX?ev.pageX : ev.clientX + document.body.scrollLeft) - canvasPos.x;
 	curY = (ev.pageY?ev.pageY : ev.clientY + document.body.scrollTop ) - canvasPos.y;
 	
@@ -331,11 +331,11 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 	{
 		if (canvas.getContext)
 		{		
-				this.ctx = canvas.getContext("2d");
-				this.ctx.beginPath();
-				this.ctx.moveTo(lastX, lastY);
-				this.ctx.lineTo(curX, curY);
-				
+			this.ctx = canvas.getContext("2d");
+			this.ctx.beginPath();
+			this.ctx.moveTo(lastX, lastY);
+			this.ctx.lineTo(curX, curY);
+
 				//console.log("mousemove: cur: " + curX + "," + curY);
 
 				
@@ -345,9 +345,9 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
   				//this.ctx.shadowOffsetX = 3;
   				//this.ctx.shadowOffsetY = 6;
 
-				
 
-				
+
+
 				//var farbe= [];
 				//farbe[0]="green";
 				//farbe[1]="blue";
@@ -359,7 +359,7 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 				
 				var farbe="black";
 				var brush="round";
-								
+
 				
 				
 
@@ -380,15 +380,15 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 				}
 
 		//console.log("ctx.lineWidth: " + ctx.lineWidth);
-				this.ctx.stroke();
-				var tempImg =this.ctx.getImageData(0,0,960,640);
-		}
+		this.ctx.stroke();
+		var tempImg =this.ctx.getImageData(0,0,960,640);
 	}
-		
-		lastX = curX;
-		lastY = curY;
+}
 
-	}
+lastX = curX;
+lastY = curY;
+
+}
 
 	//************************************************************************
 	// posX and posY are assumed relative to canvas boundaries.
@@ -396,16 +396,16 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 	function inCanvasBounds( posX, posY )
 	{
 		var left = 0;
-	var top = 0;
+		var top = 0;
 		var right = canvasSize.width;
-	var bottom = canvasSize.height;
+		var bottom = canvasSize.height;
 
-	return ( posX >= left && posX <= right && 
-		 posY >= top && posY <= bottom);
+		return ( posX >= left && posX <= right && 
+			posY >= top && posY <= bottom);
 	}
 	//************************************************************************
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 	function show () {
 		var tools = document.getElementById('tools');
 		var content = document.getElementById('content');
@@ -417,9 +417,9 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 			content.className = "contentnospace";
 		}
 	}
-</script>
+	</script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 
 
@@ -435,140 +435,140 @@ background-image: url(<?php echo path.'/ressources/img/brush/brushshadow.png'; ?
 
 	function copy () {
 		var canvas = document.getElementById('canvas');
-		 this.ctx=canvas.getContext("2d");
-		 imgData=this.ctx.getImageData(0,0,960,640);
-		 history.push(imgData);
-		 
+		this.ctx=canvas.getContext("2d");
+		imgData=this.ctx.getImageData(0,0,960,640);
+		history.push(imgData);
+
 	}
 
 	
 
 	function fill () {
 		var canvas = document.getElementById('canvas');
-		 this.ctx=canvas.getContext("2d");
-		 
-		 this.ctx.putImageData(imgData,0,0);
+		this.ctx=canvas.getContext("2d");
+
+		this.ctx.putImageData(imgData,0,0);
 	}
 
-function setColor() {
-	console.log("jau");
+	function setColor() {
+		console.log("jau");
 
-	var canvas = document.getElementById('canvas');
-	var farbe="#ff0000";
-	this.ctx.strokeStyle=farbe;
-	
-}
+		var canvas = document.getElementById('canvas');
+		var farbe="#ff0000";
+		this.ctx.strokeStyle=farbe;
 
-function setColor1() {
-	console.log("jau");
+	}
 
-	var canvas = document.getElementById('canvas');
-	var farbe="#009900";
-	this.ctx.strokeStyle=farbe;
-	
-}
+	function setColor1() {
+		console.log("jau");
 
-function setColor2() {
-	console.log("jau");
+		var canvas = document.getElementById('canvas');
+		var farbe="#009900";
+		this.ctx.strokeStyle=farbe;
 
-	var canvas = document.getElementById('canvas');
-	var farbe="#0033CC";
-	this.ctx.strokeStyle=farbe;
+	}
 
-}
+	function setColor2() {
+		console.log("jau");
 
+		var canvas = document.getElementById('canvas');
+		var farbe="#0033CC";
+		this.ctx.strokeStyle=farbe;
 
-
-function setColor3() {
-	console.log("jau");
-
-	var canvas = document.getElementById('canvas');
-	var farbe="#000000";
-	this.ctx.strokeStyle=farbe;
-
-}
-
-function setColor4() {
-	console.log("jau");
-
-	var canvas = document.getElementById('canvas');
-	var farbe="#FFFF00";
-	this.ctx.strokeStyle=farbe;
-
-}
-
-function setColor5() {
-	console.log("jau");
-
-	var canvas = document.getElementById('canvas');
-	var farbe="#FF00FF";
-	this.ctx.strokeStyle=farbe;
-
-}
-
-
-function rubber() {
-	console.log("jau");
-
-	var canvas = document.getElementById('canvas');
-	var farbe="#FFFFFF";
-	this.ctx.strokeStyle="#FFFFFF";
-
-}
+	}
 
 
 
-				var dicke=20;
-				var trans=1;
+	function setColor3() {
+		console.log("jau");
+
+		var canvas = document.getElementById('canvas');
+		var farbe="#000000";
+		this.ctx.strokeStyle=farbe;
+
+	}
+
+	function setColor4() {
+		console.log("jau");
+
+		var canvas = document.getElementById('canvas');
+		var farbe="#FFFF00";
+		this.ctx.strokeStyle=farbe;
+
+	}
+
+	function setColor5() {
+		console.log("jau");
+
+		var canvas = document.getElementById('canvas');
+		var farbe="#FF00FF";
+		this.ctx.strokeStyle=farbe;
+
+	}
 
 
-function setShadow(){
-	var canvas = document.getElementById('canvas');
-	this.ctx.shadowBlur = 3;
-	this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-  	this.ctx.shadowOffsetX = 3;
-  	this.ctx.shadowOffsetY = 6;
+	function rubber() {
+		console.log("jau");
 
-}
+		var canvas = document.getElementById('canvas');
+		var farbe="#FFFFFF";
+		this.ctx.strokeStyle="#FFFFFF";
 
-function setRound(){
-	var canvas = document.getElementById('canvas');
-	var brush = "round"
-	this.ctx.lineCap = brush;
-
-}
-
-function setBlock(){
-	var canvas = document.getElementById('canvas');
-	var brush ="square"
-	this.ctx.lineCap = brush;
-
-}
-
-function setSplit(){
-	var canvas = document.getElementById('canvas');
-	var brush ="butt"
-	this.ctx.lineCap = brush;
-
-}
-
-
- function showValueDicke(val){
- 			
-          dicke = document.getElementById('resultDicke').value= val;
-
-}function showValueTrans(val){
- 			
-          trans = document.getElementById('resultTrans').value= val;
-
-}
-
-
-$('#canvas').disableSelection();
+	}
 
 
 
-</script>
+	var dicke=20;
+	var trans=1;
+
+
+	function setShadow(){
+		var canvas = document.getElementById('canvas');
+		this.ctx.shadowBlur = 3;
+		this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+		this.ctx.shadowOffsetX = 3;
+		this.ctx.shadowOffsetY = 6;
+
+	}
+
+	function setRound(){
+		var canvas = document.getElementById('canvas');
+		var brush = "round"
+		this.ctx.lineCap = brush;
+
+	}
+
+	function setBlock(){
+		var canvas = document.getElementById('canvas');
+		var brush ="square"
+		this.ctx.lineCap = brush;
+
+	}
+
+	function setSplit(){
+		var canvas = document.getElementById('canvas');
+		var brush ="butt"
+		this.ctx.lineCap = brush;
+
+	}
+
+
+	function showValueDicke(val){
+
+		dicke = document.getElementById('resultDicke').value= val;
+
+	}function showValueTrans(val){
+
+		trans = document.getElementById('resultTrans').value= val;
+
+	}
+
+
+	$('#canvas').disableSelection();
+
+
+
+	</script>
 
 
 
@@ -589,7 +589,7 @@ $('#canvas').disableSelection();
 	 To avoid plugin selection on page, size and position are adjusted 
 	 so as to "tuck it under" canvas. 
 	***************************************************************** 
-	-->
+-->
 
 	<!--[if IE]>
 
@@ -608,67 +608,64 @@ $('#canvas').disableSelection();
 
 
 
-<div id="content" class="contentnospace">
-							<div id="show" onclick="show();">Show/Hide</div>
-							<div id="share">
-							Share: <input type="text" size="30" value="http://scribbit.com/7ezebU6">
-						</div>
-							<div id="upload"></div>
-</div>
+	<div id="content" class="contentnospace">
+		<div id="show" onclick="show();">Show/Hide</div>
+		<div id="upload"></div>
+	</div>
 
 
 
 
 	<div id="site">
-			<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
+		<canvas id="canvas" width="960" height="640" onmousedown="mousedown(event);" onmouseup="mouseup();" onmousemove="mousemove();"> </canvas>
 		
 
 		<div id="tools">
-		<div  class="visible">
+			<div  class="visible">
 
-						
-			
-					<div id="blackbox">
-						<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
-						<div id="copy" title="copy" onclick="copy();">copy</div>
-						<div id="paste" title="paste" onclick="fill();">paste</div>
-						<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
-					</div>
 
-					<div id="color">
-						<div id="cbox3" onclick="setColor3();"></div>
-						<div id="cbox" onclick="setColor();"></div>
-						<div id="cbox1" onclick="setColor1();"></div>
-						<div id="cbox2" onclick="setColor2();"></div>
-						<div id="cbox4" onclick="setColor4();"></div>
-						<div id="cbox5" onclick="setColor5();"></div>
-					</div>
 
-					<div id="brushes">
-						<div id="shadow" onclick= "setShadow();"></div>
-						<div id="round" onclick= "setRound();"></div>
-						<div id="block" onclick= "setBlock();"></div>
-						<div id="split" onclick= "setSplit();"></div>
-					</div>	
+				<div id="blackbox">
+					<div id="clear" title="Clear" onclick="clearCanvas();">clear</div>
+					<div id="copy" title="copy" onclick="copy();">copy</div>
+					<div id="paste" title="paste" onclick="fill();">paste</div>
+					<div id="rubber" title="rubber" onclick="rubber();">rubber</div>
+				</div>
 
-					
+				<div id="color">
+					<div id="cbox3" onclick="setColor3();"></div>
+					<div id="cbox" onclick="setColor();"></div>
+					<div id="cbox1" onclick="setColor1();"></div>
+					<div id="cbox2" onclick="setColor2();"></div>
+					<div id="cbox4" onclick="setColor4();"></div>
+					<div id="cbox5" onclick="setColor5();"></div>
+				</div>
+
+				<div id="brushes">
+					<div id="shadow" onclick= "setShadow();"></div>
+					<div id="round" onclick= "setRound();"></div>
+					<div id="block" onclick= "setBlock();"></div>
+					<div id="split" onclick= "setSplit();"></div>
+				</div>	
+
+
 
 				
-					<div id="bar">
-						<div>Größe</div>
-						<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
-						<input type ="text" id="resultDicke" value="" />
-						<div>Transparenz</div>
-						<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
-						<input type ="text" id="resultTrans" value="" />
-					</div><br>
+				<div id="bar">
+					<div>Größe</div>
+					<input title="width"  type="range" min="1" max="250" value="50" step="1" onChange="showValueDicke(this.value);" />
+					<input type ="text" id="resultDicke" value="" />
+					<div>Transparenz</div>
+					<input  title="opacity"type="range" min="0.1" max="1" value="1" step="0.1" onChange="showValueTrans(this.value);" />
+					<input type ="text" id="resultTrans" value="" />
+				</div><br>
 				
 				<input type="button" value="Publish" id="publish" title="Publish" onclick="saveImage();"></input>
 
+			</div>
 		</div>
 	</div>
-</div>
-		
+
 
 	
 
