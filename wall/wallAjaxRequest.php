@@ -64,7 +64,7 @@
 
 		while ($row = $result->fetch_array()) {
 
-			$temp_scribbles[$row[0]] = '/scribbles/l/'.$row[1];
+			$temp_scribbles[$row[0]] = ''.$row[1];
 			$temp_positionsx[$row[0]] = ''.$row[4];
 			$temp_positionsy[$row[0]] = ''.$row[5];
 			$temp_map[$row[4].''.$row[5]] = ''.$row[0];
