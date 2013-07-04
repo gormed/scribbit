@@ -14,7 +14,6 @@ include 'header.php';
 	<body>
 		<div id="site">
 			<div align="center">
-				<br>
 				<div align="center" id="logo">Rescue your<br>Scribb'it</div>
 				<div align="center">
 					Request to reset your accounts password!
@@ -26,8 +25,9 @@ include 'header.php';
 						<div id="resetpasswordresult"></div>
 					</div>
 					<div class="assist">
-						You will get a mail with a link to a new page where you can <br>
-						reset your password. This link is only valid unitl <br>
+						You will get a mail with a <br>
+						link to a new page where you can<br>
+						reset your password. This link is only valid unitl<br>
 						30 minutes after the submit!
 					</div>
 					<br>

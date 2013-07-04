@@ -51,6 +51,7 @@ body {
 	font-family: Tahoma,sans-serif;
 	margin: 0; padding: 0em;
 	width: 100%;
+	min-width: 320px;
 }
 
 :link {
@@ -92,16 +93,15 @@ div#logo {
 
 div#navigation {
 	font-size: large;
-	float: left; width: 145px;
+	float: left; 
+	width: 120px;
 	margin: 0; padding: 0;
-	vertical-align: middle;
 	background-color: #5196FF;
 }
 
-div#navigation li {
-	list-style: none;
-	margin: 5px; 
-	margin-right: 10px; 
+div#navigation div {
+	margin: 15px; 
+	padding: 0;
 }
 
 div#navigation a {
@@ -129,9 +129,9 @@ div#navigation a:active {
 /*CONTENT*/
 
 div#content {
-	margin-left: 9em;
+	margin-left: 120px;
 	padding: 0 1em;
-	max-width: 260px; 
+	max-width: 280px; 
 	background-color: #5196FF;
 
 }
