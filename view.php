@@ -43,10 +43,9 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/headerSearch.css">'; ?>
+		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/main.css">'; ?>
 		<?php echo '<link rel="stylesheet" type="text/css" href="'.path.'/ressources/css/view.css">'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQuery2.js"></script>'; ?>
-		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/jQueryEvents.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/comment.js"></script>'; ?>
 		<?php echo '<script type="text/javascript" src="'.path.'/ressources/js/socials.js"></script>'; ?>
 		<title>Scribbit - View</title>

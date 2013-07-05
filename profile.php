@@ -104,10 +104,9 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="ressources/css/headerSearch.css">
+		<link rel="stylesheet" type="text/css" href="ressources/css/main.css">
 		<link rel="stylesheet" type="text/css" href="ressources/css/profile.css">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
-		<script type="text/javascript" src="ressources/js/jQueryEvents.js"></script>
 		<title>Scribbit - Profile</title>
 		<script type="text/javascript">
 
